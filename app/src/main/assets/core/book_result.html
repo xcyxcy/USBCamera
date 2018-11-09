@@ -1,0 +1,5058 @@
+<!DOCTYPE html>
+<!-- saved from url=(0066)https://iem-vmms-dmzstg.pingan.com:10798/iem-vmms/book_result.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<title>支付结果页面</title>
+	<!-- <link rel="stylesheet" href="statics//css/bootstrap.min.css"> -->
+	<link rel="stylesheet" href="./book_result_files/bootstrap.min.css">
+
+	<!-- <link rel="stylesheet" href="statics//css/font-awesome.min.css"> -->
+	<link rel="stylesheet" href="./book_result_files/font-awesome.min.css">
+
+	<!-- <link rel="stylesheet" href="statics//plugins/jqgrid/ui.jqgrid-bootstrap.css"> -->
+
+	<!-- metroStyle.css -->
+	<!-- <link rel="stylesheet" href="statics//plugins/ztree/css/metroStyle/metroStyle.css"> -->
+	<link rel="stylesheet" href="./book_result_files/line_conn.png">
+	<link rel="stylesheet" href="./book_result_files/loading.gif">
+	<link rel="stylesheet" href="./book_result_files/metro.gif">
+	<link rel="stylesheet" href="./book_result_files/metro.png">
+	<link rel="stylesheet" href="./book_result_files/metroStyle.css">
+
+
+
+	<!-- <link rel="stylesheet" href="statics//css/main.css"> -->
+	<!-- <link rel="stylesheet" href="statics//css/book.css"> -->
+
+	<!-- <link rel="stylesheet" href="statics//plugins/bootstrap-fileinput/fileinput.min.css"> -->
+	<link rel="stylesheet" href="./book_result_files/loading(1).gif">
+	<link rel="stylesheet" href="./book_result_files/fileinput.min.css">
+
+	<!-- <script src="statics//libs/jquery.min.js"></script> -->
+	<script src="./book_result_files/jquery.min.js"></script>
+
+	<!-- <script src="statics//plugins/layer/layer.js"></script> -->
+	<script src="./book_result_files/layer.js"></script><link rel="stylesheet" href="./book_result_files/layer.css" id="layui_layer_skinlayercss" style="">
+
+	<!-- <script src="statics//libs/bootstrap.min.js"></script> -->
+	<script src="./book_result_files/bootstrap.min.js"></script>
+
+	<!-- <script src="statics//libs/vue.min.js"></script> -->
+	<script src="./book_result_files/vue.min.js"></script>
+
+
+
+	<!-- <script src="statics//plugins/jqgrid/grid.locale-cn.js"></script> -->
+	<script src="./book_result_files/grid.locale-cn.js"></script>
+
+	<!-- <script src="statics//plugins/jqgrid/jquery.jqGrid.min.js"></script> -->
+	<script src="./book_result_files/jquery.jqGrid.min.js"></script>
+
+	<!-- <script src="statics//plugins/ztree/jquery.ztree.all.min.js"></script> -->
+	<script src="./book_result_files/jquery.ztree.all.min.js"></script>
+
+	<!-- <script src="statics//plugins/bootstrap-fileinput/fileinput.min.js"></script> -->
+	<script src="./book_result_files/fileinput.min.js"></script>
+
+	<!-- <script src="statics//plugins/echarts/echarts.min.js"></script> -->
+	<script src="./book_result_files/echarts.min.js"></script>
+
+
+	<!-- <script src="statics//plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js"></script> -->
+	<script src="./book_result_files/bootstrap-datetimepicker.min.js"></script>
+
+	<!-- libs/ajaxfileupload.js -->
+	<script>
+		jQuery.extend({
+
+			handleError: function(s, xhr, status, e) {
+				// If a local callback was specified, fire it
+				if(s.error) {
+					s.error.call(s.context || s, xhr, status, e);
+				}
+
+				// Fire the global callback
+				if(s.global) {
+					(s.context ? jQuery(s.context) : jQuery.event).trigger("ajaxError", [xhr, s, e]);
+				}
+
+			},
+			createUploadIframe: function(id, uri) {
+
+				var frameId = 'jUploadFrame' + id;
+
+				if(window.ActiveXObject) {
+					if(jQuery.browser.version == "9.0") {
+						io = document.createElement('iframe');
+						io.id = frameId;
+						io.name = frameId;
+					} else if(jQuery.browser.version == "6.0" || jQuery.browser.version == "7.0" || jQuery.browser.version == "8.0") {
+
+						var io = document.createElement('<iframe id="' + frameId + '" name="' + frameId + '" />');
+						if(typeof uri == 'boolean') {
+							io.src = 'javascript:false';
+						} else if(typeof uri == 'string') {
+							io.src = uri;
+						}
+					}
+				} else {
+					var io = document.createElement('iframe');
+					io.id = frameId;
+					io.name = frameId;
+				}
+				io.style.position = 'absolute';
+				io.style.top = '-1000px';
+				io.style.left = '-1000px';
+
+				document.body.appendChild(io);
+
+				return io;
+			},
+			ajaxUpload: function(s, xml) {
+				//if((fromFiles.nodeType&&!((fileList=fromFiles.files)&&fileList[0].name)))
+
+				var uid = new Date().getTime(),
+					idIO = 'jUploadFrame' + uid,
+					_this = this;
+				var jIO = $('<iframe name="' + idIO + '" id="' + idIO + '" style="display:none">').appendTo('body');
+				var jForm = $('<form action="' + s.url + '" target="' + idIO + '" method="post" enctype="multipart/form-data"></form>').appendTo('body');
+				var oldElement = $('#' + s.fileElementId);
+				var newElement = $(oldElement).clone();
+				$(oldElement).attr('id', 'jUploadFile' + uid);
+				$(oldElement).before(newElement);
+				$(oldElement).appendTo(jForm);
+
+				this.remove = function() {
+					if(_this !== null) {
+						jNewFile.before(jOldFile).remove();
+						jIO.remove();
+						jForm.remove();
+						_this = null;
+					}
+				}
+				this.onLoad = function() {
+
+					var data = $(jIO[0].contentWindow.document.body).text();
+
+					try {
+
+						if(data != undefined) {
+							data = eval('(' + data + ')');
+							try {
+
+								if(s.success)
+									s.success(data, status);
+
+								// Fire the global callback
+								if(s.global)
+									jQuery.event.trigger("ajaxSuccess", [xml, s]);
+								if(s.complete)
+									s.complete(data, status);
+								xml = null;
+							} catch(e) {
+
+								status = "error";
+								jQuery.handleError(s, xml, status, e);
+							}
+
+							// The request was completed
+							if(s.global)
+								jQuery.event.trigger("ajaxComplete", [xml, s]);
+							// Handle the global AJAX counter
+							if(s.global && !--jQuery.active)
+								jQuery.event.trigger("ajaxStop");
+
+							// Process result
+
+						}
+					} catch(ex) {
+						alert(ex.message);
+					};
+				}
+				this.start = function() {
+					jForm.submit();
+					jIO.load(_this.onLoad);
+				};
+				return this;
+
+			},
+			createUploadForm: function(id, url, fileElementId, data) {
+				//create form	
+				var formId = 'jUploadForm' + id;
+				var fileId = 'jUploadFile' + id;
+				var form = jQuery('<form  action="' + url + '" method="POST" name="' + formId + '" id="' + formId + '" enctype="multipart/form-data"></form>');
+				if(data) {
+					for(var i in data) {
+						jQuery('<input type="hidden" name="' + i + '" value="' + data[i] + '" />').appendTo(form);
+					}
+				}
+
+				for(var i = 0; i < fileElementId.length; i++) {
+					var oldElement = jQuery('#' + fileElementId[i]);
+					var newElement = jQuery(oldElement).clone();
+					jQuery(oldElement).attr('id', fileId + i);
+					jQuery(oldElement).before(newElement);
+					jQuery(oldElement).appendTo(form);
+				}
+
+				//set attributes
+				jQuery(form).css('position', 'absolute');
+				jQuery(form).css('top', '-1200px');
+				jQuery(form).css('left', '-1200px');
+				jQuery(form).appendTo('body');
+				return form;
+			},
+			ajaxFileUpload: function(s) {
+				// TODO introduce global settings, allowing the client to modify them for all requests, not only timeout	
+				// Create the request object
+				var xml = {};
+				s = jQuery.extend({}, jQuery.ajaxSettings, s);
+				if(window.ActiveXObject) {
+					var upload = new jQuery.ajaxUpload(s, xml);
+					upload.start();
+
+				} else {
+					var id = new Date().getTime();
+					var form = jQuery.createUploadForm(id, s.url, s.fileElementId, (typeof(s.data) == 'undefined' ? false : s.data));
+					var io = jQuery.createUploadIframe(id, s.secureuri);
+					var frameId = 'jUploadFrame' + id;
+					var formId = 'jUploadForm' + id;
+					// Watch for a new set of requests
+					if(s.global && !jQuery.active++) {
+						jQuery.event.trigger("ajaxStart");
+					}
+					var requestDone = false;
+
+					if(s.global)
+						jQuery.event.trigger("ajaxSend", [xml, s]);
+					// Wait for a response to come back
+					var uploadCallback = function(isTimeout) {
+						var io = document.getElementById(frameId);
+
+						try {
+							if(io.contentWindow) {
+								xml.responseText = io.contentWindow.document.body ? io.contentWindow.document.body.innerHTML : null;
+								xml.responseXML = io.contentWindow.document.XMLDocument ? io.contentWindow.document.XMLDocument : io.contentWindow.document;
+
+							} else if(io.contentDocument) {
+								xml.responseText = io.contentDocument.document.body ? io.contentDocument.document.body.innerHTML : null;
+								xml.responseXML = io.contentDocument.document.XMLDocument ? io.contentDocument.document.XMLDocument : io.contentDocument.document;
+							}
+						} catch(e) {
+							jQuery.handleError(s, xml, null, e);
+						}
+						if(xml || isTimeout == "timeout") {
+							requestDone = true;
+							var status;
+							try {
+								status = isTimeout != "timeout" ? "success" : "error";
+								// Make sure that the request was successful or notmodified
+								if(status != "error") {
+									// process the data (runs the xml through httpData regardless of callback)
+									var data = jQuery.uploadHttpData(xml, s.dataType);
+									// If a local callback was specified, fire it and pass it the data
+
+									if(s.success)
+										s.success(data, status);
+
+									// Fire the global callback
+									if(s.global)
+										jQuery.event.trigger("ajaxSuccess", [xml, s]);
+									if(s.complete)
+										s.complete(data, status);
+
+								} else
+									jQuery.handleError(s, xml, status);
+							} catch(e) {
+								status = "error";
+								jQuery.handleError(s, xml, status, e);
+							}
+
+							// The request was completed
+							if(s.global)
+								jQuery.event.trigger("ajaxComplete", [xml, s]);
+							// Handle the global AJAX counter
+							if(s.global && !--jQuery.active)
+								jQuery.event.trigger("ajaxStop");
+
+							// Process result
+							jQuery(io).unbind();
+
+							setTimeout(function() {
+								try {
+									jQuery(io).remove();
+									jQuery(form).remove();
+
+								} catch(e) {
+									jQuery.handleError(s, xml, null, e);
+								}
+
+							}, 100);
+
+							xml = null;
+
+						}
+					};
+					// Timeout checker
+					if(s.timeout > 0) {
+						setTimeout(function() {
+							// Check to see if the request is still happening
+							if(!requestDone) uploadCallback("timeout");
+						}, s.timeout);
+					}
+
+					try {
+
+						var form = jQuery('#' + formId);
+						jQuery(form).attr('action', s.url);
+						jQuery(form).attr('method', 'POST');
+						jQuery(form).attr('target', frameId);
+
+						if(form.encoding) {
+							jQuery(form).attr('encoding', 'multipart/form-data');
+						} else {
+							jQuery(form).attr('enctype', 'multipart/form-data');
+						}
+
+						jQuery(form).submit();
+
+					} catch(e) {
+						jQuery.handleError(s, xml, null, e);
+					}
+
+					jQuery('#' + frameId).load(uploadCallback);
+					return {
+						abort: function() {}
+					};
+
+				}
+			},
+
+			uploadHttpData: function(r, type) {
+
+				var data = !type;
+				data = type == "xml" || data ? r.responseXML : r.responseText;
+				// If the type is "script", eval it in global context
+				if(type == "script")
+					jQuery.globalEval(data);
+				// Get the JavaScript object, if JSON is used.
+				if(type == "json") {
+
+					eval("data = " + $(data).html());
+				}
+				// evaluate scripts within html
+				if(type == "html")
+					jQuery("<div>").html(data).evalScripts();
+
+				return data;
+			}
+		});
+	</script>
+	<!-- js/common.js; -->
+	<script>
+		//jqGrid的配置信息
+		$.jgrid.defaults.width = 1000;
+		$.jgrid.defaults.responsive = true;
+		$.jgrid.defaults.styleUI = 'Bootstrap';
+
+		//工具集合Tools
+		window.T = {};
+
+		// 获取请求参数
+		// 使用示例
+		// location.href = http://localhost:8080/index.html?id=123
+		// T.p('id') --> 123;
+		var url = function(name) {
+			var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+			var r = window.location.search.substr(1).match(reg);
+			if(r!=null)return  unescape(r[2]); return null;
+		};
+		T.p = url;
+
+		//全局配置
+		$.ajaxSetup({
+			dataType: "json",
+			contentType: "application/json",
+			cache: false
+		});
+
+		//重写alert
+		window.alert = function(msg, callback){
+			parent.layer.alert(msg, function(index){
+				parent.layer.close(index);
+				if(typeof(callback) === "function"){
+					callback("ok");
+				}
+			});
+		}
+
+		//重写confirm式样框
+		window.confirm = function(msg, callback){
+			parent.layer.confirm(msg, {btn: ['确定','取消']},
+			function(){//确定事件
+				if(typeof(callback) === "function"){
+					callback("ok");
+				}
+			});
+		}
+
+		//选择一条记录
+		function getSelectedRow() {
+		    var grid = $("#jqGrid");
+		    var rowKey = grid.getGridParam("selrow");
+		    if(!rowKey){
+		    	alert("请选择一条记录");
+		    	return ;
+		    }
+		    
+		    var selectedIDs = grid.getGridParam("selarrrow");
+		    if(selectedIDs.length > 1){
+		    	alert("只能选择一条记录");
+		    	return ;
+		    }
+		    
+		    return selectedIDs[0];
+		}
+
+		//选择多条记录
+		function getSelectedRows() {
+		    var grid = $("#jqGrid");
+		    var rowKey = grid.getGridParam("selrow");
+		    if(!rowKey){
+		    	alert("请选择一条记录");
+		    	return ;
+		    }
+		    
+		    return grid.getGridParam("selarrrow");
+		}
+	</script>
+	<!-- js/buy.js -->
+	<script>
+		var pay_action = null;
+
+		var palmprint_pay = null;
+
+		var memberBalance_Status = null;
+		var totalAmount = null;
+		var primevalTotalAmount = null;
+		var showTotalAmount = null;
+
+		var shopCart = {
+			step: "",
+			userId: "",
+			commodityList: []
+		};
+
+		var Request = GetRequest();
+		var userId = Request['uid'];
+		var mark = Request['mark'];
+		var idPay = Request['idPay'];
+		var pic = Request['pic'];
+		var batchNo = "";
+		var cartin = "0";
+		var userOldCart;
+		var newR;
+		var newRhr;
+
+		//微表情列表
+		var queryEmotionList = [];
+
+		/**
+		 * 页面加载时判定是否增加声纹支付
+		 */
+		$().ready(function() {
+			console.log("获取人员信息：" + "员工编号" + userId + "；订单编号" + idPay + "；头像" + pic);
+
+			//查询消费概要
+			var url = "searchInfo/queryConsumptionSchemaByUserId";
+			$.ajax({
+				type: "POST",
+				url: url+ "?userId=" + userId,
+				async: false,
+				data: JSON.stringify(userId),
+				success: function(result) {
+					result = typeof result == 'string' ? JSON.parse(result) : result;
+					if(result && result.code == 0) {
+						var consumptionSchema = result.consumptionSchema;
+						console.log(result);
+						var levelCode = result.consumptionSchema.levelCode;
+						var loyaltyCode = result.consumptionSchema.loyaltyCode;
+						if(loyaltyCode==="1"){
+							$('.lvPic').attr('src','img/shopping-sys/LV1.png')
+						}else if(loyaltyCode==="2"){
+							$('.lvPic').attr('src','img/shopping-sys/LV2.png')
+						}else if(loyaltyCode==="3"){
+							$('.lvPic').attr('src','img/shopping-sys/LV3.png')
+						}else if(loyaltyCode==="4"){
+							$('.lvPic').attr('src','img/shopping-sys/LV4.png')
+						}
+						$("#consumptionName")[0].innerHTML=result.consumptionSchema.userLevelName+"用户";
+						if(levelCode==="1"){
+							$('#consumptionName').css({
+								"background":"#F79F6D",
+								"color":"#FFFFFF"
+							})
+						}else if(levelCode==="2"){
+							$('#consumptionName').css({
+								"background":"#C7EFFF",
+								"color":"#1EBEF6"
+							})
+						}else if(levelCode==="3"){
+							$('#consumptionName').css({
+								"background":" #FFE200",
+								"color":"#9C441A"
+							})
+						}else if(levelCode==="4"){
+							$('#consumptionName').css({
+								"background":"#9396FF",
+								"color":"#FFFFFF"
+							})
+						}else if(levelCode=='5'){
+							$('#consumptionName').css({
+								"background":"#4A4A4A",
+								"color":"#FFE200"
+							})
+						}
+						
+						$(".username")[0].innerHTML=result.consumptionSchema.name;
+						$(".usernamespan")[0].innerHTML=result.consumptionSchema.name;
+						$(".eid")[0].innerHTML=result.consumptionSchema.eid;
+					}
+				}
+			});
+
+			// 手动调用轮播 ajax写完把这句删了就可以了
+			$('#myCarousel').carousel()
+
+			var url = "shopactionconfig/queryActionValueByName";
+			$.ajax({
+				type: "GET",
+				url: url + "?userId=" + userId,
+				async: false,
+				success: function(r) {
+					if(r.code == 0) {
+						pay_action = r.status;
+						palmprint_pay = r.palmprintstatus;
+						memberBalance_Status = r.memberBalanceStatus;
+					} else {
+						pay_action = 'N';
+						palmprint_pay = 'N';
+						memberBalance_Status = 'N';
+					}
+				}
+			});
+
+			$("#cancelCheck").click(function() {
+				$(":checkbox:checked", "#behalfInfo").removeAttr("checked");
+				$('input[id="num"]').each(function() {
+					$(this).val(1);
+				});
+				$('p[id^="amount"]').each(function() {
+					var tr = $(this).parent().parent();
+					$(this).html(parseFloat(tr.find('p[id^="bookAccount"]').html()));
+				});
+				getbookNumAndAccount();
+				$("#behalfNum").html(0);
+			})
+			// 扫描枪扫描条形码自动提交form的处理
+			document.onkeydown = function keyDown(e) {
+				if(!e) var e = window.event
+				//console.log("keyCode:" + e.keyCode)
+				$("#scanBarcode").focus();
+				if(e.keyCode) keyCode = e.keyCode;
+				else if(e.which) keyCode = e.which;
+				if(e.keyCode == 13) {
+					var v = document.getElementById("scanBarcode").value;
+					console.log("扫码数据：" + v);
+				}
+			}
+
+			// 页面加载时获得重力感应数据显示到购物清单
+			function loadGravitySensorlist() {
+				//传入E工号获得商品编号和数量
+				if(userId) {
+					// 获取推荐商品
+					$.ajax({
+						type: "GET",
+						url: "intrusionDetectionStartup/getBarcodeAndNum?userId=" + userId,
+						async: true,
+						success: function(r) {
+							var aiShopNum = r.num;
+							if("0" != aiShopNum && "" != aiShopNum && null != aiShopNum) {
+								var aiBarcode = r.barcode;
+								getScanProductInfo(aiBarcode, aiShopNum);
+							}
+						}
+
+					});
+				}
+			}
+
+			loadGravitySensorlist();
+
+			function getemotion() {
+				if(userId) {
+					// 获取推荐商品
+					$.ajax({
+						type: "GET",
+						url: "shopbuy/recommendEmotionCommodity?userId=" + userId + "&mark=" + mark,
+						async: true,
+						success: function(r) {
+							result = r;
+							var emotiontexthtml = "";
+							$("#emotionpg").attr("src", result.emotion.image);
+							emotiontexthtml += "<h3>今日推荐 </h3>";
+
+							$(".emotiontext").empty().html(emotiontexthtml);
+
+							var html = "";
+							html += "<ul>"
+							queryEmotionList = result.commodities;
+							for(var i in result.commodities) {
+								html += '<li data-id="' + i + '" class="emotionitem">'
+								html += "<img src='" + result.commodities[i].image + "'>"
+								html += "<p class=\"commodityname\" style=\"margin-bottom: 0px\">" + result.commodities[i].commodityName + "</p>"
+								html += "<p class='commdotyprice' style='margin-top: 0px'> ¥ " + result.commodities[i].salePrice + "</p>"
+								html += "</li>"
+							}
+							html += "</ul>"
+							$(".commodity").empty().html(html);
+							$("#recommend").show();
+						}
+
+					});
+				}
+
+			}
+			getemotion();
+
+			//点击商品弹出窗口 拿到当前下标
+			$(document).on('click', '.emotionitem', function() {
+				if(queryEmotionList.length > 0) {
+
+					//商品名称
+					$('.shopName').html(queryEmotionList[this.getAttribute('data-id')].commodityName || '');
+					//货架
+					$('#goodPlace').html(queryEmotionList[this.getAttribute('data-id')].rack_name || '');
+					//图片
+					$('#oneGoodImg').attr('src', queryEmotionList[this.getAttribute('data-id')].image || '');
+					//单价
+					$('#onePrice').html(queryEmotionList[this.getAttribute('data-id')].salePrice || '');
+					//编号
+					$('#goodNum').html(queryEmotionList[this.getAttribute('data-id')].barCode || '');
+					//TODO库存
+					$('#kucun').html(queryEmotionList[this.getAttribute('data-id')].inventorySum || '');
+					$('#pulldownmodal').modal('show');
+				}
+			})
+
+			function loadcart() {
+				if(userId) {
+					// 获取购物车信息
+					$.ajax({
+						type: "GET",
+						url: "shopbuy/getshopcart?userId=" + userId,
+						async: true,
+						success: function(r) {
+							userOldCart = r.commodities;
+							chartshow(r.commodities);
+						}
+					});
+				}
+			}
+			loadcart();
+
+			//点击商品弹出窗口 拿到当前下标
+			$(document).on('click', '.cartitem', function() {
+				if(userOldCart.length > 0) {
+
+					//商品名称
+					$('.shopName').html(userOldCart[this.getAttribute('data-id')].commodityname || '');
+					//货架
+					$('#goodPlace').html(userOldCart[this.getAttribute('data-id')].rackname || '');
+					//图片
+					$('#oneGoodImg').attr('src', userOldCart[this.getAttribute('data-id')].image || '');
+					//单价
+					$('#onePrice').html(userOldCart[this.getAttribute('data-id')].saleprice || '');
+					//编号
+					$('#goodNum').html(userOldCart[this.getAttribute('data-id')].barcode || '');
+					//TODO库存
+					$('#kucun').html(userOldCart[this.getAttribute('data-id')].commoditynum || '');
+					$('#pulldownmodal').modal('show');
+				}
+			})
+
+			// 没有鼠标操作,10分钟后自动回到欢迎页
+			var timer;
+
+			function startTimer() {
+				clearTimeout(timer);
+				timer = setTimeout(function() {
+					quit();
+				}, 60000);
+			}
+
+			setTimeout(function() {
+				document.getElementById("myModal").style.visibility = "hidden";
+			}, 10000);
+
+			document.onmousemove = document.onmousedown = startTimer
+		});
+
+		/**
+		 * 增加支付方式
+		 */
+		function selectAction() {
+			// 声纹支付
+			if(pay_action == 'Y') {
+				return voiceprintRecognition();
+			} else {
+				return save();
+			}
+		}
+
+		/**
+		 * 增加掌纹识别
+		 */
+		function palmprintAction(r, rhr) {
+			newR = r;
+			newRhr = rhr;
+			// 掌纹支付
+			if(palmprint_pay == 'Y') {
+				return prePalmprintRecognition(r, rhr);
+			} else {
+				// 正常支付
+				return normalPay(r, rhr);
+			}
+		}
+
+		/**
+		 * 掌纹识别预处理
+		 */
+
+		function prePalmprintRecognition(r, rhr) {
+			$("#palmprintRecognitionId").attr('disabled', false);
+
+			var html = rhr.userName + '(' + rhr.userUm + ')';
+			$("#userName").val(rhr.userName);
+			$("#userUm").val(rhr.userUm);
+			$("#idPay").val(rhr.idPay);
+			$("#bookNum").val(rhr.bookNum);
+			$("#totalAmount").val(rhr.totalAmount);
+			primevalTotalAmount = rhr.primevalTotalAmount;
+			$("#personInfo").html(html);
+			$('#palmprintModal').modal('show');
+		}
+
+		/**
+		 * 掌纹识别
+		 */
+		function palmprintRecognition(count) {
+
+			setTimeout(function() {
+				$("#faceshow").css("visibility", "hidden");
+				$('#palmprintRecognitionId').text("分析中");
+				$('#newmess').html("我们正在分析您的掌纹，请稍等3到10秒");
+				document.getElementById('palmprintLogo').src = "img/shopping-sys/handwave.gif";
+			}, 5500);
+
+			$("#palmprintRecognitionId").attr('disabled', true);
+			if($("#palmprintRecognitionId").prop("disabled") == false) {
+				return;
+			}
+			var url = "datapay/palmPrintRecognition";
+			var userName = $("#userName").val();
+			var userUm = $("#userUm").val();
+			var idPay = $("#idPay").val();
+			var bookNum = $("#bookNum").val();
+			var totalAmount = $("#totalAmount").val();
+			var oList = "[";
+			$('span[id^="idbook"]').each(function() {
+				var div = $(this).parent();
+
+				var rfidCode = div.find('span[id="rfid"]').text();
+
+				oList += "{\"barCode\":" + $(this).text() +
+					",\"num\":" + div.parent().find('span[id^="num"]').text() +
+					",\"rfidCode\":'" + rfidCode +
+					"'}";
+			});
+			oList += "]";
+
+			var dataPay = "{\"bookNum\":" + bookNum +
+				",\"totalAmount\":" + totalAmount +
+				",\"primevalTotalAmount\":" + primevalTotalAmount +
+				",\"idPay\":" + idPay +
+				",\"userName\":" + '"' + userName + '"' +
+				",\"userUm\":" + '"' + userUm + '"' +
+				",\"oList\":" + oList + "}";
+
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: dataPay,
+				success: function(r) {
+					$("#faceshow").css("visibility", "visible");
+					$('#palmprintRecognitionId').text("掌纹识别");
+					$('#newmess').html("请将手掌对准摄像头，并点击按钮进行掌纹识别");
+					$("#palmprintRecognitionId").attr('disabled', false);
+					document.getElementById('palmprintLogo').src = "img/shopping-sys/hand.png";
+
+					hideMessage();
+
+					if(r.code == 9001) {
+						var rhr = JSON.parse(r.idPay);
+						shopCartSet(5);
+						normalPay(r, rhr);
+					} else if(r.code == 9002) {
+						shopCartSet(6);
+						palmUnregisteredTips();
+					} else if(r.code == 9003) {
+						var errorMsg = r.message;
+						shopCartSet(6);
+						palmprintFail(errorMsg);
+					} else {
+						var errorMsg = r.message;
+						shopCartSet(6);
+						palmprintFail(errorMsg);
+					}
+				},
+				error: function() {
+					$("#faceshow").css("visibility", "visible");
+					$('#palmprintRecognitionId').text("掌纹识别");
+					$('#newmess').html("请将手掌对准摄像头，并点击按钮进行掌纹识别");
+					$("#palmprintRecognitionId").attr('disabled', false);
+					document.getElementById('palmprintLogo').src = "img/shopping-sys/hand.png";
+				}
+			});
+		}
+
+		//掌纹未注册提示
+		function palmUnregisteredTips() {
+			closeAllFooter();
+			hideMessage();
+			$('#messageModalLabel').html("掌纹未注册");
+			$('#messageModal').modal('show');
+			setTimeout('hideMessage()', 3000);
+		}
+
+		function rePalmprintRecognition() {
+			hideMessage();
+			setTimeout('palmprintRecognition(2)', 1000);
+		}
+
+		function palmprintFail(errorMsg) {
+			closeAllFooter();
+			hideMessage();
+			$('#palmprintFooter').css('display', 'block');
+			$('#messageModalLabel').html("掌纹识别失败");
+			$('#errorMessage').html(errorMsg);
+			$('#messageModal').modal('show');
+		}
+
+		/**
+		 * 拼接支付页面的列表
+		 */
+		function getGoodsList(tr, product, num) {
+			if(num != '' && num != null) {
+				var salePrice = product.salePrice;
+				var amountNum = numMulti(salePrice, num);
+			}
+			// 隐藏shopList
+			$('#shopList').css('display', 'block');
+			$('.order-show').css('display', 'none');
+			$('.order-footer').css('display', 'block');
+			$('#payBtn').css('display', 'block');
+
+			var tr = "";
+
+			tr += '<div class="goodDetail order-cell bd6 bs-white">';
+
+			tr += '<div class="order-img"><p class="order-title"><span>' + "商品示意图" + '</span></p><img style="width:94px;height:94px" src=\"' + product.image + '\" ></div>';
+
+			tr += '<div class="order-name"><p class="order-title"><span>商品名</span></p><p class="order-msg wrap">' + product.commodityName + '</p></div>';
+
+			if(product.manufacturer == '' || product.manufacturer == null) {
+				tr += '<div class="order-info"><p class="order-title"><span>详细信息</span></p><p class="order-company wrap"></p></div>';
+			} else {
+				tr += '<div class="order-info"><p class="order-title"><span>详细信息</span></p><p class="order-company wrap">生产厂家："' + product.manufacturer + '"</p></div>';
+			}
+
+			tr += '<div class="order-unitprice"><p class="order-title"><span>单价</span></p><p id="account" class="order-price wrap">' + product.salePrice + '</p></div>';
+
+			if(num != '' && num != null) {
+				tr += '<div class="order-num"><p class="order-title"><span>数量</span></p><div class="wrap"><img onclick="minusNum(this)" src="img/shopping-sys/less-icon@2x.png"><span id="num">' + num + '</span><img onclick="plusNum(this)" src="img/shopping-sys/add-icon@2x.png"></div></div>';
+			} else {
+				tr += '<div class="order-num"><p class="order-title"><span>数量</span></p><div class="wrap"><img onclick="minusNum(this)" src="img/shopping-sys/less-icon@2x.png"><span id="num">' + "1" + '</span><img onclick="plusNum(this)" src="img/shopping-sys/add-icon@2x.png"></div></div>';
+			}
+
+			if(num != '' && num != null) {
+				tr += '<div class="order-unitprice"><p class="order-title"><span>金额</span></p><p id="amount" class="order-price wrap">' + amountNum + '</p></div>';
+			} else {
+				tr += '<div class="order-unitprice"><p class="order-title"><span>金额</span></p><p id="amount" class="order-price wrap">' + product.salePrice + '</p></div>';
+			}
+
+			tr += '<div class="order-close"><p class="order-title"></p><div class="wrap"><img onclick="del(this)" src="img/shopping-sys/line-del@2x.png"/></div></div>';
+
+			tr += '<div><span id="idbook" style="display: none;">' + product.barCode + '</span>';
+
+			tr += '<span id="productType" style="display: none;">' + product.productType + '</span>';
+
+			tr += '<span id="rfid" style="display: none;">' + product.rfid + '</span></div>';
+
+			tr += '</div>';
+
+			return tr;
+		}
+
+		/**
+		 * 支付页面手工增加/减少产品数量
+		 */
+		function plusNum(x) {
+			// 双击或者多次点击同样触发单击事件
+			e = window.e || window.event;
+			e.stopPropagation();
+			e.preventDefault();
+			var numInput = jQuery(x).parent().find('span[id^="num"]');
+			var idBook = jQuery(x).parent().parent().parent().find('span[id^="idbook"]').text();
+			var account = parseFloat(jQuery(x).parent().parent().parent().find('p[id^="account"]').text());
+			var amount = jQuery(x).parent().parent().parent().find('p[id^="amount"]');
+			var preNum = parseInt(numInput.text());
+			var num = preNum + 1;
+
+			// alert(num + "--" + idBook + "--" + + "--" +account + "--" +
+			// amount.text());
+			var topnum = 100;
+
+			var url = "datapay/queryInventoryNum/" + idBook;
+			$.ajax({
+				type: "POST",
+				url: url,
+				async: false,
+				success: function(r) {
+					topnum = r.inventoryNum;
+				}
+			})
+
+			// var listNum = 0;
+			// $('span[id^="idbook"]').each(function (){
+			// if(idBook==$(this).html()){
+			// listNum +=
+			// parseInt($(this).parents("tr").find('input[id^="num"]').val());
+			// }
+			// });
+			// 判断剩余库存
+			if(preNum == topnum) {
+				layer.msg("库存不足，请选择其他商品！", {
+					time: 2000
+				});
+				return;
+			} else if(topnum - preNum == 1) {
+				layer.msg("这是最后一个了！", {
+					time: 2000
+				});
+			}
+
+			// 得到text框中显示数据
+			numInput.text(num);
+
+			// 得到单个商品总价
+			var amountNum = numMulti(account, num);
+
+			// 显示单个商品单价
+			amount.text(amountNum);
+			// 计算总价和总数量
+			getbookNumAndAccount();
+		}
+
+		function minusNum(x) {
+			// 双击或者多次点击同样触发单击事件
+			e = window.e || window.event;
+			e.stopPropagation();
+			e.preventDefault();
+
+			var numInput = jQuery(x).parent().find('span[id^="num"]');
+			var account = parseFloat(jQuery(x).parent().parent().parent().find('p[id^="account"]').text());
+
+			if(parseInt(numInput.text()) <= 1) {
+				layer.msg("商品数量不能小于1！", {
+					time: 2000
+				});
+				return;
+			}
+
+			var num = parseInt(numInput.text()) - 1;
+
+			// 得到text框中显示数据
+			numInput.text(num);
+
+			// 得到单个商品总价
+			var amount = numMulti(account, num);
+
+			// 显示单个商品单价
+			jQuery(x).parent().parent().parent().find('p[id^="amount"]').text(amount);
+			// 计算总价和总数量
+			getbookNumAndAccount();
+		}
+
+		/**
+		 * 计算商品总数及总价
+		 */
+		function getbookNumAndAccount() {
+			var booknum = 0;
+			var commdityList = [];
+			$('.goodDetail').each(function() {
+				booknum = booknum + parseInt($(this).find('span[id="num"]').text());
+				commdityList.push({
+					barCode: $(this).find('span[id="idbook"]').text(),
+					orderNum: parseInt($(this).find('span[id="num"]').text())
+				});
+			});
+			$("#goodAccount").html(booknum);
+
+			var orderamount = 0;
+			$('.goodDetail').each(function() {
+				orderamount = numAdd(orderamount, parseFloat($(this).find('p[id="amount"]').text()));
+			});
+			$("#priceAmount").html(orderamount);
+
+			// shopcart_set
+			//console.log(commdityList);
+			shopCartSet(1, commdityList);
+			refreshCart(commdityList, userOldCart);
+		}
+
+		/**
+		 * 加法运算，避免数据相加小数点后产生多位数和计算精度损失。
+		 * 
+		 * @param num1加数1 |
+		 *            num2加数2
+		 */
+		function numAdd(num1, num2) {
+			var baseNum, baseNum1, baseNum2;
+			try {
+				baseNum1 = num1.toString().split(".")[1].length;
+			} catch(e) {
+				baseNum1 = 0;
+			}
+			try {
+				baseNum2 = num2.toString().split(".")[1].length;
+			} catch(e) {
+
+				baseNum2 = 0;
+			}
+			baseNum = Math.pow(10, Math.max(baseNum1, baseNum2));
+			return(num1 * baseNum + num2 * baseNum) / baseNum;
+		}
+
+		/**
+		 * 乘法运算，避免数据相乘小数点后产生多位数和计算精度损失。
+		 * 
+		 * @param num1被乘数 |
+		 *            num2乘数
+		 */
+		function numMulti(num1, num2) {
+			var baseNum = 0;
+			try {
+				baseNum += num1.toString().split(".")[1].length;
+			} catch(e) {}
+			try {
+				baseNum += num2.toString().split(".")[1].length;
+			} catch(e) {}
+			return Number(num1.toString().replace(".", "")) * Number(num2.toString().replace(".", "")) / Math.pow(10, baseNum);
+		}
+
+		/**
+		 * 取消会员弹出窗口
+		 */
+		function hideMemberInfo() {
+			payFlag = true;
+			$('#messageModal').modal('hide');
+		}
+
+		/**
+		 * 正常支付流程
+		 */
+		function normalPay(r, rhr) {
+
+			closeAllFooter();
+			$('#payInfo').html(r.idPay);
+			payTips(r, rhr);
+
+			/*// 比价账单和账户余额
+			if(rhr.payWay == "2") {
+				$('#memberPayFooter').css('display', 'block');
+				$('#messageModalLabel').html("支付失败原因");
+				var msg = "如果继续支付将按照非会员价结算";
+				if(rhr.account > 0) {
+					msg = "如果继续支付将按照非会员价结算<br>扣除账户余额后剩余部分进行挂账";
+				} else {
+					msg = "如果继续支付将按照非会员价结算<br>对您的壹钱包账户进行消费金额扣款";
+				}
+				$('#errorMessage').html("本次消费金额<span style='color:#F84A46;font-size:25px;padding:0 5px;'>" + rhr.totalAmount +
+					"元</span>，账户余额<span style='color:#F84A46;font-size:25px;padding:0 5px;'>" + rhr.account + "元</span><br>" + msg);
+				$('#messageModal').modal('show');
+				shopCartSet(11); 
+			}
+			else
+			{
+				payTips(r, rhr);
+			}*/
+
+		}
+
+		/**
+		 * 支付提示
+		 */
+		function payTips(r, rhr) {
+			shopCartSet(8); // 支付流程
+
+			$('#messageModal').modal('hide');
+			// 解析JSON字符串
+			var rhr = JSON.parse($('#payInfo').html());
+			totalAmount = rhr.totalAmount;
+			primevalTotalAmount = rhr.primevalTotalAmount;
+			// 隐藏memberInfoModal
+			$('#memberInfoModal').modal('hide');
+			// $('#messageModalLabel').html("请确认当前支付人及订单信息是否正确");
+			// 显示verifyFooter
+			$('#verifyFooter').css('display', 'block');
+			// $("#userInfoDiv").empty();
+			$("#userInfoDiv").show();
+			// 会员价标签
+			var price = null;
+			var num = parseFloat(rhr.account) - parseFloat(rhr.totalAmount);
+			if(num >= 0) {
+				price = "会员价：";
+			} else {
+				price = "非会员价：";
+			}
+			// $('#userHeader').attr('src', rhr.userImage);
+
+			if(rhr.isShopMember == '会员') {
+				showTotalAmount = rhr.totalAmount;
+				var html = '<h3 class="center">' + rhr.userName + '<img src="img/shopping-sys/vip-icon@2x.png" style="width:38px;padding-left:10px;"/></h3>';
+			} else {
+				showTotalAmount = rhr.primevalTotalAmount;
+				var html = '<h3 class="center">' + rhr.userName + '</h3>';
+				updateI2Src();
+			}
+			html += '<h3 class="center" style="color:#2a2a2a;">' + rhr.userUm + '</h3>';
+			html += '<div style="display:flex;align-items:center;justify-content:space-between;">';
+			if(rhr.isShopMember == '会员') {
+				$('#verifyModal .modal-header').css('background-image', ' linear-gradient(-270deg,  #CC851A 0%, #F9C476 100%)');
+				$('.faceAgain').css({
+					'background-color': '#FFFFFF',
+					'color': '#AF7A4C',
+					'border': '1px solid #AF7A4C'
+				});
+				$('.makeSure').css({
+					'background-color': '#DDB881',
+					'color': '#FFFFFF'
+				});
+				html += '<div style="display:inline-block;width:30%;text-align:center"><p id="balance" class="fz40">' + rhr.account + '</p><p class="fz30">余额</p><p style="display:inline-block;width:33px;border-bottom:4px solid #F3AD5A;border-radius:4px;margin:20px 0;"></p></div>'
+			};
+			html += '<div style="display:inline-block;width:50%;text-align:center"><p class="fz40">' + rhr.bookNum + '</p>';
+			html += '<p class="fz30">总数量</p><p style="display:inline-block;width:33px;border-bottom:4px solid #53D7C7;border-radius:4px;margin:20px 0"></p></div><div style="display:inline-block;width:33%;text-align:center"><p id="totalAmount" class="fz40">' + showTotalAmount + '</p>';
+			html += '<p class="fz30">总价</p><p style="display:inline-block;width:33px;border-bottom:4px solid #968BFF;border-radius:4px;margin:20px 0"></p></div>';
+			$("#userInfoDiv").html(html);
+			// 装载信息和照片
+			// $('#userImage').attr('src', "../iem-core/datapay/showImage?" +
+			// Math.random()).show();
+			$('#userImage').attr('src', rhr.userImage).show();
+			$('#userUmForRecord').val(rhr.userUm);
+			// 显示verifyModal
+			$('#verifyModal').modal('show');
+			if(rhr.account <= 0 || memberBalance_Status == 'N' || memberBalance_Status == null) {
+				updateI2Src();
+			} else if(memberBalance_Status == 'Y' && rhr.account > 0) {
+				updateI1Src();
+			}
+		}
+
+		/**
+		 * 代领支付增加提示
+		 */
+		function behalfPay(r, rhr, nameList) {
+			closeAllFooter();
+			// $('#bringFooter').css('display','none');
+			// $('#voicePayFooter').css('display','none');
+			// $('#memberPayFooter').css('display','none');
+			$('#messageModalLabel').html("请确认当前支付人及订单信息是否正确");
+
+			$('#payInfo').html(r.idPay);
+			$('#messageFooter').css('display', 'block');
+			$('#errorMessage').html("姓名：" + rhr.userName + "&nbsp;工号:" + rhr.userId + "<br/>Um账号:" + rhr.userUm + "<br/>商品总数量:" + rhr.bookNum + "&nbsp;订单总价:" + rhr.totalAmount + "<br/>被代领人:" + nameList);
+			$('#messageModal').modal('show');
+		}
+
+		/**
+		 * 重复领取提示
+		 */
+		function duplicateBehalf() {
+			closeAllFooter();
+			// $('#bringFooter').css('display','none');
+			// $('#messageFooter').css('display','none');
+			$('#messageModalLabel').html("代领");
+			$('#errorMessage').html("下午茶每个人限领一份，若要为他人代领请点击上方的代领按钮。");
+			$('#messageModal').modal('show');
+			setTimeout('hideMessage()', 2000);
+		}
+
+		/**
+		 * 只有下午茶可代领
+		 */
+		function onlyTeaBehalf() {
+			// $('#bringFooter').css('display','none');
+			// $('#messageFooter').css('display','none');
+			closeAllFooter();
+			$('#messageModalLabel').html("代领");
+			$('#errorMessage').html("只有下午茶可代领，若要代领请去除掉订单中下午茶以外的商品");
+			$('#messageModal').modal('show');
+			setTimeout('hideMessage()', 2000);
+		}
+
+		function addProductInfo() {
+			var behalfNum = $(":checkbox:checked", "#behalfInfo").size();
+			$('input[id="num"]').each(function() {
+				$(this).val(behalfNum);
+			});
+			$('p[id^="amount"]').each(function() {
+				var tr = $(this).parent().parent();
+				$(this).html(parseFloat(tr.find('p[id^="bookAccount"]').html() * (behalfNum)));
+			});
+
+			getbookNumAndAccount();
+			$('#behalfModal').modal('hide');
+		}
+
+		function quit() {
+			// document.getElementById("show").style.display = 'block';
+			window.history.go(-1);
+			// 隐藏shopList
+			$('#shopList').css('display', 'none');
+			$('.order-show').css('display', 'block');
+			$('.order-footer').css('display', 'none');
+			$('#payBtn').css('display', 'none');
+			$("#orderinfo").empty();
+			if(cartin == "0") {
+				insertShopCart();
+				cartin == "1"
+			}
+			getbookNumAndAccount();
+		}
+
+		function faceRecognitionAgain() {
+			$('#load').css('display', 'block');
+			hideMessage();
+			setTimeout('faceRecognition("1")', 1000);
+			closeAllFooter();
+		}
+
+		function changeBehalfList(gid, li) {
+			$("#groupList").find("li").removeClass("active");
+			$(li).addClass("active");
+			$("#behalfInfo").find("ul").css('display', 'none');
+			document.getElementById(gid).style.display = 'block';
+		}
+
+		function queryBalance() {
+			var url = "shopsaledetail/queryRechargeInfo";
+			$.ajax({
+				type: "GET",
+				url: url,
+				async: false,
+				success: function(r) {
+					document.getElementById("load").style.display = 'none';
+					if(r.code == 0) {
+						$('#consumeBackBtn').hide();
+						$('#consumerModalLabel').html("充值记录");
+						$('#consumerThead').empty();
+						$('#consumerThead').append("<tr><td>充值时间</td><td>充值前余额</td><td>充值金额</td><td>本次充值<br>后余额</td><td>充值活动</td></tr>");
+						$('#consumerContent').empty();
+						$("#memberInfoDiv").empty();
+						$("#memberInfoDiv").show();
+						$("#memberInfoDiv").append("<div class='account-user'><span>" + r.resultEntity.userName + "</span><span style='font-style: italic;font-size:14px;'>（" +
+							r.resultEntity.userId + "）</span><br/><span>" +
+							r.resultEntity.umId + "</span></div><div class='account'><span>当前账户余额：</span>" +
+							r.resultEntity.accountBalance + "</div>");
+
+						var rechargeList = r.resultEntity.memberRechargeList;
+						for(var i = 0; i < rechargeList.length; i++) {
+							var tempStr = "<tr><td style='text-align:center;'>" + rechargeList[i].payTime + "</td>" +
+								"<td style='text-align:right;'>" + rechargeList[i].balance + "</td>" +
+								"<td style='text-align:right;'>" + rechargeList[i].price + "</td>" +
+								"<td style='text-align:right;'>" + rechargeList[i].referBalance + "</td>" +
+								"<td style='text-align:center;'>" + rechargeList[i].eventDesc + "</td></tr>";
+							$('#consumerContent').append(tempStr);
+						}
+						$('#memberInfoDiv').parent('div').height("460px");
+						$('#consumeInfoModal').modal('show');
+						setTimeout('consumeInfoModalHide()', 30000);
+					} else {
+						layer.msg(r.message, {
+							time: 4000
+						});
+					}
+				}
+			});
+		}
+
+		var htmlContent = "";
+		var consumeTimeout;
+
+		function queryConsume() {
+			document.getElementById("load").style.display = 'block';
+			clearTimeout(consumeTimeout);
+			var url = "shopsaledetail/queryConsume";
+			$.ajax({
+				type: "GET",
+				url: url,
+				async: false,
+				success: function(r) {
+					document.getElementById("load").style.display = 'none';
+					if(r.code == 0) {
+						$("#memberInfoDiv").hide();
+						$('#consumeBackBtn').hide();
+						$('#consumerModalLabel').html("消费记录");
+						$('#consumerThead').empty();
+						$('#consumerThead').append("<tr><td>消费时间</td><td>UM账号</td><td>商品数量</td><td>订单总价</td><td>详情</td></tr>");
+						$('#consumerContent').empty();
+						htmlContent = "";
+						for(var i = 0; i < r.consumeRecordList.length; i++) {
+							var tempStr = "<tr><td>" + r.consumeRecordList[i].payTime + "</td>" +
+								"<td>" + r.consumeRecordList[i].umId + "</td>" +
+								"<td style='text-align:center;'>" + r.consumeRecordList[i].consumeNum + "</td>" +
+								"<td style='text-align:right;'>" + r.consumeRecordList[i].consumeSum + "</td>" +
+								"<td style='text-align:center;'><a onClick='queryConsumeDetail(this)' value='" + r.consumeRecordList[i].idPay + "'>点击查看详情</a></td></tr>";
+							$('#consumerContent').append(tempStr);
+							htmlContent += tempStr;
+						}
+						$('#memberInfoDiv').parent('div').height("350px");
+						$('#consumeInfoModal').modal('show');
+						consumeTimeout = setTimeout('consumeInfoModalHide()', 30000);
+					} else {
+						layer.msg(r.message, {
+							time: 4000
+						});
+					}
+				}
+			});
+		}
+
+		function consumeInfoModalHide() {
+			$("#consumeInfoModal").modal("hide");
+		}
+
+		function queryConsumeDetail(obj) {
+			clearTimeout(consumeTimeout);
+			var idPayVal = $(obj).attr("value");
+			var url = "shopsaledetail/queryConsumeDetail/" + idPayVal;
+			$.ajax({
+				type: "GET",
+				url: url,
+				async: false,
+				success: function(r) {
+					document.getElementById("load").style.display = 'none';
+					if(r.code == 0) {
+						$("#memberInfoDiv").hide();
+						$('#consumeBackBtn').show();
+						$('#consumerModalLabel').html("消费明细");
+						$('#consumerThead').empty();
+						$('#consumerThead').append("<tr><td>商品名称</td><td>商品单价</td><td>商品数量</td><td>商品总价</td></tr>");
+						$('#consumerContent').empty();
+						for(var i = 0; i < r.commodityInfoList.length; i++) {
+							var tempStr = "<tr><td>" + r.commodityInfoList[i].commodityName + "</td>" +
+								"<td style='text-align:right;'>" + r.commodityInfoList[i].productPrice + "</td>" +
+								"<td style='text-align:center;'>" + r.commodityInfoList[i].orderNum + "</td>" +
+								"<td style='text-align:right;'>" + r.commodityInfoList[i].productPriceSum + "</td></tr>";
+							$('#consumerContent').append(tempStr);
+						}
+						var heightNum = 350;
+						if(r.commodityInfoList.length > 5) {
+							heightNum += 50 * (r.commodityInfoList.length - 5);
+						}
+
+						$('#memberInfoDiv').parent('div').height(heightNum + "px");
+						$('#consumeInfoModal').modal('show');
+						consumeTimeout = setTimeout('consumeInfoModalHide()', 30000);
+					} else {
+						layer.msg(r.message, {
+							time: 4000
+						});
+					}
+				}
+			});
+		}
+
+		function consumeBack() {
+			clearTimeout(consumeTimeout);
+			$('#consumeBackBtn').hide();
+			$('#consumerModalLabel').html("消费记录");
+			$('#consumerThead').empty();
+			$('#consumerThead').append("<tr><td>消费时间</td><td>员工账号</td><td>商品数量</td><td>订单总价</td><td>详情</td></tr>");
+			$('#consumerContent').empty();
+			$('#consumerContent').append(htmlContent);
+			$('#memberInfoDiv').parent('div').height("350px");
+			$('#consumeInfoModal').modal('show');
+			consumeTimeout = setTimeout('consumeInfoModalHide()', 30000);
+		}
+
+		function behalf() {
+			var isTea = false;
+			var bookNum = $("#booknum").html();
+			if(!parseInt(bookNum) > 0) {
+				// $('#bringFooter').css('display','none');
+				// $('#messageFooter').css('display','none')
+				closeAllFooter();
+				$('#messageModalLabel').html("代领");
+				$('#errorMessage').html("未选择商品，请使用扫码枪或您右手边的摄像头进行扫码！");
+				$('#messageModal').modal('show');
+				setTimeout('hideMessage()', 3000);
+				return;
+			}
+			$('span[id^="productType"]').each(function() {
+				if($(this).html() == '0') {
+					isTea = true;
+				}
+			});
+			if(isTea) {
+				onlyTeaBehalf();
+			} else {
+				$('#behalfModal').modal('show');
+			}
+		}
+
+		function getBehalfNum(e) {
+			var check = e.checked;
+			var num;
+			if(check) {
+				num = 1 + parseInt($("#behalfNum").html());
+			} else {
+				num = parseInt($("#behalfNum").html()) - 1;
+			}
+			$("#behalfNum").html(num);
+		}
+
+		function checkProduct() {
+			var url = "datapay/checkProduct/";
+			var bookNum = $("#booknum").html();
+			if(!parseInt(bookNum) > 0) {
+				alert('未选择商品，请扫码！');
+				document.getElementById("load").style.display = 'none';
+				return;
+			}
+			var productList = "[";
+			$('span[id^="idbook"]').each(function() {
+				productList += "{\"idBook\":" + $(this).html() + "}";
+			});
+			productList += "]";
+			var dataPay = "{\"productList\":" + productList + "}";
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: productList,
+				async: false,
+				success: function(r) {}
+			});
+		}
+
+		function pay() {
+			$("#payBtn").attr('disabled', true);
+			document.getElementById("load").style.display = 'block';
+			faceRecognition();
+		}
+
+		function faceRecognition(again) {
+			var url = "datapay/faceRecognition/";
+			// 商品件数
+			var bookNum = $("#goodAccount").text();
+			// 总金额
+			var orderamount = $("#priceAmount").text();
+
+			if(!parseInt(bookNum) > 0) {
+				closeAllFooter();
+				$('#userImage').css('display', 'none');
+				$('#messageModalLabel').html("支付失败原因");
+				$('#errorMessage').html("未选择商品，请使用扫码枪或您右手边的摄像头进行扫码！");
+				$('#messageModal').modal('show');
+				setTimeout('hideMessage()', 3000);
+				document.getElementById("load").style.display = 'none';
+				return;
+			}
+
+			var oList = "[";
+			$('span[id^="idbook"]').each(function() {
+				var div = $(this).parent();
+
+				var rfidCode = div.find('span[id="rfid"]').text();
+
+				oList += "{\"barCode\":" + $(this).text() +
+					",\"num\":" + div.parent().find('span[id^="num"]').text() +
+					",\"rfidCode\":'" + rfidCode +
+					"'}";
+			});
+			oList += "]";
+
+			var behalfList = "[]";
+			var isNormal = false;
+			var isNoon = false;
+			$('span[id^="productType"]').each(function() {
+				if(parseInt($(this).text()) == 0) {
+					isNormal = true;
+				} else {
+					isNoon = true;
+				}
+			});
+
+			var isTea = 0;
+			$('span[id^="productType"]').each(function() {
+				isTea = $(this).text();
+			});
+
+			var dataPay = "{\"bookNum\":" + bookNum +
+				",\"totalAmount\":" + orderamount +
+				",\"behalfList\":" + behalfList +
+				",\"isTea\":" + isTea +
+				",\"idPay\":" + idPay +
+				",\"oList\":" + oList + "}";
+
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: dataPay,
+				async: false,
+				success: function(r) {
+
+					if(r.code == 0) {
+						$('#load').css('display', 'none');
+
+						if(r.idPay == 'noUM') {
+							closeAllFooter();
+							$('#messageModalLabel').html("人脸识别失败");
+							$('#errorMessage').html("您当前没有使用系统的权限，请联系技术人员处理。");
+							$('#messageModal').modal('show');
+							setTimeout('hideMessage()', 3000);
+							shopCartSet(again == "1" ? "4" : "3"); // 人脸识别失败
+						} else if(r.idPay == 'noFace') {
+							closeAllFooter();
+							$('#messageModalLabel').html("人脸识别失败");
+							$('#errorMessage').html("未能识别您的人脸，请再次支付时保证面部对准屏幕上方摄像头。");
+							$('#messageModal').modal('show');
+							setTimeout('hideMessage()', 3000);
+							shopCartSet(again == "1" ? "4" : "3"); // 人脸识别失败
+						} else {
+							var rhr = JSON.parse(r.idPay);
+
+							// 判断是否采用掌纹识别
+							palmprintAction(r, rhr)
+
+							shopCartSet(again == "1" ? "4" : "2"); // 重新人脸识别，人脸识别成功
+
+						}
+					} else if(r.code == 1) {
+						closeAllFooter();
+						$('#messageModalLabel').html("库存不足");
+						for(var i = 0; i < r.oList.lenght; i++) {
+							$('#errorMessage').html(r.oList.get(i).commodityName + "库存不足!");
+						}
+						$('#messageModal').modal('show');
+						setTimeout('hideMessage()', 3000);
+						document.getElementById("load").style.display = 'none';
+					} else {
+						closeAllFooter();
+						$('#messageModalLabel').html("人脸识别失败");
+						$('#errorMessage').html("未能识别您的人脸，请再次支付时保证面部在视频显示窗内。");
+						$('#messageModal').modal('show');
+						setTimeout('hideMessage()', 3000);
+						document.getElementById("load").style.display = 'none';
+						shopCartSet(again == "1" ? "4" : "3"); // 人脸识别失败
+
+					}
+				}
+			});
+		}
+
+		/**
+		 * 声纹支付弹出框
+		 */
+		function voiceprintRecognition() {
+			// 隐藏所有遮罩
+			hideMessage();
+			// 6位随机数
+			var rand = Math.floor(Math.random() * 10) + '' + Math.floor(Math.random() * 10) + '' + Math.floor(Math.random() * 10) + '' + Math.floor(Math.random() * 10) + '' + Math.floor(Math.random() * 10) + '' + Math.floor(Math.random() * 10);
+
+			$("#numberDiv").html(rand);
+			$('#voiceModal').modal('show');
+
+		}
+
+		/**
+		 * endVoice 结束录音
+		 */
+		function endVoice() {
+
+			var uploadindex = layer.load(0, {
+				content: '上传中',
+				shade: [0.3, '#000'],
+				success: function(layero) {
+					layero.find('.layui-layer-content').css({
+						"padding-top": '30px',
+						"text-align": 'center',
+						"color": '#fff'
+					});
+				}
+			});
+
+			var fileName = $('#userUmForRecord').val();
+			var url = "datapay/endVoice/" + fileName;
+
+			$.ajax({
+				type: "POST",
+				url: url,
+				success: function(r) {
+					layer.close(uploadindex);
+					r = typeof r == 'string' ? JSON.parse(r) : r;
+					if(r.code == 0) {
+						save();
+					} else if(r.code == 1) {
+						$('#voiceModal').modal('hide');
+						closeAllFooter();
+						$('#voicePayFooter').css('display', 'block');
+						$('#messageModalLabel').html("声纹识别失败");
+						$('#errorMessage').html(r.errorMsg);
+						$('#messageModal').modal('show');
+						$('#voiceLogo').attr('src', 'img/shopping-sys/recording-off@2x.png')
+					} else {
+						$('#messageModalLabel').html("声纹识别失败");
+						$('#errorMessage').html("支付失败！");
+					}
+					// 开始录音和结束录音转换
+					$("#stop").attr('disabled', true).css('display', 'none');
+					$("#start").attr('disabled', false).css('display', 'inline-block');
+
+				}
+			});
+		}
+
+		/**
+		 * startVoice 开始录音
+		 */
+		function startVoice() {
+
+			var url = "datapay/startVoice";
+			$("#start").attr('disabled', true).css('display', 'none');
+			$("#stop").attr('disabled', false).css('display', 'inline-block');
+			$('#voiceLogo').attr('src', 'img/shopping-sys/recording-on@2x.png')
+			$.ajax({
+				type: "POST",
+				url: url,
+				success: function(r) {}
+			});
+
+		}
+
+		var payFlag = true;
+
+		function save() {
+			$("#surePay").css('background-color', 'grey');
+			$(".makeSure").css('background-color', 'grey');
+			var index = layer.load(0, {
+				content: '支付中',
+				shade: [0.3, '#000'],
+				success: function(layero) {
+					layero.find('.layui-layer-content').css({
+						"padding-top": '50px',
+						"text-align": 'center',
+						"color": '#fff'
+					});
+				}
+			});
+
+			if(payFlag) {
+				payFlag = false;
+				closeAllFooter();
+				$("#surePay").attr('disabled', true);
+
+				if($("#surePay").prop("disabled") == false) {
+					return;
+				}
+
+				var url = "datapay/save/";
+				var dataPay = $('#payInfo').html();
+				var userSelection = $('#userSelection input[name="selected"]:checked ').val();
+				dataPay = dataPay.substr(0, dataPay.length - 1);
+				dataPay += ',"userSelection":"' + payType + '"}';
+
+				$.ajax({
+					type: "POST",
+					url: url,
+					data: dataPay,
+					async: true,
+					success: function(r) {
+						$(".makeSure").css('background-color', '#FF965E');
+						// 代领
+						if(r.resultMap.idPay == 'duplicateBehalf') {
+							duplicateBehalf();
+						} else if(r.code == "0000") {
+							layer.close(index);
+							updateShopCart(dataPay, batchNo);
+							// 支付成功
+							// 跳转至支付成功页面
+							window.location.replace("book_result.html?idPay=" + r.resultMap.idPay);
+						} else if(r.code == "99998") {
+							layer.close(index);
+							// 挂账支付确认
+							hideMessage();
+							closeAllFooter();
+							$('#creditPayFooter').css('display', 'block');
+							var msgStr = "壹钱包支付失败，是否进行挂账支付";
+							var num = $('#balance').html();
+
+							if(num > totalAmount) {
+								msgStr = "壹钱包支付失败，是否使用余额支付（余额支付享0.3元优惠）";
+								$('#payTypeButten').text("余额支付");
+							}
+							$('#messageModalLabel').html("支付确定");
+							if(r.msg) {
+								$('#errorMessage').html(msgStr + "。失败原因：" + r.msg);
+							} else {
+
+								$('#errorMessage').html(msgStr);
+							}
+							$('#messageModal').modal('show');
+							shopCartSet(9);
+						} else {
+							layer.close(index);
+							// 支付失败
+							hideMessage();
+							closeAllFooter();
+							$('#messageModalLabel').html("支付失败");
+							$('#errorMessage').html("壹钱包支付失败。失败原因：" + r.resultMap.respMsg);
+							$('#messageModal').modal('show');
+							shopCartSet(10);
+							setTimeout('hideMessage()', 3000);
+							setTimeout(function() {
+								payFlag = true;
+								payTips(newR, newRhr)
+							}, 3000);
+						}
+					}
+				});
+			}
+		}
+
+		var creditFlag = true;
+
+		function creditPay() {
+			if(creditFlag) {
+				creditFlag = false;
+				var url = "datapay/creditPay/";
+				var dataPay = $('#payInfo').html();
+				$.ajax({
+					type: "POST",
+					url: url,
+					data: dataPay,
+					async: true,
+					success: function(r) {
+						// 代领
+						if(r.code == "0") {
+							updateShopCart(dataPay, batchNo);
+							window.location.replace("book_result.html?idPay=" + r.resultMap.idPay);
+						} else {
+							// 支付失败
+							hideMessage();
+							// $('#memberPayFooter').css('display','none');
+							// $('#messageFooter').css('display','none');
+							// $('#creditPayFooter').css('display','none');
+							closeAllFooter();
+							$('#messageModalLabel').html("支付失败");
+							$('#errorMessage').html(r.resultMap.respMsg);
+							$('#messageModal').modal('show');
+							creditFlag = true;
+							setTimeout('hideMessage()', 3000);
+							shopCartSet(10);
+						}
+					}
+				});
+			}
+		}
+
+		function closeAllFooter() {
+			$('#messageFooter').css('display', 'none');
+			$('#bringFooter').css('display', 'none');
+			$('#memberPayFooter').css('display', 'none');
+			$('#voicePayFooter').css('display', 'none');
+			$('#palmprintFooter').css('display', 'none');
+			$('#creditPayFooter').css('display', 'none');
+		}
+
+		/* 测试 */
+
+		function test() {
+			$('#voiceModal').modal('show');
+		}
+
+		/* 测试 */
+
+		function hideMessage() {
+			$('#messageModal').modal('hide');
+			$('#verifyModal').modal('hide');
+			$('#voiceModal').modal('hide');
+			$('#reRecognizeModal').modal('hide');
+			$('#palmprintModal').modal('hide');
+		}
+
+		function del(x) {
+			jQuery(x).parent().parent().parent().remove();
+			getbookNumAndAccount();
+			if($('.goodDetail').length == 0) {
+				// 隐藏shopList
+				$('#shopList').css('display', 'none');
+				$('.order-show').css('display', 'block');
+				$('.order-footer').css('display', 'none');
+				$('#payBtn').css('display', 'none');
+			}
+		}
+
+		function delAll() {
+			if($('.goodDetail').length) {
+				$("#orderinfo").empty();
+				// 隐藏shopList
+		//		$('#shopList').css('display', 'none');
+				$('.order-show').css('display', 'block');
+				$('.order-footer').css('display', 'none');
+				$('#payBtn').css('display', 'none');
+				getbookNumAndAccount();
+			} else {
+				layer.msg('请先选择商品', {
+					time: 1200
+				});
+				return
+			}
+		}
+
+		/*
+		 * function hidediv() { document.getElementById("show").style.display = 'none'; //
+		 * 隐藏shopList $('#shopList').css('display', 'none'); }
+		 */
+
+		function showInfo(href) {
+			$("#bigImage").attr('src', href);
+		}
+
+		function productHide(tr) {
+			$('#productModal').modal('hide');
+			$("#orderinfo tbody").append(tr);
+			getbookNumAndAccount();
+		}
+
+		function getScanProductInfo(barCode, num) {
+			var scanBarcode = null;
+			if(barCode != null) {
+				scanBarcode = barCode;
+				//console.log(scanBarcode);
+			} else {
+				scanBarcode = document.getElementById("scanBarcode").value;
+				document.getElementById("scanBarcode").value = "";
+			}
+			// 扫码隐藏欢迎页面
+			document.getElementById("show").style.display = 'none';
+			var url = "bookinfo/info/" + scanBarcode;
+			$.ajax({
+				type: "POST",
+				url: url,
+				async: false,
+				success: function(r) {
+					if(r.code == 0) {
+						if(r.bookInfo != null) {
+							if(r.bookInfo.inventorySum == 0) {
+								layer.msg("库存不足，请选择其他商品！", {
+									time: 2000
+								});
+							} else {
+								scanProductInfo(r.bookInfo, num);
+							}
+
+						} else {
+							layer.msg("未查询到该商品信息，请联系管理员或者选择其他商品！", {
+								time: 2000
+							});
+						}
+					} else {
+						layer.msg(r.message, {
+							time: 2000
+						});
+					}
+				}
+			});
+
+		}
+
+		function scanProductInfo(product, num) {
+			var tr = "";
+			var flag = true;
+			// 得到商品列表
+			tr = getGoodsList(tr, product, num);
+
+			var isRe = false;
+
+			$('span[id^="idbook"]').each(function() {
+				if(product.barCode == $(this).text()) {
+					isRe = true;
+				}
+			});
+			if(product.productType == '1') {
+				if(isRe) {
+					duplicateBehalf();
+					return;
+				}
+			} else if(product.productType == '0') {
+				var url = "datapay/queryInventoryNum/" + product.barCode;
+				$.ajax({
+					type: "POST",
+					url: url,
+					async: false,
+					success: function(r) {
+						var stockNum = r.inventoryNum;
+						var listNum = 0;
+						$('span[id^="idbook"]').each(function() {
+							if(product.barCode == $(this).text()) {
+								var tempNum = parseInt($(this).parent().parent().find('span[id^="num"]').text());
+								if(null != tempNum && tempNum != "") {
+									listNum += tempNum;
+								}
+							}
+						});
+
+						// 判断剩余库存
+						if(listNum == stockNum) {
+							flag = false;
+							layer.msg("库存不足，请选择其他商品！", {
+								time: 2000
+							});
+
+							return;
+						} else if(stockNum - listNum == 1) {
+							layer.msg("这是最后一个了！", {
+								time: 2000
+							});
+						}
+
+						$('span[id^="idbook"]').each(function() {
+							if(product.barCode == $(this).html()) {
+								$(this).parent().parent().find('span[id^="num"]').text(listNum + 1);
+								var goodAccount = parseFloat($(this).parent().parent().find('p[id^="account"]').text());
+								var num = parseInt(listNum + 1);
+								var amount = numMulti(goodAccount, num);
+								$(this).parent().parent().find('p[id^="amount"]').text(amount);
+
+							}
+						});
+
+					}
+				})
+			}
+
+			if(flag) {
+				$("#productImage").attr('src', product.image);
+				$('#productName').html(product.commodityName);
+				$('#productModal').modal('show');
+
+				setTimeout(sacnProductHide, 1000, tr, isRe);
+			}
+
+		}
+		// 拼接商品信息
+		function sacnProductHide(tr, isRe) {
+			$('#productModal').modal('hide');
+
+			if(!isRe) {
+				$("#orderinfo").append(tr);
+			}
+
+			getbookNumAndAccount();
+		}
+
+		// 清除代领相关信息并打开扫码摄像头
+		function clearBring() {
+			// 清除代领记录
+			$(":checkbox:checked", "#behalfInfo").removeAttr("checked");
+			$("#behalfNum").html(0);
+			delAll();
+
+			// 隐藏相关窗口并打开摄像头
+			hideMessage();
+		}
+
+		/**
+		 * 新用户注册页面
+		 */
+		function register() {
+			window.location.replace("register.jsp");
+		}
+
+		function GetRequest() {
+			var url = location.search; // 获取url中"?"符后的字串
+			var theRequest = new Object();
+			if(url.indexOf("?") != -1) {
+				var str = url.substr(1);
+				strs = str.split("&");
+				for(var i = 0; i < strs.length; i++) {
+					theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+				}
+			}
+			return theRequest;
+		}
+
+		// 设置购物车
+		function shopCartSet(step, commodityList) {
+			if(step) {
+				shopCart.step = step;
+			}
+			if(commodityList) {
+				shopCart.commodityList = commodityList;
+			}
+
+			shopCart.userId = userId;
+
+		}
+
+		// 清理购物车
+		function shopCartClear() {
+			shopCart = {
+				step: "",
+				userId: "",
+				commodityList: []
+			};
+		}
+
+		// 购物车插入数据
+		function insertShopCart() {
+			console.log("插入购物车数据");
+			if(shopCart.commodityList.length > 0) {
+				$.ajax({
+					type: "POST",
+					url: "shopbuy/insertshopcart",
+					data: JSON.stringify(shopCart),
+					async: false
+				});
+			}
+			setTimeout(function() {
+				console.log("等待中====");
+			}, 500);
+		}
+
+		// 更新购物车数据
+		function updateShopCart(datapay, batchno) {
+			cartin = "1";
+			var data = [];
+			datapay = JSON.parse(datapay);
+			for(var i = 0, j = datapay.oList.length; i < j; i++) {
+				var cart = {};
+				cart.eid = datapay.userId;
+				cart.batch_no = batchno;
+				cart.barcode = datapay.oList[i].barCode;
+				data.push(cart);
+			}
+			$.ajax({
+				type: "POST",
+				url: "shopbuy/updateshopcart",
+				data: JSON.stringify(data),
+				async: false
+			});
+		}
+
+		function getCommodity(commodityName, barCode, inventorySum, rackName, salePrice) {
+			$('#consumeBackBtn').show();
+
+			var tr = "";
+			tr += '<div class="order-cell bt-cell">';
+			tr += '<div class="order-name"><p class="order-title"><span>商品编号</span></p><p class="order-msg wrap">' + barCode + '</p></div>';
+
+			tr += '<div class="order-name"><p class="order-title"><span>商品名称</span></p><p class="order-msg wrap">' + commodityName + '</p></div>';
+
+			tr += '<div class="order-name"><p class="order-title"><span>售价</span></p><p class="order-price wrap">' + salePrice + '</p></div>';
+
+			tr += '<div class="order-name"><p class="order-title"><span>库存</span></p><p class="order-msg wrap">' + inventorySum + '</p></div>';
+
+			tr += '<div class="order-name"><p class="order-title"><span>货架信息</span></p><p class="order-msg wrap">' + rackName + '</p></div>';
+
+			tr += '</div>';
+
+			$("#consumerContent").empty().html(tr);
+
+			$('#consumerModalLabel').html("商品信息");
+			$('#consumeInfoModal').modal('show');
+
+		}
+
+		function chartshow(commodities) {
+
+			if(commodities.length > 0) {
+				$("#myCarousel").show();
+				$(".bottomTitle").show();
+				batchNo = commodities[0].batchno;
+			} else {
+				$("#myCarousel").show();
+				$(".bottomTitle").hide();
+			}
+			var carouselhtml = "";
+			var itemhtml = "";
+			var detailhtml = "";
+			var silde = 0;
+
+			for(var i = 0, j = 0; i < commodities.length; i++) {
+				j++;
+				var commodity = commodities[i];
+				if(j == 1) {
+					if(silde == 0) {
+						carouselhtml += "<li data-target=\"#myCarousel\" data-slide-to=\"" + silde + "\" class=\"active\"></li>";
+						detailhtml += "<div class=\"item active\">"
+					} else {
+						carouselhtml += "<li data-target=\"#myCarousel\" data-slide-to=\"" + silde + "\"></li>";
+						detailhtml += "<div class=\"item\">"
+					}
+				} else if(j == 4) {
+					silde++;
+					j = 0;
+				}
+
+				detailhtml += '<div class=\"left-smallDetail  cartitem\"  data-id="' + i + '">'
+				detailhtml += "<div class=\"smallImgCon\">";
+				detailhtml += "<img src=\"" + commodity.image + "\" alt=\"\" />"
+				detailhtml += "</div> <div class=\"newsmallDetail\">"
+				detailhtml += "<p>" + commodity.commodityname + "</p>"
+				detailhtml += "<p>" + commodity.rackname + "</p>"
+				detailhtml += "<p style=\"padding-right:138px\">￥" + commodity.saleprice + "</p>"
+				detailhtml += "</div></div>"
+
+				if(j == 0 || i == commodities.length - 1) {
+					detailhtml += "</div>"
+				}
+			}
+			var html = "";
+			if(commodities.length > 4) {
+				html += "<a class=\"left carousel-control\" href=\"#myCarousel\" role=\"button\" data-slide=\"prev\">"
+				html += "<span class=\"glyphicon glyphicon-chevron-left\" aria-hidden=\"true\"></span>"
+				html += "<span class=\"sr-only\">Previous</span></a>"
+				html += "<a class=\"right carousel-control\" href=\"#myCarousel\" role=\"button\" data-slide=\"next\">"
+				html += "<span class=\"glyphicon glyphicon-chevron-right\" aria-hidden=\"true\"></span>"
+				html += "<span class=\"sr-only\">Next</span></a>"
+			}
+
+			$("#cartcarouselol").empty().html(carouselhtml);
+			$("#cartcarouseinner").empty().html(detailhtml + html);
+
+		}
+
+		function refreshCart(commdityList, userOldCart) {
+			var userNewCart = cloneObj(userOldCart);
+			if(commdityList.length > 0) {
+				for(var i = 0; i < commdityList.length; i++) {
+					for(var j = 0; j < userNewCart.length; j++) {
+						if(userNewCart[j].barcode == commdityList[i].barCode) {
+							userNewCart.splice(j, 1);
+							continue;
+						}
+					}
+				}
+			}
+			chartshow(userNewCart);
+		}
+
+		function cloneObj(obj) {
+			var newObj = {};
+			if(obj instanceof Array) {
+				newObj = [];
+			}
+			for(var key in obj) {
+				var val = obj[key];
+				// newObj[key] = typeof val === 'object' ? arguments.callee(val) : val;
+				// //arguments.callee 在哪一个函数中运行，它就代表哪个函数, 一般用在匿名函数中。
+				newObj[key] = typeof val === 'object' ? cloneObj(val) : val;
+			}
+			return newObj;
+		};
+
+		window.onbeforeunload = function() {
+			if(cartin == "0") {
+				insertShopCart();
+				cartin = "1";
+			}
+			// insertShopCart();
+
+		}
+
+		function updateI1Src() {
+			if(memberBalance_Status == 'N' || memberBalance_Status == null) {
+				layer.msg("暂不支持，请选择其他支付方式", {
+					time: 1700
+				});
+				return;
+			} else if($('#balance').html() == null) { //非会员
+				layer.msg("你不是会员，请选择其他支付方式", {
+					time: 1700
+				});
+				return;
+			} else if($('#balance').html() <= 0) { //会员，余额《=0
+				layer.msg("余额不足，请选择其他支付方式", {
+					time: 1700
+				});
+				return;
+			} else if(totalAmount > $('#balance').html()) {
+				layer.msg("如果继续支付将按照非会员价结算<br>扣除账户余额后剩余部分进行挂账", {
+					time: 2500
+				});
+			}
+			//会员    余额>支付金额
+			document.getElementById('p1').style.color = "#333333";
+			document.getElementById('p2').style.color = "#9B9B9B";
+			var element1 = document.getElementById('i1');
+			element1.src = "img/shopping-sys/normal_money.png";
+			var element2 = document.getElementById('i2');
+			element2.src = "img/shopping-sys/grey_yiqianbao.png";
+
+			var myTotalAmount = document.getElementById('totalAmount');
+			myTotalAmount.innerHTML = totalAmount;
+
+			payType = "memberPay";
+		}
+
+		function updateI2Src() {
+			document.getElementById('p2').style.color = "#333333";
+			document.getElementById('p1').style.color = "#9B9B9B";
+			var element1 = document.getElementById('i1');
+			element1.src = "img/shopping-sys/grey_money.png";
+			var element2 = document.getElementById('i2');
+			element2.src = "img/shopping-sys/normal_yiqianbao.png";
+
+			var myTotalAmount = document.getElementById('totalAmount');
+			myTotalAmount.innerHTML = primevalTotalAmount;
+
+			payType = "oneWalletPay";
+
+		}
+
+		/* 查询用户购物车 */
+		function queryShoppingCart() {
+			$.ajax({
+				type: "POST",
+				url: "ai/getIdByFaceRecognition",
+				success: function(r) {
+					r = typeof r == 'string' ? JSON.parse(r) : r;
+					if(r.code == 0) {
+						location.href = 'book_info.html?mark=' + r.mark + '&uid=' + r.userid + '&idPay=' + r.idPay/* + '&pic=' + r.pic*/
+					} else if(r.code == 1) {
+						layer.msg(r.errorMsg, {
+							time: 2000
+						});
+					} else {
+						layer.msg(r.message, {
+							time: 2000
+						});
+					}
+				}
+			});
+		}
+
+	</script>
+
+	<style type="text/css">
+	/*css/main.css*/
+		html {
+		overflow-x: hidden;
+		}
+
+		.content-header {
+			position: relative;
+			padding: 0 0 3px 8px
+		}
+
+		.content-header>.breadcrumb {
+			position: relative;
+			top: 0;
+			right: 0;
+			float: none;
+			margin-top: 0px;
+			padding-left: 10px;
+			background: transparent;
+		}
+
+		.main-footer {
+			padding: 7px;
+			color: #444;
+			border-top: 1px solid #eee;
+		}
+
+		[v-cloak] {
+			display: none;
+		}
+
+		.grid-btn {
+			margin-top: 3px;
+			margin-bottom: 12px;
+		}
+
+		.grid-btn .btn {
+			margin-right: 10px;
+		}
+
+		.pointer {
+			cursor: pointer;
+		}
+
+		.ml-10 {
+			margin-left: 0 !important;
+		}
+
+		@media (min-width: 768px) {
+			.ml-10 {
+				margin-left: 10px !important;
+			}
+			.col-sm-10 {
+				width: 70%;
+				padding-left: 0px;
+			}
+			.col-sm-2 {
+				width: 30%;
+			}
+		}
+
+		tbody>tr>th {
+			font-weight: normal;
+		}
+
+		.panel .table {
+			margin: 0 0;
+		}
+
+		.panel .pagination {
+			margin: 0;
+		}
+
+		.panel-default>.panel-heading {
+			background-color: #f5f5f5;
+		}
+
+		.row {
+			border-top: 1px solid #ddd;
+			margin: 0;
+			padding: 20px 2px 0px 2px;
+		}
+
+		.col-xs-6 {
+			padding-left: 0px;
+			padding-right: 0px;
+		}
+
+		.form-horizontal .form-group {
+			margin-left: 0px;
+			margin-right: 0px;
+		}
+
+		.form-horizontal {
+			width: 550px;
+			padding-top: 20px;
+		}
+
+
+		/*�޸�Ĭ����ʽ*/
+
+		.body-bg {
+			background-color: transparent;
+		}
+
+		.content-wrapper,
+		.right-side {
+			background-color: #e8ecef;
+		}
+
+		.skin-blue .wrapper,
+		.skin-blue .main-sidebar,
+		.skin-blue .left-side {
+			background-color: #475c6d;
+		}
+
+		.skin-blue .main-header .navbar {
+			background-color: #f0f4f7;
+			border-bottom: 1px solid #ccd3d9;
+		}
+
+		.skin-blue .main-header .navbar .nav>li>a {
+			color: #4b6071;
+		}
+
+		.content,
+		.main-content {
+			background: transparent;
+			position: relative;
+		}
+
+		.skin-blue .main-header .logo,
+		.skin-blue .main-header .logo:hover {
+			background-color: #fe5e3a;
+		}
+
+		.skin-blue .sidebar-menu>li>a:hover {
+			background-color: #364655;
+			border-left: 3px solid transparent;
+		}
+
+		.skin-blue .sidebar-menu>li.active>a {
+			background-color: #364655;
+			border-left: 3px solid #fe5e3a;
+		}
+
+		.skin-blue .main-header .navbar .sidebar-toggle {
+			position: absolute;
+			color: #4b6071;
+			font-size: 20px;
+			left: 0;
+			/*width:35px;
+			height:35px;
+			border:1px solid #4b6071;
+			-webkit-border-radius:50%;
+			-moz-border-radius:50%;
+			-ms-border-radius:50%;
+			border-radius:50%;*/
+		}
+
+		.main-header .logo .logo-lg>img {
+			margin-top: -5px;
+		}
+
+		.skin-blue .sidebar-menu>li.header {
+			font-size: 16px;
+		}
+
+		.sidebar-menu>li>a>.fa,
+		.sidebar-menu>li>a>.glyphicon,
+		.sidebar-menu>li>a>.ion {
+			/*width:25px;*/
+		}
+
+		.breadcrumb>.active {
+			color: #4f6273;
+			font-size: 14px;
+		}
+
+		.navbar-static-top {
+			position: relative;
+		}
+
+		.skin-blue .main-header .navbar .sidebar-toggle:hover {
+			background-color: transparent;
+			color: #fe5e3a;
+		}
+
+		.main-header .sidebar-toggle {
+			padding: 12px 15px;
+		}
+
+		.skin-blue .sidebar-menu>li.header {
+			font-weight: 600;
+		}
+
+		.skin-blue .sidebar-menu>li.header {
+			color: #b4bec3;
+		}
+
+		.skin-blue .main-header .navbar .nav>li>a:hover {
+			background-color: transparent;
+			color: #fe5e3a;
+		}
+
+		.sidebar-menu {
+			border-bottom: 1px solid #3c4e5c;
+		}
+
+		.sidebar-menu>li>a {
+			font-size: 14px;
+		}
+
+		.skin-blue .treeview-menu>li {
+			padding: 1px 0;
+		}
+
+		.skin-blue .treeview-menu>li>a {
+			color: #b2bdc3;
+		}
+
+		.skin-blue .sidebar-menu>li>.treeview-menu {
+			background-color: #405161;
+		}
+
+		.skin-blue .treeview-menu>li.active>a {
+			color: #fe5e3a;
+		}
+
+		.navbar-nav>li>a.user-name {
+			cursor: text;
+		}
+
+		.skin-blue .main-header .navbar .nav>li>a.user-name:hover {
+			background-color: transparent;
+			color: #4b6071;
+		}
+
+
+	/*book.css*/
+
+		body {
+			background-color: #FAFBFC;
+			/* 触屏页面不允许选择元素 */
+		    -webkit-user-select:none;
+		    -moz-user-select:none;
+		    -ms-user-select:none;
+		    user-select:none;
+		}
+
+		.page-contant {
+			position: relative;
+		}
+
+		p {
+			margin: 0;
+		}
+
+		input:focus,
+		input:active {
+			border: none;
+		}
+
+		.clearfix:after {
+			content: " ";
+			display: block;
+			clear: both;
+			height: 0;
+		}
+
+		.clearfix {
+			zoom: 1;
+		}
+
+		.text-font-family-box {
+			font-family: "微软雅黑";
+			margin-bottom: 75px;
+		}
+
+		.text-size--x-small {
+			font-size: 18px;
+		}
+
+		.text-size--small {
+			font-size: 20px;
+		}
+
+		.text-size--medium {
+			font-size: 22px;
+		}
+
+		.text-color--blue {
+			color: #00aeef;
+		}
+
+		.text-color--gren {
+			color: #26be58;
+		}
+
+		.text-color--weakgren {
+			color: #53c6ba;
+		}
+
+		.text-color-grey {
+			color: #9c9c9c;
+		}
+
+		.text-color-default {
+			color: #3c3c3c;
+		}
+
+		.p-horizontal--small {
+			padding: 0 40px;
+		}
+
+		.m-right--medium {
+			margin-right: 40px;
+		}
+
+		.m-bottom--small {
+			margin-bottom: 15px;
+		}
+
+		.m-bottom--x-small {
+			margin-bottom: 4px;
+		}
+
+		.float--left {
+			float: left;
+		}
+
+		.float--right {
+			float: right;
+		}
+
+		.text--bolder {
+			font-weight: 600;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+
+		/*顶部按钮组样式*/
+
+		.btnGroup {
+			margin-bottom: 20px;
+		}
+
+		.btn-left {
+			float: left;
+		}
+
+		.del-btn {
+			display: inline-block;
+			font-size: 20px;
+			padding: 8px 20px;
+			-webkit-border-radius: 5px;
+			border-radius: 5px;
+			border: 1px solid #4d6171;
+			color: #96a0a7;
+			background-color: #374652;
+			background: -webkit-linear-gradient(to bottom, #566673, #3b4a56);
+			background: -o-linear-gradient(to bottom, #566673, #3b4a56);
+			background: -moz-linear-gradient(to bottom, #566673, #3b4a56);
+			background: linear-gradient(to bottom, #566673, #3b4a56);
+			-webkit-box-shadow: 0px 2px 6px #364450;
+			;
+			box-shadow: 0px 2px 6px #364450;
+			;
+		}
+
+		.del-btn .icon {
+			font-size: 18px;
+		}
+
+		.pay-button-con {
+			float: right;
+			background-color: #f36212;
+			background: -webkit-linear-gradient(to bottom, #ffaf00, #ff6f00);
+			background: -o-linear-gradient(to bottom, #ffaf00, #ff6f00);
+			background: -moz-linear-gradient(to bottom, #ffaf00, #ff6f00);
+			background: linear-gradient(to bottom, #ffaf00, #ff6f00);
+			border: 1px solid #ff9f00;
+			color: #fff;
+			padding: 6px 30px;
+			-webkit-border-radius: 5px;
+			border-radius: 5px;
+			font-weight: normal;
+			-webkit-text-shadow: 1px 1px 0px #fb7600;
+			text-shadow: 1px 1px 0px #fb7600;
+			font-size: 30px;
+			text-align: center;
+			font-weight: normal;
+			-webkit-box-shadow: 0px 2px 6px #3e2805;
+			box-shadow: 0px 2px 6px #3e2805;
+		}
+
+		.behalf-button-con {
+			float: right;
+			background-color: #f36212;
+			background: -webkit-linear-gradient(to bottom, #ffaf00, #ff6f00);
+			background: -o-linear-gradient(to bottom, #ffaf00, #ff6f00);
+			background: -moz-linear-gradient(to bottom, #ffaf00, #ff6f00);
+			background: linear-gradient(to bottom, #ffaf00, #ff6f00);
+			border: 1px solid #ff9f00;
+			color: #fff;
+			padding: 6px 30px;
+			-webkit-border-radius: 5px;
+			border-radius: 5px;
+			font-weight: normal;
+			-webkit-text-shadow: 1px 1px 0px #fb7600;
+			text-shadow: 1px 1px 0px #fb7600;
+			font-size: 30px;
+			text-align: center;
+			font-weight: normal;
+			-webkit-box-shadow: 0px 2px 6px #3e2805;
+			box-shadow: 0px 2px 6px #3e2805;
+		}
+
+		.pay-button-con:hover {
+			background-color: #dc5d17;
+		}
+
+		#rrapp {
+			margin: 80px 100px;
+			min-height: 200px;
+		}
+
+		.table-wrap {
+			width: 100%;
+			border-collapse: separate;
+			text-align: center;
+			background-color: #f3f3f3;
+		}
+
+		.table-wrap thead {
+			font-size: 22px;
+			height: 60px;
+			line-height: 60px;
+			background-color: #fff;
+			color: #9a9ba0;
+			border-bottom: 2px solid #d7d7d7;
+			box-shadow: 0 3px 5px rgba(0, 0, 0, .5);
+		}
+
+
+		/* .table-wrap thead tr td:first-child{
+			border-left:1px solid #ccc;
+		}
+		.table-wrap thead tr td:last-child{
+			border-right:1px solid #ccc;
+		}
+
+
+
+		.table-wrap tbody tr{
+			height:105px;
+			border:1px solid #ccc;
+		} */
+
+		.table-wrap tbody tr td {
+			border-top: 1px solid #f4f4f4;
+			border-bottom: 1px solid #e7e7e7;
+			padding: 12px;
+			color: #47164b;
+		}
+
+
+		/* .table-wrap tbody tr td:first-child{
+			border-left:1px solid #ccc;
+		}
+		.table-wrap tbody tr td:last-child{
+			border-right:1px solid #ccc;
+		} */
+
+		.table-wrap tbody tr td.shopping-name {
+			max-width: 450px;
+		}
+
+		.img-box {
+			width: 80px;
+			height: 80px;
+			background-color: #fff;
+			padding: 3px;
+			border: 1px solid #ddd;
+			display: inline-block;
+			margin-right: 5px;
+		}
+
+		.info-bottom-box {
+			position: fixed;
+			bottom: 0;
+			width: 100%;
+			height: 70px;
+			line-height: 70px;
+			background-color: #fff;
+			padding: 0 40px;
+			border-box: border-box;
+		}
+
+		.bottom-box-con {
+			padding: 0 0 0 40px;
+			background-color: #f5f5f5;
+			border-top: 1px solid #ddd;
+			color: #666;
+			font-size: 28px;
+		}
+
+		.layout-bottom-box {
+			margin: 0 40px;
+			/* border: 1px solid #ccc; */
+			margin-bottom: 40px;
+		}
+
+		.layout-bottom-title {
+			background-color: #f4f4f4;
+			height: 50px;
+			line-height: 50px;
+			border-bottom: 1px solid #ccc;
+			padding: 0 40px;
+		}
+
+		.layout-bottom-con {
+			padding: 20px 40px;
+		}
+
+		.pay-status-box {
+			height: 60px;
+			line-height: 60px;
+			color: #fff;
+			font-size: 26px;
+		}
+
+		.pay-status--success {
+			background-color: #64a23b;
+		}
+
+		.pay-status--failure {
+			background-color: #fe5e3a;
+		}
+
+		.pay-detail-box {
+			height: 60px;
+			line-height: 60px;
+			/* border: 1px solid #ccc; */
+		}
+
+		.del-icon {
+			font-size: 35px;
+			text-align: center;
+			color: #fd4f27;
+		}
+
+		.mask-layer {
+			width: 100%;
+			height: 100%;
+			/* 	background-color: #53c6ba; */
+			font-size: 32px;
+			text-align: center;
+			line-height: 700px;
+			color: #fff;
+		}
+
+
+		/*modal*/
+
+		.modal-title {
+			background-color: #475c6d;
+			color: #7e8196;
+		}
+
+		.modal-footer {
+			background-color: #f3f3f3;
+		}
+
+		.infor-main {
+			margin-top: 40px;
+		}
+
+		.loadingWrap {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			z-index: 300;
+			background-image: url(img/loading.jpg);
+			background-repeat: no-repeat;
+			background-position: center center;
+			background-color: #000;
+			background-color: rgba(0, 0, 0, 0.5);
+			filter: alpha(opacity=50);
+		}
+
+		.receive-title {
+			color: #c5c4c4;
+		}
+
+		.close {
+			font-size: 30px;
+		}
+
+		.wait-receive .modal-body {
+			padding: 0 15px 0 0;
+		}
+
+		.group-list {
+			float: left;
+			width: 30%;
+		}
+
+		.group-content {
+			float: right;
+			width: 70%;
+		}
+
+		.group-list ul {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+		}
+
+		.group-list ul li {
+			padding: 20px;
+			background-color: #efefef;
+			border-bottom: 1px solid #fff;
+			font-size: 22px;
+		}
+
+		.group-list ul li.active {
+			border-left: 3px solid #f36212;
+			background-color: #fff;
+			color: #f36212;
+		}
+
+
+		/*人员列表样式*/
+
+		.receive-person li {
+			list-style: none;
+			padding: 25px;
+			border-bottom: 1px dashed #ccc;
+		}
+
+		.receive-person li:last-child {
+			border-bottom: none;
+		}
+
+		.receive-person .person-img {
+			float: left;
+			padding-left: 20px;
+			width: 65px;
+			opacity: 0.6;
+		}
+
+		.receive-person .u-person {
+			float: left;
+			padding-left: 25px;
+		}
+
+		.receive-person .u-name {
+			display: block;
+			float: left;
+			color: #333;
+			font-size: 22px;
+			line-height: 28px;
+			font-weight: normal;
+		}
+
+		.receive-person .u-number {
+			display: block;
+			color: #999;
+			font-size: 15px;
+			font-weight: normal;
+			font-style: italic;
+		}
+
+		.receive-box {
+			position: relative;
+			height: 30px;
+		}
+
+		.receive-box input[type='checkbox'] {
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 35px;
+			height: 35px;
+			opacity: 0;
+		}
+
+		.receive-box label {
+			position: absolute;
+			left: 30px;
+			top: -8px;
+			width: 100% !important;
+			height: 50px;
+			/* line-height: 50px;  */
+		}
+
+		.receive-box label:before {
+			content: '';
+			position: absolute;
+			left: -30px;
+			top: 6px;
+			width: 35px;
+			height: 35px;
+			border: 1px solid #bdbdbd;
+			border-radius: 50%;
+			transition: all 0.3s ease;
+			-webkit-transition: all 0.3s ease;
+			-moz-transition: all 0.3s ease;
+		}
+
+		.receive-box label:after {
+			content: '';
+			position: absolute;
+			left: -16px;
+			top: 12px;
+			width: 8px;
+			height: 15px;
+			border: 0;
+			border-right: 1px solid #fff;
+			border-bottom: 1px solid #fff;
+			background: #fff;
+			transform: rotate(45deg);
+			-webkit-transform: rotate(45deg);
+			-moz-transform: rotate(45deg);
+			-ms-transform: rotate(45deg);
+			transition: all 0.3s ease;
+			-webkit-transition: all 0.3s ease;
+			-moz-transition: all 0.3s ease;
+		}
+
+		.receive-box input[type='checkbox']:checked+ label:before {
+			background: #f36212;
+			border-color: #ca500d;
+		}
+
+		.receive-box input[type='checkbox']:checked+ label:after {
+			background: #f36212;
+		}
+
+		.receive-word {
+			font-size: 25px;
+		}
+
+		.wait-receive .btn {
+			font-size: 20px;
+		}
+
+		.wait-receive .btn-su {
+			color: #f3e8e2;
+			background-color: #f57129;
+			border-color: #d05e20;
+		}
+
+
+		/*手提示图标*/
+
+		.dot {
+			position: absolute;
+			right: 300px;
+			bottom: 35%;
+		}
+
+		.dot .dot1 {
+			animation: sploosh1 1.5s infinite;
+		}
+
+		.dot .dot2 {
+			animation: sploosh2 1.5s infinite;
+		}
+
+		.dot .dot1,
+		.dot .dot2 {
+			width: 20px;
+			height: 20px;
+			border-radius: 100%;
+			position: absolute;
+			z-index: 10;
+			animation-iteration-count: infinite;
+			background: transparent;
+		}
+
+		.hand {
+			width: 100px;
+			height: 100px;
+			position: relative;
+			left: -25px;
+			animation: handshake 1.5s ease infinite;
+		}
+
+		@keyframes sploosh1 {
+			0% {
+				box-shadow: 0 0 0 0px rgba(225, 225, 225, 0.7);
+				background: rgba(225, 225, 225, 0.3)
+			}
+			100% {
+				box-shadow: 0 0 0 40px rgba(225, 225, 225, 0);
+				background: rgba(225, 225, 225, 0)
+			}
+		}
+
+		@keyframes sploosh2 {
+			0% {
+				box-shadow: 0 0 0 0px rgba(225, 225, 225, 0.7);
+				background: rgba(225, 225, 225, 0.3)
+			}
+			100% {
+				box-shadow: 0 0 0 20px rgba(225, 225, 225, 0);
+				background: rgba(225, 225, 225, 0)
+			}
+		}
+
+		@keyframes handshake {
+			0% {
+				top: 0;
+			}
+			50% {
+				top: -2px;
+			}
+			100% {
+				top: 2px;
+			}
+		}
+
+
+		/*消费对话框*/
+
+		.consume-modal {
+			width: 800px;
+		}
+
+		.consumer-table {
+			width: 90%;
+			margin: 0 auto;
+			margin-top: 25px;
+			color: #333;
+			font-size: 18px;
+			font-weight: normal;
+			border-top: 1px solid #ddd;
+			border-left: 1px solid #ddd;
+		}
+
+		.consumer-table td {
+			border-right: 1px solid #ddd;
+			border-bottom: 1px solid #ddd;
+		}
+
+		.consumer-table thead {
+			text-align: center;
+			font-weight: bold;
+			line-height: 40px;
+			background-color: #f3f3f3;
+		}
+
+		.consumer-table tbody td {
+			text-align: left;
+			padding: 0 15px;
+			line-height: 50px;
+		}
+
+		#memberInfoDiv {
+			text-align: left;
+			font-size: 20px;
+			color: #666;
+		}
+
+		.account-user {
+			text-align: left;
+			margin-left: 40px;
+			margin-top: 20px;
+		}
+
+		.account {
+			position: absolute;
+			right: 40px;
+			top: 40px;
+			font-size: 25px;
+			color: #f56329;
+		}
+
+		.centered {
+			display: inline-block;
+			vertical-align: middle;
+			width: 50%;
+		}
+
+		.account span {
+			color: #666;
+			font-size: 18px;
+		}
+
+		.consume-button-con {
+			float: left;
+			background-color: #f36212;
+			background: -webkit-linear-gradient(to bottom, #ffaf00, #ff6f00);
+			background: -o-linear-gradient(to bottom, #ffaf00, #ff6f00);
+			background: -moz-linear-gradient(to bottom, #ffaf00, #ff6f00);
+			background: linear-gradient(to bottom, #ffaf00, #ff6f00);
+			border: 1px solid #ff9f00;
+			color: #fff;
+			padding: 6px 30px;
+			-webkit-border-radius: 5px;
+			border-radius: 5px;
+			font-weight: normal;
+			-webkit-text-shadow: 1px 1px 0px #fb7600;
+			text-shadow: 1px 1px 0px #fb7600;
+			font-size: 30px;
+			line-height: 60px;
+			height: 70%;
+			text-align: center;
+			font-weight: normal;
+			-webkit-box-shadow: 0px 2px 6px #3e2805;
+			box-shadow: 0px 2px 6px #3e2805;
+		}
+
+
+		/* 超市二期   样式开始*/
+
+		.bd6 {
+			-webkit-border-radius: 6px;
+			border-radius: 6px;
+		}
+
+		.bs-white {
+			-webkit-box-shadow: 0 4px 8px 0 #F0F1F6;
+			box-shadow: 0 4px 8px 0 #F0F1F6;
+		}
+
+
+		/*原模态框修改 */
+
+		.modal-dialog {
+			top: 100px;
+			background-color: #FFFFFF;
+			-webkit-box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.20);
+			box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.20);
+			-webkit-border-radius: 6px;
+			border-radius: 6px;
+		}
+
+		.wait-receive .modal-content {
+			border: none !important;
+			border-radius: 6px !important;
+			box-shadow: none !important;
+		}
+
+		.tishi-pic {
+			width: 100px;
+			margin: 50px auto 20px auto;
+		}
+
+		.headlines {
+			font-size: 30px;
+			color: #3e3e3e;
+		}
+
+		.subline {
+			font-size: 20px;
+			color: #999;
+			margin-top: 5px;
+			line-height: 30px;
+		}
+
+		/* 收银页样式*/
+
+		.page-top {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 80px;
+			background-color: #fff;
+			-webkit-box-shadow: 0 2px 4px 0 #EFF1F3;
+			box-shadow: 0 2px 4px 0 #EFF1F3;
+			z-index: 999;
+		}
+
+		.shopping-logo {
+			position: absolute;
+			left: 44px;
+			top: 21px;
+		}
+
+		.shopping-logo img {
+			margin-top: 3px;
+			vertical-align: middle;
+		}
+
+		.btn-exit {
+			position: absolute;
+			right: 40px;
+			top: 12px;
+			width: 165px;
+			height: 55px;
+			line-height: 55px;
+			background-color: #fff;
+			color: #828A9F;
+			font-size: 22px;
+			-webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08);
+			box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08);
+			-webkit-border-radius: 80px;
+			border-radius: 80px;
+			text-align: center;
+			cursor: pointer;
+		}
+
+		.btn-msg img {
+			vertical-align: text-top;
+			width: 30px;
+			margin-top: -2px;
+		}
+
+		.main-content {
+			margin-top: 80px;
+			padding: 30px 50px;
+		}
+
+		.btn-left {
+			float: left;
+		}
+
+		.nav-title {
+			font-size: 22px;
+			color: #8B94A0;
+		}
+
+		.nav-title span {
+			display: inline-block;
+			width: 16px;
+			height: 16px;
+			-webkit-border-radius: 50%;
+			border-radius: 50%;
+			background: -webkit-linear-gradient(-270deg, #FFA857 0%, #FE5F74 100%);
+			background: linear-gradient(-270deg, #FFA857 0%, #FE5F74 100%);
+			margin-right: 14px;
+		}
+
+		.btn-left .en {
+			margin-left: 30px;
+			color: #dbdee1;
+			font-size: 14px;
+		}
+
+		.btn-right {
+			float: right;
+			margin-top: 10px;
+			font-size: 18px;
+			color: #888;
+			cursor: pointer;
+		}
+
+		.btn-right .del-icon {
+			font-size: 16px;
+			color: #888;
+		}
+
+		.bag-wrap {
+			width: 700px;
+			margin: 0 auto;
+			margin-top: 30px;
+		}
+
+		.bag-wrap img {
+			width: 100%;
+		}
+
+		.bag-text {
+			margin-top: 20px;
+			text-align: center;
+		}
+
+		.bag-text p:first-child {
+			font-size: 26px;
+			color: #333333;
+		}
+
+		.bag-text p:last-child {
+			font-size: 16px;
+			color: #999;
+			margin-top: 5px;
+		}
+
+
+		/* 订单列表开始 */
+
+		.order-cell {
+			width: 100%;
+			padding: 15px 35px;
+			margin-bottom: 20px;
+			text-align: center;
+			display: flex;
+			justify-content: space-between;
+			background-color: #FFFFFF;
+		}
+
+		.wrap {
+			height: 100px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin-top: 10px;
+		}
+
+		.warp-border {
+			border: 1px solid #F5CB85;
+			padding: 5px;
+			background-color: #fff;
+		}
+
+		.order-title {
+			font-size: 18px;
+			color: #999999;
+		}
+
+		.order-img {
+			width: 110px;
+			display: inline-block;
+		}
+
+		.order-img img {
+			width: 100%;
+			vertical-align: middle;
+		}
+
+		.order-name {
+			width: 300px;
+		}
+
+		.order-msg {
+			padding: 15px;
+			font-size: 24px;
+			color: #333;
+			line-height: 32px;
+		}
+
+		.order-info {
+			width: 460px;
+		}
+
+		.order-company {
+			font-size: 22px;
+			color: #666666;
+			padding: 10px;
+		}
+
+		.order-unitprice {
+			width: 150px;
+		}
+
+		.order-price {
+			font-size: 30px;
+			color: #F84A46;
+			text-align: center;
+			/* font-weight:600; */
+		}
+
+		.order-num {
+			width: 200px;
+		}
+
+		.order-num div> span {
+			font-size: 30px;
+			color: #5a5a5a;
+			font-weight: 600;
+		}
+
+		.order-num img {
+			width: 80px;
+			padding: 0 20px;
+		}
+
+		.order-close {
+			width: 100px;
+		}
+
+		.order-close img {
+			width: 35px;
+			margin-top: 50px;
+			cursor: pointer;
+		}
+
+
+		/* 订单列表结束 */
+
+		.order-footer {
+			height: 50px;
+			overflow: hidden;
+		}
+
+		.goback {
+			font-size: 22px;
+			color: #7A828C;
+			float: left;
+			cursor: pointer;
+		}
+
+		.goback img {
+			width: 26px;
+		}
+
+		.sum-price {
+			float: right;
+		}
+
+		.sum-price span{
+			font-size: 22px;
+			color: #999;
+		}
+
+		.sum-price #goodAccount,.sum-price #priceAmount {
+			font-size: 28px;
+			color: #F84A46;
+			line-height: 30px;
+			/* font-weight:600; */
+		}
+
+		.pay-button {
+			float: right;
+			margin-top: 5px;
+			padding: 10px 40px;
+			background: -webkit-linear-gradient(-270deg, #FFA857 0%, #FE5F74 100%);
+			background: linear-gradient(-270deg, #FFA857 0%, #FE5F74 100%);
+			-webkit-box-shadow: 0 4px 8px 0 rgba(245, 135, 35, 0.28);
+			box-shadow: 0 4px 8px 0 rgba(245, 135, 35, 0.28);
+			border-radius: 100px;
+			cursor: pointer;
+		}
+
+		.pay-button p {
+			font-size: 30px;
+			color: #FFFFFF;
+			text-align: center;
+		}
+
+
+		/* 声纹支付 */
+
+		.modal-box {
+			width: 880px;
+			height: 676px;
+			background: #FFFFFF;
+			box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.20);
+			border-radius: 6px;
+			margin: 0 auto;
+		}
+
+		.modal-top {
+			margin: 20px 0;
+		}
+
+		.modal-top h4 {
+			font-size: 30px;
+			color: #3E3E3E;
+			line-height: 40px;
+			text-align: center;
+		}
+
+		.modal-img {
+			width: 600px;
+			margin: 0 auto;
+		}
+
+		.modal-img img {
+			width: 100%;
+		}
+
+		.modal-number {
+			font-size: 70px;
+			color: #666666;
+			letter-spacing: 1.85px;
+			margin: 0 auto;
+			text-align: center;
+		}
+
+		.start-read-btn {
+			width: 316px;
+			height: 80px;
+			font-size: 30px;
+			color: #FFFFFF;
+			line-height: 80px;
+			text-align: center;
+			background: #FF965E;
+			box-shadow: 0 3px 6px 0 rgba(255, 138, 0, 0.40);
+			border-radius: 100px;
+			margin: 0 auto;
+			cursor: pointer;
+		}
+
+
+		/* 收银提示 */
+
+		.modal-cash {
+			width: 880px;
+			height: 520px;
+			background: #FFFFFF;
+			box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.20);
+			border-radius: 6px;
+			margin: 0 auto;
+		}
+
+		.cash-tips {
+			width: 260px;
+			text-align: center;
+			margin: 0 auto;
+		}
+
+		.cash-tips p {
+			font-size: 35px;
+			color: #3E3E3E;
+			line-height: 40px;
+		}
+
+		.cash-btns {
+			font-size: 30px;
+			display: flex;
+			justify-content: center;
+			margin: 0 auto;
+		}
+
+		.cash-btn {
+			width: 316px;
+			height: 80px;
+			border-radius: 100px;
+			line-height: 80px;
+			text-align: center;
+			cursor: pointer;
+			margin: 0 20px;
+		}
+
+		.cash-btns .cash-cancle {
+			color: #FF965E;
+			border: 1px solid #FF965E;
+			background: #FFFFFF;
+		}
+
+		.cash-btns .cash-ok {
+			color: #FFFFFF;
+			background: #FF965E;
+			box-shadow: 0 3px 6px 0 rgba(255, 138, 0, 0.40);
+		}
+
+
+		/* 支付详情 */
+
+		.order-content {
+			background-color: #fff;
+		}
+
+		.bt-cell {
+			width: 95%;
+			border-bottom: 1px solid #f1f1f1;
+			margin: 0 auto;
+		}
+
+		.bt-cell:last-child {
+			border-bottom: 0px solid #ddd;
+		}
+
+		.suc-img {
+			margin-right: 25px;
+			width: 100px;
+			height: 100px;
+		}
+
+		.suc-img img {
+			width: 100%;
+		}
+
+		.suc-content {
+			line-height: 30px;
+			margin-top: 10px;
+		}
+
+		.suc-content .user-name {
+			font-size: 26px;
+			color: #373737;
+		}
+
+		.suc-content .order-number {
+			font-size: 20px;
+			color: #666;
+		}
+
+		.suc-content .face-time {
+			font-size: 16px;
+			color: #999;
+		}
+
+
+		/* 超市二期   样式结束*/
+
+		/* 超市V2.5  支付弹框开始*/
+		.title-line {
+			position: relative;
+			border-bottom: 1px solid #9B9B9B;
+			width: 70%;
+			margin: 45px auto 50px auto;
+			text-align: center;
+		}
+
+		.title-line span {
+			position: absolute;
+			width: 200px;
+			height: 25px;
+			background-color: #fff;
+			left: 50%;
+			margin-left: -100px;
+			margin-top: -8px; display : inline-block;
+			font-size: 18px;
+			color: #9B9B9B;
+			display: inline-block;
+		}
+
+		.typePay {
+			width:70%;
+			margin: 0 auto;
+			text-align: center;
+		}
+		.typePay .pay-kind{
+			cursor:pointer;
+			margin-right:70px;
+			display: inline-block;
+			vertical-align: top;
+		}
+		.typePay .pay-word{
+			font-size: 18px;
+			color: #9B9B9B;
+			margin-top:10px;
+		}
+		.typePay img {
+			width: 50px;
+			height: 50px;
+		}
+
+		.typePay label {
+			magin-left: 10px;
+		}
+
+
+		/* 超市V2.5  支付弹框结束*/
+
+
+		
+
+
+	/*ui.jqgrid-bootstrap.css*/
+
+		/*Grid*/
+
+		.ui-jqgrid {
+			position: relative;
+			border: 1px solid #ddd;
+			/*default*/
+			-webkit-border-radius: 3px;
+			-moz-border-radius: 3px;
+			border-radius: 3px;
+		}
+
+		.ui-jqgrid .ui-jqgrid-view {
+			position: relative;
+			left: 0;
+			top: 0;
+			padding: 0;
+		}
+
+		.ui-jqgrid .ui-common-table {}
+
+
+		/* Caption*/
+
+		.ui-jqgrid .ui-jqgrid-titlebar {
+			font-weight: normal;
+			min-height: 37px;
+			padding: 4px 8px;
+			position: relative;
+			margin-right: 2px;
+			border-bottom: 1px solid #ddd;
+			/*default*/
+		}
+
+		.ui-jqgrid .ui-jqgrid-caption {
+			text-align: left;
+		}
+
+		.ui-jqgrid .ui-jqgrid-title {
+			padding-top: 5px;
+			vertical-align: middle;
+		}
+
+		.ui-jqgrid .ui-jqgrid-titlebar-close {
+			color: inherit;
+			position: absolute;
+			top: 50%;
+			margin: -10px 7px 0 0;
+			padding: 1px;
+			cursor: pointer;
+		}
+
+		.ui-jqgrid .ui-jqgrid-titlebar-close span {
+			display: block;
+			margin: 1px;
+		}
+
+		.ui-jqgrid .ui-jqgrid-titlebar-close:hover {}
+
+
+		/* Header*/
+
+		.ui-jqgrid .ui-jqgrid-hdiv {
+			text-overflow: ellipsis;
+			position: relative;
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+		}
+
+		.ui-jqgrid .ui-jqgrid-hbox {
+			float: left;
+			padding-right: 20px;
+		}
+
+		.ui-jqgrid .ui-jqgrid-htable {
+			margin-bottom: 0;
+			table-layout: fixed;
+			border-top: none;
+		}
+
+		.ui-jqgrid .ui-jqgrid-htable thead th {
+			text-overflow: ellipsis;
+			overflow: hidden;
+			border-bottom: none;
+			padding-right: 2px;
+		}
+
+		.ui-jqgrid .ui-jqgrid-htable thead th div {
+			text-overflow: ellipsis;
+			overflow: ellipsis;
+			position: relative;
+		}
+
+		.ui-th-column,
+		.ui-jqgrid .ui-jqgrid-htable th.ui-th-column {
+			text-overflow: ellipsis;
+			overflow: hidden;
+			white-space: nowrap;
+		}
+
+		.ui-th-column-header,
+		.ui-jqgrid .ui-jqgrid-htable th.ui-th-column-header {
+			text-overflow: ellipsis;
+			overflow: hidden;
+			white-space: nowrap;
+		}
+
+		.ui-th-ltr,
+		.ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {}
+
+		.ui-th-rtl,
+		.ui-jqgrid .ui-jqgrid-htable th.ui-th-rtl {
+			text-align: center;
+		}
+
+		.ui-first-th-ltr {}
+
+		.ui-first-th-rtl {}
+
+		.ui-jqgrid tr.jqg-first-row-header th {
+			height: auto;
+			border-top: none;
+			padding-bottom: 0;
+			padding-top: 0;
+			border-bottom: none;
+			padding-right: 2px;
+			text-align: center;
+		}
+
+		.ui-jqgrid tr.jqg-second-row-header th,
+		.ui-jqgrid tr.jqg-third--row-header th {
+			border-top: none;
+			text-align: center;
+		}
+
+		.ui-jqgrid .ui-th-div-ie {
+			white-space: nowrap;
+			zoom: 1;
+			height: 17px;
+		}
+
+		.ui-jqgrid .ui-jqgrid-resize {
+			height: 20px !important;
+			position: relative;
+			cursor: e-resize;
+			display: inline;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		.ui-jqgrid .ui-grid-ico-sort {
+			text-overflow: ellipsis;
+			margin-left: 5px;
+			overflow: hidden;
+			position: absolute;
+			right: auto;
+			font-size: 12px;
+		}
+
+		.ui-jqgrid .ui-icon-asc {
+			margin-top: -3px;
+		}
+
+		.ui-jqgrid .ui-icon-desc {
+			margin-top: 4px;
+		}
+
+		.ui-jqgrid .ui-i-asc {
+			margin-top: 0;
+		}
+
+		.ui-jqgrid .ui-i-desc {
+			margin-top: 0;
+			margin-right: 13px;
+		}
+
+		.ui-jqgrid .ui-single-sort-asc {
+			margin-top: 0;
+		}
+
+		.ui-jqgrid .ui-single-sort-desc {}
+
+		.ui-jqgrid .ui-jqgrid-sortable {
+			cursor: pointer;
+		}
+
+		.ui-jqgrid tr.ui-search-toolbar th {}
+
+		.ui-jqgrid .ui-search-table td.ui-search-clear {}
+
+		.ui-jqgrid tr.ui-search-toolbar td>input {}
+
+		.ui-jqgrid tr.ui-search-toolbar select {}
+
+
+		/* Body */
+
+		.ui-jqgrid .table-bordered,
+		.ui-jqgrid .table-bordered td,
+		.ui-jqgrid .table-bordered th.ui-th-ltr {
+			border-left: 0px none !important;
+		}
+
+		.ui-jqgrid .table-bordered th.ui-th-rtl {
+			border-right: 0px none !important;
+		}
+
+		.ui-jqgrid .table-bordered tr.ui-row-rtl td {
+			border-right: 0px none !important;
+			border-left: 1px solid #ddd !important;
+		}
+
+		div.tablediv>.table-bordered {
+			border-left: 1px solid #ddd !important;
+		}
+
+		.ui-jqgrid .ui-jqgrid-bdiv table.table-bordered td {
+			border-top: 0px none;
+		}
+
+		.ui-jqgrid .ui-jqgrid-bdiv {
+			text-overflow: ellipsis;
+			position: relative;
+			margin: 0;
+			padding: 0;
+			overflow: auto;
+			text-align: left;
+		}
+
+		.ui-jqgrid .ui-jqgrid-btable {
+			table-layout: fixed;
+			border-left: none;
+			border-top: none;
+			margin-bottom: 0px
+		}
+
+		.ui-jqgrid tr.jqgrow {
+			outline-style: none;
+		}
+
+		.ui-jqgrid tr.jqgroup {
+			outline-style: none;
+		}
+
+		.ui-jqgrid .ui-jqgrid-btable tbody tr.jqgrow td {
+			text-overflow: ellipsis;
+			overflow: hidden;
+			white-space: pre;
+			padding-right: 2px;
+		}
+
+		.ui-jqgrid tr.jqgfirstrow td {
+			height: auto;
+			border-top: none;
+			padding-bottom: 0;
+			padding-top: 0;
+			border-bottom: none;
+			padding-right: 2px;
+		}
+
+		.ui-jqgrid tr.jqgroup td {
+			white-space: nowrap;
+		}
+
+		.ui-jqgrid tr.jqfoot td {
+			white-space: nowrap;
+		}
+
+		.ui-jqgrid tr.ui-row-ltr td {}
+
+		.ui-jqgrid tr.ui-row-rtl td {}
+
+		.ui-jqgrid td.jqgrid-rownum {}
+
+		.ui-jqgrid .ui-jqgrid-resize-mark {
+			text-overflow: ellipsis;
+			width: 2px;
+			left: 0;
+			background-color: #777;
+			cursor: e-resize;
+			cursor: col-resize;
+			position: absolute;
+			top: 0;
+			height: 100px;
+			overflow: hidden;
+			display: none;
+			border: 0 none;
+			z-index: 99999;
+		}
+
+
+		/* Footer */
+
+		.ui-jqgrid .ui-jqgrid-sdiv {
+			text-overflow: ellipsis;
+			position: relative;
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+			border-left: 0 none !important;
+			border-top: 0 none !important;
+			border-right: 0 none !important;
+		}
+
+		.ui-jqgrid .ui-jqgrid-ftable {
+			table-layout: fixed;
+			margin-bottom: 0;
+		}
+
+		.ui-jqgrid tr.footrow td {
+			text-overflow: ellipsis;
+			font-weight: bold;
+			overflow: hidden;
+			white-space: nowrap;
+			padding-right: 2px;
+			border-bottom: 0px none;
+		}
+
+		.ui-jqgrid tr.footrow-ltr td {
+			text-align: left;
+		}
+
+		.ui-jqgrid tr.footrow-rtl td {
+			text-align: right;
+		}
+
+
+		/* Pager*/
+
+		.ui-jqgrid .ui-jqgrid-pager,
+		.ui-jqgrid .ui-jqgrid-toppager {
+			border-left-width: 0px;
+			border-top: 1px solid #ddd;
+			/*padding : 4px 0px;*/
+			position: relative;
+			/*height: auto; */
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		.ui-jqgrid .ui-jqgrid-toppager {
+			border-top-width: 0;
+			border-bottom: 1px solid #ddd;
+		}
+
+		.ui-jqgrid .ui-jqgrid-toppager .ui-pager-control,
+		.ui-jqgrid .ui-jqgrid-pager .ui-pager-control {
+			position: relative;
+			border-left: 0;
+			border-bottom: 0;
+			border-top: 0;
+			/*height: 30px;*/
+		}
+
+		.ui-jqgrid .ui-pg-table {
+			position: relative;
+			padding: 1px 0;
+			width: auto;
+			margin: 0;
+		}
+
+		.ui-jqgrid .ui-pg-table td {
+			font-weight: normal;
+			vertical-align: middle;
+			/*padding:0px 6px;*/
+		}
+
+		.ui-jqgrid .ui-pager-control .ui-pager-table td {
+			border-top: 0px none !important;
+			min-height: 20px !important;
+		}
+
+		.ui-jqgrid .ui-pg-button {
+			height: auto;
+		}
+
+		.ui-jqgrid .ui-paging-pager td {
+			padding: 0 5px;
+		}
+
+		.ui-jqgrid .ui-pg-button span {
+			display: block;
+			margin: 0px 2px;
+			float: left;
+		}
+
+		.ui-jqgrid .ui-pg-button:hover {}
+
+		.ui-jqgrid .ui-disabled:hover {}
+
+		.ui-jqgrid .ui-pg-input,
+		.ui-jqgrid .ui-jqgrid-toppager .ui-pg-input {
+			display: inline-block;
+			height: auto;
+			width: auto;
+			font-size: .9em;
+			margin: 0;
+			line-height: inherit;
+			border: none;
+			padding: 0px 3px
+		}
+
+		.ui-jqgrid .ui-pg-selbox,
+		.ui-jqgrid .ui-jqgrid-toppager .ui-pg-selbox {
+			font-size: .9em;
+			line-height: inherit;
+			display: block;
+			height: 22px;
+			margin: 0;
+			padding: 3px 0px 3px 3px;
+			border: none;
+		}
+
+		.ui-jqgrid .ui-separator {
+			height: 18px;
+			border: none;
+			border-left: 2px solid #ccc;
+			/*default*/
+		}
+
+		.ui-separator-li {
+			height: 2px;
+			border: none;
+			border-top: 2px solid #ccc;
+			/*default*/
+			margin: 0;
+			padding: 0;
+			width: 100%
+		}
+
+		.ui-jqgrid .ui-jqgrid-pager .ui-pg-div,
+		.ui-jqgrid .ui-jqgrid-toppager .ui-pg-div {
+			float: left;
+			position: relative;
+		}
+
+		.ui-jqgrid .ui-jqgrid-pager .ui-pg-button,
+		.ui-jqgrid .ui-jqgrid-toppager .ui-pg-button {
+			cursor: pointer;
+		}
+
+		.ui-jqgrid .ui-jqgrid-pager .ui-pg-div span,
+		.ui-jqgrid .ui-jqgrid-toppager .ui-pg-div span {
+			float: left;
+		}
+
+		.ui-jqgrid td input,
+		.ui-jqgrid td select,
+		.ui-jqgrid td textarea {
+			margin: 0;
+		}
+
+		.ui-jqgrid td textarea {
+			width: auto;
+			height: auto;
+		}
+
+		.ui-jqgrid .ui-jqgrid-pager .ui-pager-table,
+		.ui-jqgrid .ui-jqgrid-toppager .ui-pager-table {
+			width: 100%;
+			table-layout: fixed;
+			height: 100%;
+		}
+
+		.ui-jqgrid .ui-jqgrid-pager .ui-paging-info,
+		.ui-jqgrid .ui-jqgrid-toppager .ui-paging-info {
+			font-weight: normal;
+			height: auto;
+			margin-top: 3px;
+			margin-right: 4px;
+			display: inline;
+		}
+
+		.ui-jqgrid .ui-jqgrid-pager .ui-paging-pager,
+		.ui-jqgrid .ui-jqgrid-toppager .ui-paging-pager {
+			table-layout: auto;
+			height: 100%;
+		}
+
+		.ui-jqgrid .ui-jqgrid-pager .navtable,
+		.ui-jqgrid .ui-jqgrid-toppager .navtable {
+			float: left;
+			table-layout: auto;
+			height: 100%;
+		}
+
+		.ui-jqgrid .ui-jqgrid-pager .navtable td,
+		.ui-jqgrid .ui-jqgrid-toppager .navtable td {
+			padding: 0 5px;
+		}
+
+
+		/*Subgrid*/
+
+		.ui-jqgrid .ui-jqgrid-btable .ui-sgcollapsed span {
+			display: block;
+		}
+
+		.ui-jqgrid .ui-subgrid {
+			margin: 0;
+			padding: 0;
+			width: 100%;
+		}
+
+		.ui-jqgrid .ui-subgrid table {
+			table-layout: fixed;
+		}
+
+		.ui-jqgrid .ui-subgrid tr.ui-subtblcell td {}
+
+		.ui-jqgrid .ui-subgrid td.subgrid-data {
+			border-top: 0 none !important;
+		}
+
+		.ui-jqgrid .ui-subgrid td.subgrid-cell {
+			vertical-align: middle
+		}
+
+		.ui-jqgrid a.ui-sghref {
+			text-decoration: none;
+			color: #010101;
+			/*default*/
+		}
+
+		.ui-jqgrid .ui-th-subgrid {
+			height: 20px;
+		}
+
+		.tablediv>.row {
+			margin: 0 0
+		}
+
+
+		/* loading */
+
+		.ui-jqgrid .loading {
+			position: absolute;
+			top: 45%;
+			left: 45%;
+			width: auto;
+			z-index: 101;
+			padding: 6px;
+			margin: 5px;
+			text-align: center;
+			display: none;
+			border: 1px solid #ddd;
+			/*default*/
+			font-size: 14px;
+			background-color: #d9edf7;
+		}
+
+		.ui-jqgrid .jqgrid-overlay {
+			display: none;
+			z-index: 100;
+		}
+
+
+		/* IE * html .jqgrid-overlay {width: expression(this.parentNode.offsetWidth+'px');height: expression(this.parentNode.offsetHeight+'px');} */
+
+		* .jqgrid-overlay iframe {
+			position: absolute;
+			top: 0;
+			left: 0;
+			z-index: -1;
+		}
+
+
+		/* IE width: expression(this.parentNode.offsetWidth+'px');height: expression(this.parentNode.offsetHeight+'px');}*/
+
+
+		/* end loading div */
+
+
+		/* Toolbar */
+
+		.ui-jqgrid .ui-userdata {
+			text-overflow: ellipsis;
+			padding: 4px 0px;
+			overflow: hidden;
+			min-height: 32px;
+		}
+
+		.ui-jqgrid .ui-userdata-top {
+			border-left-width: 0px;
+			/*default*/
+			border-bottom: 1px solid #ddd;
+		}
+
+		.ui-jqgrid .ui-userdata-bottom {
+			border-left-width: 0px;
+			/*default*/
+			border-top: 1px solid #ddd;
+		}
+
+
+		/*Modal Window */
+
+		.ui-jqdialog {}
+
+		.ui-jqdialog {
+			display: none;
+			width: 500px;
+			position: absolute;
+			/*padding: 5px; */
+			overflow: visible;
+			text-overflow: ellipsis;
+		}
+
+		.ui-jqdialog .ui-jqdialog-titlebar {
+			padding: .1em .1em;
+			min-height: 35px;
+		}
+
+		.ui-jqdialog .ui-jqdialog-title {
+			margin: .3em 0 .2em;
+			font-weight: bold;
+			padding-left: 6px;
+			padding-right: 6px;
+		}
+
+		.ui-jqdialog .ui-jqdialog-titlebar-close {
+			position: absolute;
+			top: 0%;
+			margin: 3px 5px 0 0;
+			padding: 8px;
+			cursor: pointer;
+		}
+
+		.ui-jqdialog .ui-jqdialog-titlebar-close span {}
+
+		.ui-jqdialog .ui-jqdialog-titlebar-close:hover,
+		.ui-jqdialog .ui-jqdialog-titlebar-close:focus {
+			padding: 8px;
+		}
+
+		.ui-jqdialog-content,
+		.ui-jqdialog .ui-jqdialog-content {
+			border: 0;
+			padding: .3em .2em;
+			background: none;
+			height: auto;
+		}
+
+		.ui-jqdialog .ui-jqconfirm {
+			text-overflow: ellipsis;
+			padding: .4em 1em;
+			border-width: 3px;
+			position: absolute;
+			bottom: 10px;
+			right: 10px;
+			overflow: visible;
+			display: none;
+			height: 120px;
+			width: 220px;
+			text-align: center;
+			background-color: #fff;
+			border-radius: 4px;
+			-webkit-border-radius: 4px;
+			-moz-border-radius: 4px;
+		}
+
+		.ui-jqdialog>.ui-resizable-se {}
+
+		.ui-jqgrid>.ui-resizable-se {}
+
+
+		/* end Modal window*/
+
+
+		/* Form edit */
+
+		.ui-jqdialog-content .FormGrid {
+			margin: 0 8px 0 8px;
+			overflow: auto;
+			position: relative;
+			text-overflow: ellipsis;
+		}
+
+		.ui-jqdialog-content .EditTable {
+			width: 100%;
+			margin-bottom: 0;
+		}
+
+		.ui-jqdialog-content .DelTable {
+			width: 100%;
+			margin-bottom: 0;
+		}
+
+		.EditTable td input,
+		.EditTable td select,
+		.EditTable td textarea {
+			width: 98%;
+			display: inline-block;
+		}
+
+		.EditTable td textarea {
+			width: auto;
+			height: auto;
+		}
+
+		.EditTable .FormData td {
+			height: 37px !important;
+		}
+
+		.ui-jqdialog-content td.EditButton {
+			text-align: right;
+			padding: 5px 5px 5px 0;
+		}
+
+		.ui-jqdialog-content td.navButton {
+			/* 不显示navButton */
+			display: none;
+			text-align: center;
+			border-left: 0 none;
+			border-top: 0 none;
+			border-right: 0 none;
+			padding-bottom: 5px;
+			padding-top: 5px;
+		}
+
+		.ui-jqdialog-content input.FormElement {
+			padding: .5em .3em;
+			margin-bottom: 5px
+		}
+
+		.ui-jqdialog-content select.FormElement {
+			padding: .3em;
+			margin-bottom: 3px;
+		}
+
+		.ui-jqdialog-content .data-line {
+			padding-top: .1em;
+			border: 0 none;
+		}
+
+		.ui-jqdialog-content .CaptionTD {
+			vertical-align: middle;
+			border: 0 none;
+			padding: 2px;
+			white-space: nowrap;
+		}
+
+		.ui-jqdialog-content .DataTD {
+			padding: 2px;
+			border: 0 none;
+			vertical-align: top;
+		}
+
+		.ui-jqdialog-content .form-view-data {
+			white-space: pre
+		}
+
+		.fm-button {}
+
+		.fm-button-icon-left {
+			margin-left: 4px;
+			margin-right: 4px;
+		}
+
+		.fm-button-icon-right {
+			margin-left: 4px;
+			margin-right: 4px;
+		}
+
+		.fm-button-icon-left {}
+
+		.fm-button-icon-right {}
+
+		#nData,
+		#pData {
+			margin-left: 4px;
+			margin-right: 4px;
+		}
+
+		#sData span,
+		#cData span {
+			margin-left: 5px;
+		}
+
+
+		/* End Eorm edit */
+
+
+		/*.ui-jqgrid .edit-cell {}*/
+
+		.ui-jqgrid .selected-row,
+		div.ui-jqgrid .selected-row td {
+			font-style: normal;
+		}
+
+
+		/* inline edit actions button*/
+
+		.ui-inline-del,
+		.ui-inline-cancel {
+			margin-left: 14px;
+		}
+
+		.ui-jqgrid .inline-edit-cell {}
+
+
+		/* Tree Grid */
+
+		.ui-jqgrid .tree-wrap {
+			float: left;
+			position: relative;
+			height: 18px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		.ui-jqgrid .tree-minus {
+			position: absolute;
+			height: 18px;
+			width: 18px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		.ui-jqgrid .tree-plus {
+			position: absolute;
+			height: 18px;
+			width: 18px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		.ui-jqgrid .tree-leaf {
+			position: absolute;
+			height: 18px;
+			width: 18px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		.ui-jqgrid .treeclick {
+			cursor: pointer;
+		}
+
+
+		/* moda dialog */
+
+		* iframe.jqm {
+			position: absolute;
+			top: 0;
+			left: 0;
+			z-index: -1;
+		}
+
+
+		/*	 width: expression(this.parentNode.offsetWidth+'px');height: expression(this.parentNode.offsetHeight+'px');}*/
+
+		.ui-jqgrid-dnd tr td {
+			border-right-width: 1px;
+			border-right-color: inherit;
+			border-right-style: solid;
+			height: 20px
+		}
+
+
+		/* RTL Support */
+
+		.ui-jqgrid .ui-jqgrid-caption-rtl {
+			text-align: right;
+		}
+
+		.ui-jqgrid .ui-jqgrid-hbox-rtl {
+			float: right;
+			/*padding-left: 20px;*/
+		}
+
+		.ui-jqgrid .ui-jqgrid-resize-ltr {
+			float: right;
+			margin: -2px -2px -2px 0;
+			height: 100%;
+		}
+
+		.ui-jqgrid .ui-jqgrid-resize-rtl {
+			float: left;
+			margin: -2px -2px -2px -0px;
+		}
+
+		.ui-jqgrid .ui-sort-rtl {}
+
+		.ui-jqgrid .tree-wrap-ltr {
+			float: left;
+		}
+
+		.ui-jqgrid .tree-wrap-rtl {
+			float: right;
+		}
+
+		.ui-jqgrid .ui-ellipsis {
+			-moz-text-overflow: ellipsis;
+			text-overflow: ellipsis;
+		}
+
+
+		/* Toolbar Search Menu. Nav menu */
+
+		.ui-search-menu,
+		.ui-nav-menu {
+			position: absolute;
+			padding: 2px 5px;
+			z-index: 99999;
+		}
+
+		.ui-search-menu.ui-menu .ui-menu-item,
+		.ui-nav-menu.ui-menu .ui-menu-item {
+			list-style-image: none;
+			padding-right: 0;
+			padding-left: 0;
+		}
+
+		.ui-search-menu.ui-menu .ui-menu-item a,
+		.ui-nav-menu.ui-menu .ui-menu-item a {
+			display: block;
+		}
+
+		.ui-search-menu.ui-menu .ui-menu-item a.g-menu-item:hover,
+		.ui-nav-menu.ui-menu .ui-menu-item a.g-menu-item:hover {
+			margin: -1px;
+			font-weight: normal;
+		}
+
+		.ui-jqgrid .ui-search-table {
+			padding: 0;
+			border: 0 none;
+			height: 20px;
+			width: 100%;
+		}
+
+		.ui-jqgrid .ui-search-table .ui-search-oper {
+			width: 20px;
+		}
+
+		a.g-menu-item,
+		a.soptclass,
+		a.clearsearchclass {
+			cursor: pointer;
+		}
+
+		.ui-jqgrid .ui-jqgrid-view input,
+		.ui-jqgrid .ui-jqgrid-view select,
+		.ui-jqgrid .ui-jqgrid-view textarea,
+		.ui-jqgrid .ui-jqgrid-view button {
+			/*font-size: 11px*/
+		}
+
+		.ui-jqgrid .ui-scroll-popup {
+			width: 100px;
+		}
+
+		.ui-search-table select,
+		.ui-search-table input {
+			padding: 4px 3px;
+		}
+
+		.ui-disabled {
+			opacity: .35;
+			filter: Alpha(Opacity=35);
+			/* support: IE8 */
+			background-image: none;
+		}
+
+		.ui-overlay {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0, 0, 0, 0.5);
+			opacity: .3;
+			filter: Alpha(Opacity=30);
+			/* support: IE8 */
+		}
+
+		.ui-jqgrid-pager .ui-pg-table .ui-pg-button:hover,
+		.ui-jqgrid-toppager .ui-pg-table .ui-pg-button:hover {
+			background-color: #ddd;
+		}
+
+		.ui-jqgrid-corner {
+			border-radius: 5px
+		}
+
+		.ui-resizable-handle {
+			/*position: absolute;*/
+			display: block;
+			left: 97%;
+		}
+
+		.ui-jqdialog .ui-resizable-se {
+			width: 12px;
+			height: 12px;
+			right: -5px;
+			bottom: -5px;
+			background-position: 16px 16px;
+		}
+
+		.ui-resizable-se {
+			cursor: se-resize;
+			width: 12px;
+			height: 12px;
+			right: 1px;
+			bottom: 1px;
+		}
+
+		.ui-top-corner {
+			border-top-left-radius: 5px;
+			border-top-right-radius: 5px;
+		}
+
+		.ui-bottom-corner {
+			border-bottom-left-radius: 5px;
+			border-bottom-right-radius: 5px;
+		}
+
+		.ui-search-table {
+			margin-bottom: 0;
+		}
+
+		.ui-search-table .columns,
+		.ui-search-table .operators {
+			padding-right: 5px;
+		}
+
+		.opsel {
+			float: left;
+			width: 100px;
+			margin-right: 5px;
+		}
+
+		.add-group,
+		.add-rule,
+		.delete-group {
+			width: 14%;
+			margin-right: 5px;
+		}
+
+		.delete-rule {
+			width: 15px;
+		}
+
+		ul.ui-search-menu,
+		ul.ui-nav-menu {
+			list-style-type: none;
+		}
+
+		ul.ui-search-menu li a,
+		ul.ui-nav-menu li a,
+		.soptclass,
+		.clearsearchclass {
+			text-decoration: none;
+			color: #010101;
+		}
+
+		ul.ui-search-menu li a:hover,
+		ul.ui-nav-menu li a:hover,
+		a.soptclass:hover,
+		a.clearsearchclass:hover {
+			background-color: #ddd;
+			padding: 1px 1px;
+			text-decoration: none;
+		}
+
+		ul.ui-search-menu li,
+		ul.ui-nav-menu li {
+			padding: 5px 5px;
+		}
+
+		.ui-menu-item hr {
+			margin-bottom: 0px;
+			margin-top: 0px;
+		}
+
+		.searchFilter .ui-search-table td,
+		.searchFilter .ui-search-table th {
+			border-top: 0px none !important;
+		}
+
+		.searchFilter .queryresult {
+			margin-bottom: 5px;
+		}
+
+		.searchFilter .queryresult tr td {
+			border-top: 0px none;
+		}
+
+		.ui-search-label {
+			padding-left: 5px;
+		}
+
+		.frozen-div,
+		.frozen-bdiv {
+			background-color: #fff;
+		}
+
+
+		/*
+		.ui-jqgrid .ui-jqgrid-caption,
+		.ui-jqgrid .ui-jqgrid-pager,
+		.ui-jqgrid .ui-jqgrid-toppager,
+		.ui-jqgrid .ui-jqgrid-htable thead th,
+		.ui-jqgrid .ui-userdata-top,
+		.ui-jqgrid .ui-userdata-bottom,
+		.ui-jqgrid .ui-jqgrid-hdiv,
+		.ui-jqdialog .ui-jqdialog-titlebar
+		{
+		    background-image: none, linear-gradient(to bottom, #fff 0px, #e0e0e0 100%);
+		    background-repeat: repeat-x;
+		    border-color: #ccc;
+		    text-shadow: 0 1px 0 #fff;
+		}
+		*/
+
+
+		/* Column menu */
+
+		.ui-jqgrid .ui-jqgrid-htable .colmenu {
+			position: absolute;
+			right: 1px;
+			height: 100%;
+			color: black;
+		}
+
+		.ui-jqgrid .ui-jqgrid-htable .colmenu-rtl {
+			right: auto;
+			left: 1px;
+		}
+
+		.ui-jqgrid .ui-jqgrid-htable .colmenuspan {
+			display: inline-block;
+		}
+
+		.ui-jqgrid .ui-jqgrid-htable .ui-th-div {
+			height: 17px;
+			margin-top: 5px;
+			display: inine-block;
+		}
+
+		.column-menu,
+		.ui-search-menu {
+			padding: 10px 15px;
+		}
+
+		.column-menu .divider {
+			text-overflow: ellipsis;
+			background-color: #e5e5e5;
+			height: 1px;
+			padding: 0 0;
+			margin: 5px 0;
+			overflow: hidden;
+		}
+
+		.ui-menu-item .ui-common-table .menu_icon {
+			padding-right: 8px;
+			padding-left: 8px;
+		}
+
+		td.menu_text {
+			width: auto;
+			padding-left: 1px;
+			white-space: nowrap;
+		}
+
+		#search_menu .ui-menu-item div {
+			padding: 3px 0;
+			white-space: nowrap;
+		}
+
+		#search_menu .search_buttons {
+			display: inline-block;
+			width: 50%;
+			padding: 3px 3px;
+		}
+
+		.search_buttons .btn-default:hover {
+			padding-bottom: 6px;
+			padding-top: 6px;
+		}
+
+		.search_buttons #bs_reset {
+			margin-right: 3px;
+		}
+
+		.search_buttons #bs_search {
+			margin-left: 3px;
+		}
+	</style>
+	</head>
+<body>
+<div class="text-font-family-box">
+
+
+<!-- 头部 固定-->
+	<div class="page-top">
+		<div class="shopping-logo">
+			<img src="./book_result_files/logo.png">
+		</div>
+		<div class="btn-exit" id="quitBtn" onclick="back()">
+			<div class="btn-msg">
+				<img src="./book_result_files/exit-icon@2x.png">
+				<span>退出</span>
+			</div>
+		</div>
+	</div>
+	<div id="rrapp" class="main-content">
+	<!-- 成功结果  开始-->
+	 	<div class="order-content bd6 bs-white clearfix" style="margin-bottom:20px; padding:20px 30px;">
+	 		<div class="suc-img float--left">
+	 		  <img src="./book_result_files/success@1x.png">
+	 		</div>
+	 		<div class="suc-content float--left">
+	 			<p class="user-name">恭喜<span id="user-innerName"></span>，交易成功！</p>
+				<p class="order-number">订单号：<span id="orderIdPay"></span>   |  订单金额 (元)：<span id="totalAmount" class="text--bolder" style="color:#f84a46;"></span></p>
+				<p class="face-time">人脸识别：<span id="time"></span></p>
+	 		</div>
+	 	</div>
+	<!-- 成功结果  结束-->
+	<!-- 顶部导航 开始-->
+		<div class="btnGroup clearfix">
+			<div class="btn-left">
+				<div class="nav-title">
+					<span></span>清单详情
+				</div>
+				<div class="en">List Details</div>
+			</div>
+			<div class="btn-right">
+ 			 	共<span id="total" class="text--bolder" style="padding:0 5px;"></span>件商品
+			</div>
+	 	</div>
+	 	<!-- 顶部导航  结束-->
+	 	<div class="order-content bd6 bs-white">
+	 	
+	 	<!--需动态展示  开始-->
+	 	<div id="shopList">
+
+	</div>
+</div>
+
+<script>
+	
+$(function(){  
+	var idPay=getIdPay();
+	// 人脸照片本地存储
+	var url = "datapay/saveFaceImg/" + idPay;
+	$.ajax({
+		type: "GET",
+	    url: url,
+	    async: false,
+	    success: function(r)
+	    {
+	    	console.log("人脸照片本地存储成功！");
+	    }
+	});
+	
+	
+	$.get("datapay/info/"+idPay, function(r){
+		console.log(r.dataPay);
+		$('#user-innerName').html(r.dataPay.userName+'('+r.dataPay.userUm+')');
+		$('#time').html(r.dataPay.payDate);
+        $("#orderIdPay").html(r.dataPay.idPay);
+        $('#total').html(r.dataPay.bookNum); 
+        $("#totalAmount").html(r.dataPay.totalAmount);
+        var commodityList=r.dataPay.commodityList;
+        var tr="";
+        for (var a = 0; a < commodityList.length; a++) {
+			var product = commodityList[a];
+			tr+= '<div class="order-cell bt-cell"><div class="order-img"><p class="order-title"><span>' + "商品示意图" + '</span></p><p class="wrap warp-border"><img src=\"'+product.image+'\" ></p></div>';
+		
+		tr+= '<div class="order-name"><p class="order-title"><span>商品名</span></p><p class="order-msg wrap">'+product.commodityName+'</p></div>';
+		
+		if(product.manufacturer == '' || product.manufacturer == null)
+		{
+			tr+= '<div class="order-info"><p class="order-title"><span>详细信息</span></p><p class="order-company wrap"></p></div>';
+		}
+		else
+		{
+			tr+= '<div class="order-info"><p class="order-title"><span>详细信息</span></p><p class="order-company wrap">生产厂家："'+product.manufacturer+'"</p></div>';
+		}
+		
+		tr+= '<div class="order-unitprice"><p class="order-title"><span>单价</span></p><p id="account" class="order-price wrap">'+product.salePrice+'</p></div>';
+	
+		tr+= '<div class="order-num"><p class="order-title"><span>数量</span></p><div class="wrap"><span id="num">'+product.orderNum+'</div></div>';
+		
+		tr+= '<div class="order-unitprice"><p class="order-title"><span>金额</span></p><p id="amount" class="order-price wrap">'+numMulti(product.salePrice,product.orderNum)+'</p></div>';
+		 
+		tr+='<div><span id="idbook" style="display: none;">'+product.barCode+'</span>';
+		
+		tr+='<span id="productType" style="display: none;">'+product.productType+'</span>';
+		
+		tr+='<span id="rfid" style="display: none;">'+product.rfid+'</span></div></div>';
+		$("#shopList").empty().html(tr);
+		}
+        
+      setTimeout('back()', 15000);
+	});
+});
+
+function GetRequest() {
+
+	   var url = location.search; //获取url中"?"符后的字串
+
+	   var theRequest = new Object();
+
+	   if (url.indexOf("?") != -1) {
+
+	      var str = url.substr(1);
+
+	      strs = str.split("&");
+
+	      for(var i = 0; i < strs.length; i ++) {
+
+	         theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+
+	      }
+
+	   }
+
+	   return theRequest;
+
+	}
+	
+	function back(){
+		window.location.replace("iem_main.html");
+	}
+
+
+	
+	function getIdPay(){
+		var paras = location.search;
+		var result = paras.match(/([^\?&]*=[^&]*)/g);
+		var temp;
+		paras = {};
+		for(var i in result){
+		    temp = result[i].split('=');
+		    paras[temp[0]] = temp[1];
+		}
+		return paras.idPay;
+	}
+	
+</script>
+</div></div></body></html>

@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>人脸识别</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" >
+		<link rel="stylesheet" href="./statics/plugins/bootstrap/css/bootstrap.css" />
+		<link rel="stylesheet" href="./statics/css/faceIdentify.css" />
+		<link rel="stylesheet" href="./statics/css/common.css" />
+		<link rel="stylesheet" href="./statics/css/enterPIN.css" />
+	</head>
+	<style>
+	/* 刷脸成功 确认订单*/
+		.cancel-order{
+			position:absolute;
+			float:right;
+			right:0px;
+			text-align:center;
+			width:180px;
+			height:45px;
+			line-height:45px;
+			border-radius:50px;
+			cursor:pointer;
+		}
+		/*蒙版*/
+		.mask{
+			width: 100%;
+			height: 100%;
+			background: rgba(0,0,0,0.6);
+			position: fixed;
+			left: 0;
+			top: 0;
+			display:none;
+		}
+		.mask1{
+			width:400px;
+			height:70px;
+			line-height:70px;
+			position: absolute;
+			left:50%;
+			top:50%;
+			margin-left:-150px;
+			background: #ffffff;
+			text-align:center;
+			border-radius:6px;
+			
+		}
+
+		/*身份验证中*/
+		.main img{
+			position: relative;
+			right:50px;
+		}
+
+		/*支付成功*/
+		.main{
+			height:100%;
+			top:0%;
+		}
+		.text-group{
+			margin-top:26px;	
+		}
+		.text-group .item2{
+			margin-top:12px;
+		}
+		.item-btn{
+			width:427px;
+			background: #FBFBFB;
+			border: 1px solid #979797;
+			border-radius: 50px;
+			margin:0 auto;
+			margin-top: 20px;
+			display:flex;
+			align-items:center;
+			justify-content:space-between;
+		}
+		.item-btn .user-name{
+			font-family: PingFangSC-Regular;
+			font-size: 32px;
+			color: #666666;
+			letter-spacing: 0;
+		}
+		.item-btn .user-image{
+			width:100px;
+			height:100px;
+			border-radius:50px;
+			border: 1px solid #979797;
+			position:relative;
+			top:-1px;
+			left:-1px;
+		}
+		.item-btn .level-image{
+			height:40px;
+			width:150px;
+		}
+
+        /*身份认证失败*/
+		.text-group .item2{
+			margin-bottom:10px;
+			height:121px;
+		}
+		.table-infor tr{
+			text-align:left
+		}
+
+			
+	</style>
+	<body>
+		<!-- 刷脸支付 -->
+		<div class="container showHidden1" style="display: block">
+			<div class="top">
+				<span></span>
+				<div>刷脸支付</div>
+			</div>
+			<div class="center">
+				<div class="renxiang"></div>
+				<div class="main">
+					<div class="strong-text"><p>请目视前方摄像头</p></div>
+					<div class="simple-text"><p>请将面部置于摄像头轮廓正确位置，去除帽子，口罩，墨镜等遮挡面部的物品</p></div>
+					<div class="camera-box">
+						<div class="inner">
+						</div>
+						<img src="./statics/images/camera-line.png" class="camera-line img-responsive" alt="" />
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 刷脸成功 确认订单 -->
+		<div class="container showHidden2" style="display: none">
+			<div class="top" style="width: 95%;">
+				<span></span>
+				<div>刷脸支付</div>
+				<div class="cancel-order">取消订单</div>
+			</div>
+			<div class="center">
+				<div class="pull-left outer-l">				
+					<div class="photo">
+						<img class="" src="" alt="头像" />
+					</div>
+					<p>您好!</p>
+					<div class="operate">
+						<div class="btn1 again">重新拍照</div>
+					</div>
+				</div>
+				<div class="pull-right outer-r">
+					<!-- <div class="info-text">请输入 <span>手机号后四位</span> 完成订单</div> -->
+					<div class="info-text">请输入11位手机号完成订单</div>
+					<div class="inner-r"> 
+						<div class="row" style="margin: 0 0% 15px 0%">
+							<div class="col-md-12 phone-number">
+							</div>
+							<!--<div class="col-md-3 box"><button class="btn btn-default" value=""></button></div>
+							<div class="col-md-3 box"><button class="btn btn-default" value=""></button></div>
+							<div class="col-md-3 box"><button class="btn btn-default" value=""></button></div>
+							<div class="col-md-3 box"><button class="btn btn-default" value=""></button></div> -->
+						</div>
+						<div class="row" style="">
+							<div class="col-md-4 num"><button class="btn btn-default" value="1">1</button></div>
+							<div class="col-md-4 num"><button class="btn btn-default" value="2">2</button></div>
+							<div class="col-md-4 num"><button class="btn btn-default" value="3">3</button></div>
+						</div>
+						<div class="row" style="">
+							<div class="col-md-4 num"><button class="btn btn-default" value="4">4</button></div>
+							<div class="col-md-4 num"><button class="btn btn-default" value="5">5</button></div>
+							<div class="col-md-4 num"><button class="btn btn-default" value="6">6</button></div>
+						</div>
+						<div class="row" style="">
+							<div class="col-md-4 num"><button class="btn btn-default" value="7">7</button></div>
+							<div class="col-md-4 num"><button class="btn btn-default" value="8">8</button></div>
+							<div class="col-md-4 num"><button class="btn btn-default" value="9">9</button></div>
+						</div>
+						<div class="row" style="">
+							<div class="col-md-8 cancel"><div></div></div>
+							<div class="col-md-4 num"><button class="btn btn-default" value="0">0</button></div>
+						</div>
+					</div>
+					<div class="operate">
+						<div class="btn1 sure">确定</div>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+		
+		<div class="mask">
+			<span class="mask1">
+			  请填写完整手机11位号码
+			</span>
+		 </div>
+
+         <!-- 身份验证中 -->
+		 <div class="container showHidden3" style="display: none">
+			<div class="top">
+				<span></span>
+				<div>刷脸支付</div>
+			</div>
+			<div class="center">
+				<div class="main">
+					<img src="./statics/images/yzz.png" class="img-responsive image" style="width:69%;" alt="" />		
+					<div class="text-group">
+						<div class="item1"><span class="user-name">身份验证中</span></div>
+						<div class="item2">系统正在对您的订单进行验证,请稍后...</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 支付成功 -->
+		<div class="container showHidden4" style="display: none">
+			<div class="top">
+				<span></span>
+				<div>刷脸支付</div>
+			</div>
+			<div class="center">
+				<div class="main">
+					<img src="./statics/images/ddcg.png" class="img-responsive image" style="width:41%" alt="" />			
+					<div class="text-group">
+						<div class="item1"><span class="">支付成功</span></div>
+						<div class='item-btn'>
+							<img class="img-responsive user-image" src=""/>
+							<span class='user-name'></span>
+							<img class="img-responsive level-image" src=""/>
+						</div>
+						<div class="item2"><!-- 本订单为您节省¥ <span class='change'>0.50</span> ， -->商品正在出货中，请耐心等待</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+        <!--  钱包扣款失败 -->
+        <div class="container showHidden5" style="display: none">
+			<div class="top">
+				<span></span>
+				<div>刷脸支付</div>
+			</div>
+			<div class="center">
+				<div class="main">
+					<img src="./statics/images/kksb.png" class="img-responsive image" style="width:41%;" alt="" />			
+					<div class="text-group">
+						<div class="item1"><span class="user-name">壹钱包扣款失败</span></div>
+						<div class="item2">请确认您已注册壹钱包并绑定UM账号！</div>
+					</div>
+					
+					<div class="operate">
+						<div class="btn1" style="cursor: pointer;" onclick="goBack()">
+							取消<span id="time2">(3)</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+        <!-- 钱包余额不足 -->
+        <div class="container showHidden6" style="display: none">
+			<div class="top">
+				<span></span>
+				<div>刷脸支付</div>
+			</div>
+			<div class="center">
+				<div class="main">
+					<img src="./statics/images/yebz.png" class="img-responsive image" style="width:50%" alt="" />			
+					<div class="text-group">
+						<div class="item1"><span class="user-name">壹钱包余额不足</span></div>
+						<div class="item2">由于账户余额不足，请选择其他方式支付！</div>
+					</div>
+					
+					<div class="operate">
+						<div class="btn1" style="cursor: pointer;" onclick="goBack()">
+							返回
+							<span id="time1">(3)</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 身份认证失败 -->
+	    <div class="container showHidden7" style="display: none">
+			<div class="top">
+				<span></span>
+				<div>刷脸支付</div>
+			</div>
+			<div class="center">
+				<div class="main">
+					<img src="./statics/images/rzsb.png" class="img-responsive image" style="width:53%;" alt="" />				
+					<div class="text-group">
+						<div class="item1"><span class="user-name">身份认证失败，请确认</span></div>
+						<div class="item2">							
+							<table class="table-infor" cellpadding="0" cellspacing="0" align="center">
+							    <tr>
+							        <td>1、面部是否置于摄像头轮廓正确位置</td>
+							    </tr>
+							    <tr>
+							        <td>2、您输入的手机号是否注册壹钱包</td>
+							    </tr>
+							</table>
+						</div>
+					</div>
+					<div class="operate">
+						<div class="btn1" style="cursor: pointer;" onclick="goBack()">
+								取消<span id="time0">(3)</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+        
+	    
+		<script src="./statics/libs/jquery-1.10.2.min.js"></script>
+		<script src="./statics/plugins/bootstrap/js/bootstrap.js"></script>
+		
+		<script type="text/javascript">   
+			//获取用户头像
+			var headerPic;
+			$(function () {
+				getPic();
+			});
+
+			function getPic() {
+						var result = appClient.userPhotoCapture("from js qq");
+						console.log("from java userPhotoCapture:"+result);
+						//$('.showHidden1').show();
+                       // headerPic = res.imageCode
+                       // $('.photo img').attr('src',"data:image/png;base64" + res.imageCode);
+                        //setTimeout(function () {
+                        //	$('.showHidden1').hide();
+                        //	$('.showHidden2').show()
+                        //  },2000)
+
+			};
+
+			function getPicCallback(base64,resultFlag){
+			// resultFlag == Y  // N
+ 			// $('.photo img').attr('src',"data:image/png;base64" + res.imageCode);
+				console.log("from java "+base64+" -- "+resultFlag);
+				$('.showHidden1').hide();
+                $('.showHidden2').show()
+
+
+			}
+
+			//刷脸成功 确认订单
+			var phoneNumber = '',_phoneNumber = '';
+			$('.num button').on('click',function(e){
+				var target = e.target;
+				var value,html,len;
+			
+				value = $(target).val();
+				len = _phoneNumber.length;
+				
+				if(len == 11){
+					return;
+				}
+				
+				if(len > 2 && len < 7){
+					_phoneNumber+= "*";
+					phoneNumber+= value;
+				}else{
+					_phoneNumber+= value;
+					phoneNumber+= value;
+				}
+				$('.phone-number').html(_phoneNumber);
+			})
+			//取消订单
+			$('.cancel').on('click',function(e){
+				var len = _phoneNumber.length;
+				if(len == 0){
+					return
+				}
+				_phoneNumber = _phoneNumber.slice(0,len-1);
+				phoneNumber = phoneNumber.slice(0,len-1);
+				$('.phone-number').html(_phoneNumber);
+			})
+
+			//重新拍摄
+			$('.again').on('click',function(e){
+				$('.showHidden2').hide();
+				$('.showHidden1').show();
+				var result = appClient.userPhotoCapture("from js qq");
+				console.log("from java faceRecognition"+result);
+
+				setTimeout(function(){
+					$('.showHidden1').hide();
+					$('.showHidden2').show()
+				},3000)
+
+
+			})
+
+			//确认订单
+			$('.sure').on('click',function(e){
+				if(phoneNumber.length == 11){
+					$('.showHidden2').hide();
+					$('.showHidden3').show();
+					var resultStr = appClient.confirmPay(phoneNumber);
+					var res = resultStr.split("_");
+						console.log("from java confirmPay "+res[0]);
+						var result = res[0];
+							if(result==="0000"){
+								// 验证成功
+								$('.showHidden3').hide();
+								$('.showHidden4').show();
+								paySuccess(res[1],res[2]);
+							}else if(result==="9000"){
+								// 验证失败
+                                $('.showHidden3').hide();
+								$('.showHidden7').show();
+								state(0);
+							}else if(result==="9001"){
+								// 验证失败
+                                $('.showHidden3').hide();
+								$('.showHidden7').show();
+								state(0);
+							}else if(result==="9002"){
+								// 验证失败
+                                $('.showHidden3').hide();
+								$('.showHidden7').show();
+								state(0);
+							}else if(result==="9006"){
+								// 余额不足
+                                $('.showHidden3').hide();
+								$('.showHidden6').show();
+								state(1);
+							}else{
+								// 其他失败
+								$('.showHidden3').hide();
+								$('.showHidden5').show();
+								state(2);
+							}
+
+					
+				}else{
+					$('.mask').css("display","block")
+					setTimeout(function(){
+					  $('.mask').css("display","none")
+					},1000)
+				}
+			});
+			
+			$(".cancel-order").on('click',function(){
+				window.location.href = "vertical_main.html";
+			})
+
+			// 验证成功回调
+			function paySuccess(userName,userLevel){
+                $('.user-name').html(userName);
+				if(userLevel){
+					var src;
+					if(userLevel == 1){
+						src = './statics/images/user_level1.png'
+					}else if(userLevel == 2){
+						src = './statics/images/user_level2.png'
+					}else if(userLevel == 3){
+						src = './statics/images/user_level3.png'
+					}else if(userLevel == 4){
+						src = './statics/images/user_level4.png'
+					}else if(userLevel == 5){
+						src = './statics/images/user_level5.png'
+					}
+				};
+				
+				$('.level-image').attr('src',src); 
+				$('.user-image').attr('src',"data:image/png;base64," + headerPic)
+			};
+
+			// 失败回调
+			var i=0;
+			function state(a){
+				i=3;
+				if(a==0){
+					after0();
+				}else if(a==1){
+					after1();
+				}else if(a==2){
+					after2();
+				};
+
+				setTimeout(function () {
+					window.location.href = "vertical_main.html"
+				},3000)
+			};
+
+			// 自动刷新页面上的时间
+			function after0() {
+				$("#time0").empty().append("("+i+")");
+				i=i-1;
+				setTimeout(function () {
+					after0();
+				},1000)
+			};
+			function after1() {
+				$("#time1").empty().append("("+i+")");
+				i=i-1;
+				setTimeout(function () {
+					after1();
+				},1000)
+			};
+			function after2() {
+				$("#time2").empty().append("("+i+")");
+				i=i-1;
+				setTimeout(function () {
+					after2();
+				},1000)
+			};
+
+			// 返回初始页
+			function goBack() {
+				window.location.href="vertical_main.html"
+			}
+				
+	    </script>
+    
+	</body>
+
+</html>

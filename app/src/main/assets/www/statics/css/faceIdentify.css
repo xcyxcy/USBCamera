@@ -1,0 +1,213 @@
+@font-face {
+	font-family:"PingFangSC-Regular";
+	src: url("../fonts/PingFang.ttf");
+}
+
+html,body{
+	width:100%;
+	height:100%;
+	font-size: 36px;
+	font-family: "PingFangSC-Regular";
+}
+
+.container{
+	width:100%;
+	height:100%;
+	padding:0px;
+	/*background: rgba(126,119,158,0.20);*/
+	background-image: url('../images/background.png');
+	background-size: 100% 100%;
+	position:relative;
+}
+.top{
+	width:50%;
+	height:50px;
+	line-height: 50px;
+	margin-left:50px;
+	margin-top:50px;
+}
+.top span{
+	display: inline-block;
+	height:30px;
+	border-left:4px solid #FF8E52;
+	margin-right:30px;
+}
+.top div{
+	display: inline-block;
+	font-size: 36px;
+	color: #FF8E52;
+	letter-spacing: 0;
+	position: relative;
+	bottom:3px;
+}
+.center{
+	width:100%;
+	height:calc(100% - 100px);
+	position: relative;
+
+}
+.center:after{
+	content: "";
+	display: table;
+	clear: both;	
+}
+.renxiang{
+	position: absolute;
+	top:0;
+	bottom:0;
+	left:0;
+	right:0;
+	background-image: url('../images/rx.png');
+	background-repeat: no-repeat;
+	background-size: 37% 84%;
+	background-position: bottom;
+	z-index: -100;
+}
+.main{
+	width:80%;
+	height:80%;
+	position: absolute;
+	top:1%;
+	left:10%;
+	text-align: center;
+}
+/*.main img{
+	position:relative;
+	right:36px;
+}*/
+.strong-text p{
+	font-family: PingFangSC-Regular;
+	font-size: 36px;
+	color: #FF8E52;
+	letter-spacing: 0;
+}
+.simple-text p{
+	font-family: PingFangSC-Regular;
+	font-size: 30px;
+	color: #999999;
+	letter-spacing: 0;
+}
+.camera-box{
+	margin:0 auto;
+	margin-top:39px;
+	padding:1px;
+	position:relative;
+	width:643px;
+	height:483px;
+	
+	background-image:url(../images/smk.png);
+	background-size: 100% 100%;
+    background-repeat:no-repeat;
+}
+
+.inner{
+	width:50%;
+	height:71%;
+	position: absolute;
+	top:10%;
+	left:25%;
+}
+.camera-line{
+	width:80%;
+	height:4px;
+	margin-left:10%;
+	position: absolute;
+	top:0;
+	
+	animation-name: scan;
+	animation-duration: 4s;
+	animation-timing-function: linear;
+	animation-delay: 1s;
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
+	animation-play-state: running;
+	/* Firefox: */
+	-moz-animation-name: scan;
+	-moz-animation-duration: 4s;
+	-moz-animation-timing-function: linear;
+	-moz-animation-delay: 1s;
+	-moz-animation-iteration-count: infinite;
+	-moz-animation-direction: alternate;
+	-moz-animation-play-state: running;
+	/* Safari 和 Chrome: */
+	-webkit-animation-name: scan;
+	-webkit-animation-duration: 4s;
+	-webkit-animation-timing-function: linear;
+	-webkit-animation-delay: 1s;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-direction: alternate;
+	-webkit-animation-play-state: running;
+	/* Opera: */
+	-o-animation-name: scan;
+	-o-animation-duration: 4s;
+	-o-animation-timing-function: linear;
+	-o-animation-delay: 1s;
+	-o-animation-iteration-count: infinite;
+	-o-animation-direction: alternate;
+	-o-animation-play-state: running;
+}
+@keyframes scan{
+	0% {top:0}
+	100% {top:calc(100% - 4px)}
+	0% {top:0}
+}
+@-webkit-keyframes scan{
+	0% {top:0}
+	100% {top:calc(100% - 4px)}
+	0% {top:0}
+}
+@-moz-keyframes scan{
+	0% {top:0}
+	100% {top:calc(100% - 4px)}
+	0% {top:0}
+}
+
+
+@media screen and (max-width: 1650px){/* 可视区域小于 850px, 设置更小font-size属性 */
+   .top div,.strong-text p{
+     font-size:32px;
+   }
+   .simple-text p{
+   	font-size:26px;
+   }
+   .top span{
+   	height:27px;
+   }   
+}
+
+
+@media screen and (max-width: 1250px){/* 可视区域小于 850px, 设置更小font-size属性 */
+   .top div,.strong-text p{
+     font-size:24px;
+   }
+   .simple-text p{
+   	font-size:20px;
+   }
+   .top span{
+   	height:27px;
+   }
+ 
+}
+@media screen and (max-width: 850px){/* 可视区域小于 850px, 设置更小font-size属性 */
+   .top div,.strong-text p{
+     font-size:18px;
+   }
+   .simple-text p{
+   	font-size:14px;
+   }
+   .top span{
+   	height:24px;
+   }
+   
+}
+@media screen and (max-width: 450px){/* 可视区域小于 850px, 设置更小font-size属性 */
+   .top div,.strong-text p{
+     font-size:14px;
+   }
+   .simple-text p{
+   	font-size:12px;
+   }
+   .top span{
+   	height:21px;
+   }
+}

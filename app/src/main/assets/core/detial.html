@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+<!-- saved from url=(0061)https://iem-vmms-dmzstg.pingan.com:10798/iem-vmms/detial.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+		<title></title>
+	    <!-- <link rel="stylesheet" href="statics/css/bootstrap.min.css"> -->
+		<link rel="stylesheet" href="./detial_files/bootstrap.min.css">
+
+		<!-- <link rel="stylesheet" href="statics/css/searchTest.css" /> -->
+
+		<!-- <link rel="stylesheet" type="text/css" href="statics/plugins/bootstrap-table/bootstrap-table.css" /> -->
+		<link rel="stylesheet" href="./detial_files/bootstrap-table.css">
+
+		<!-- <script src="statics/libs/jquery.min.js"></script> -->
+		<script src="./detial_files/jquery.min.js"></script>
+
+		<!-- <script src="statics/libs/bootstrap.min.js"></script> -->
+		<script src="./detial_files/bootstrap.min.js"></script>
+
+		<!-- <script src="statics/plugins/layer/layer.js"></script> -->
+		<script src="./detial_files/layer.js"></script><link rel="stylesheet" href="./detial_files/layer.css" id="layui_layer_skinlayercss" style="">
+
+      
+		<!-- <script src="statics/plugins/bootstrap-table/bootstrap-table.js"></script> -->
+		<script src="./detial_files/bootstrap-table.js"></script>
+		<!-- js/detial.j -->
+		<script>
+			var localhostPath = null;
+			$(function() {
+				/*获取当前网址*/
+				function getRootPath_web() {
+					// 获取当前网址，如： https://localhost:1443/iem-core/iem_main.html
+					var curWwwPath = window.document.location.href;
+					// 获取主机地址之后的目录，如： iem-core/iem_main.html
+					var pathName = window.document.location.pathname;
+					var pos = curWwwPath.indexOf(pathName);
+					// 获取主机地址，如： https://localhost:1443
+					var localhostPath = curWwwPath.substring(0, pos);
+					// 获取带"/"的项目名，如：/iem-core
+					var projectName = pathName
+						.substring(0, pathName.substr(1).indexOf('/') + 1);
+					return(localhostPath + "/");
+				}
+				localhostPath = getRootPath_web();
+
+				var Request = GetRequest();
+				var isVip = Request['isMember'];
+				var userId = Request['userId'];
+				var mark = Request['mark'];
+				var merchantInfoId = Request['merchantInfoId'];
+				eid = userId;
+				if(isVip == 0) {
+					$(".userVip").css("display", "none");
+					$(".usernoVip").css("display", "block");
+					$("#recharge").css("display", "none");
+					$("#rechargeDetial").css("display", "none");
+					$(".userNameInfo").css("background", "#ff7e68  url(img/search-images/ordinary-bg@1x.png) no-repeat");
+					$(".userNameInfo").css("background-size", "100% 100%");
+				} else {
+					$(".userVip").css("display", "block");
+					$(".usernoVip").css("display", "none");
+					$("#recharge").css("display", "block");
+					$("#rechargeDetial").css("display", "block");
+				}
+
+				$(".backBtn").click(function() {
+					location.href = "searchTest.html"
+				})
+
+				var datas = [];
+				var memberRechargeListDatas = [];
+				var url = "searchInfo/queryConsumerInfo/" + userId;
+				$.ajax({
+					type: "POST",
+					url: url,
+					async: false,
+					success: function(r) {
+						r = typeof r == 'string' ? JSON.parse(r) : r;
+						$("#account").html(r.memberInfoEntity.accountBalance);
+						datas = r.consumeRecordList;
+						if(r.memberInfoEntity.memberRechargeList != null) {
+							memberRechargeListDatas = r.memberInfoEntity.memberRechargeList;
+						}
+						$("#userName").html(r.deviceInfoEntity.name);
+						$("#umNum").html(r.deviceInfoEntity.nickname);
+						demo();
+						demo1();
+					}
+				});
+
+				function queryConsumeDetail(idpay) {
+					$('#consumeBackBtn').show();
+					var url = "searchInfo/queryConsumeDetail/" + idpay;
+					$.ajax({
+						type: "GET",
+						url: url,
+						async: false,
+						success: function(r) {
+							if(typeof r == "string") {
+								r = JSON.parse(r)
+							}
+							if(r.code == 0) {
+								var tr = "";
+								for(var i = 0; i < r.commodityInfoList.length; i++) {
+
+									tr += '<div class="order-cell bt-cell">';
+
+									tr += '<div class="order-name"><p class="order-title"><span>商品名称</span></p><p class="order-msg wrap">' + r.commodityInfoList[i].commodityName + '</p></div>';
+
+									tr += '<div class="order-unitprice"><p class="order-title"><span>商品单价</span></p><p id="account" class="order-price wrap">' + r.commodityInfoList[i].productPrice + '</p></div>';
+
+									tr += '<div class="order-num"><p class="order-title"><span>商品数量</span></p><div class="wrap"><span id="num">' + r.commodityInfoList[i].orderNum + '</div></div>';
+
+									tr += '<div class="order-unitprice"><p class="order-title"><span>商品总价</span></p><p id="amount" class="order-price wrap">' + r.commodityInfoList[i].productPriceSum + '</p></div>';
+
+									tr += '</div>';
+
+									$("#consumerContent").empty().html(tr);
+								}
+								$('#consumerModalLabel').html("商品明细");
+								$('#consumeInfoModal').modal('show');
+							} else {
+								layer.msg(r.message, {
+									time: 4000
+								});
+							}
+						}
+					});
+				}
+
+				function demo() {
+					$('#consumeRecordList').bootstrapTable({
+						method: 'get',
+						pagination: true,
+						paginationLoop: false,
+						pageSize: 10,
+						pageNumber: 1,
+						pageList: [10],
+						paginationPreText: '上一页',
+						paginationNextText: '下一页',
+						sidePagination: 'client',
+						columns: [{
+								field: "payTime",
+								title: "消费时间",
+								align: "left",
+								valign: "middle",
+								sortable: true
+							},
+							{
+								field: "umId",
+								title: "UM账号",
+								align: "left",
+								valign: "middle",
+								sortable: false
+							},
+							{
+								field: "consumeNum",
+								title: "商品数量",
+								align: "right",
+								valign: "middle",
+								sortable: true
+							},
+							{
+								field: "consumeSum",
+								title: "订单总价",
+								align: "right",
+								valign: "middle",
+								sortable: true
+							},
+							{
+								field: "more",
+								title: "详情",
+								align: "center",
+								valign: "middle",
+								sortable: false,
+								formatter: function() {
+									var h = '<span class="view-detail">' + " 点击查看详情" + '</span>';
+									return h;
+								}
+							}, {
+								field: "refund",
+								title: "退货",
+								align: "center",
+								valign: "middle",
+								sortable: false,
+								formatter: function(value, options, row) {
+									var day = getDayString(options.minusWeekend);
+									if(day > 14 || (options.payWay != '0' && options.payWay != '-1')) {
+										return '<span>' + " " + '</span>';
+									} else {
+
+										if(options.status == '1') {
+											return '<span>' + "审核中" + '</span>';
+										} else if(options.status == '2' || options.status == '3') {
+											return '<span>' + "已退货" + '</span>';
+										}
+										var h = '<span class="view-detail">' + " 退货" + '</span>';
+										return h;
+									}
+								}
+							},
+							{
+								field: "idPay",
+								title: "123",
+								align: "center",
+								valign: "middle",
+								sortable: "true",
+								visible: false
+							},
+						],
+						data: datas,
+					});
+				}
+
+				function getDayString(minusday) {
+					if(!minusday){
+						return 9999;
+					}
+					if(minusday.indexOf("days") > 0) {
+						var daySplit = minusday.split("days");
+						if(daySplit.length > 1 && daySplit[1]) {
+							return parseInt(daySplit[0]) + 1;
+						} else {
+							return parseInt(daySplit[0]);
+						}
+					} else {
+						return 1;
+					}
+
+				}
+				$('#consumeRecordList').on('click-row.bs.table', function(item, $element, field) {
+					var day = getDayString($element.minusWeekend);
+					if(field.context.cellIndex == 5 && $element.status != '1' && $element.status != '2' && $element.status != '3' && day <= 14 && ($element.payWay == '0' || $element.payWay == '-1')) {
+
+						refund($element.idPay);
+
+					} else {
+						queryConsumeDetail($element.idPay);
+					}
+
+				})
+
+				function demo1() {
+					$('#memberRechargeList').bootstrapTable({
+						method: 'get',
+						pagination: true,
+						paginationLoop: false,
+						undefinedText: "- -", //当数据为 undefined 时显示的字符
+						pageSize: 10,
+						pageNumber: 1,
+						pageList: [10],
+						paginationPreText: '上一页',
+						paginationNextText: '下一页',
+						sidePagination: 'client',
+						columns: [{
+								field: "payTime",
+								title: "充值时间",
+								align: "left",
+								valign: "middle",
+								sortable: true
+							},
+							{
+								field: "balance",
+								title: "充值前余额",
+								align: "right",
+								valign: "middle",
+								sortable: true
+							},
+							{
+								field: "price",
+								title: "充值金额",
+								align: "right",
+								valign: "middle",
+								sortable: true
+							},
+							{
+								field: "referBalance",
+								title: "本次充值后余额",
+								align: "right",
+								valign: "middle",
+								sortable: true
+							},
+							{
+								field: "eventDesc",
+								title: "充值活动",
+								align: "center",
+								valign: "middle",
+								sortable: false,
+								formatter: function(e) {
+									if(e == '无') {
+										return null;
+									} else {
+										return e;
+									}
+								}
+							},
+						],
+						data: memberRechargeListDatas,
+					});
+				}
+
+				var emotionData = "userId=" + userId + "&mark=" + mark;
+				//获取推荐商品
+				$.ajax({
+					type: "POST",
+					url: "shopbuy/recommendEmotionCommodity",
+					async: true,
+					data: emotionData,
+					success: function(r) {
+						var result = JSON.parse(r);
+
+						$("#emotionpg").attr("src", result.emotion.image);
+
+						var emotiontexthtml = "<p>";
+						emotiontexthtml += "<font>" + result.emotion.remark + "</br>";
+						emotiontexthtml += "要不要来点</br>";
+						emotiontexthtml += "喜欢的零食</font>";
+						emotiontexthtml += "</p>"
+						$(".emotiontext").empty().html(emotiontexthtml);
+
+						var html = "";
+						for(var i in result.commodities) {
+							//html+="<a href='inventoryList.html?result="+result.commodities[i].commodityname+"'  style='FONT-WEIGHT:bold;COLOR:red'>&gt;&gt;"+result.commodities[i].commodityname+"<\/a><br><br>"
+							//var commCNName = result.commodities[i].commodityName.replace(/[^\u4e00-\u9fa5]/gi,"");
+							html += "<ul>"
+							html += "<li>"
+							html += "<img src='" + localhostPath + result.commodities[i].image + "'>"
+							html += "</li>"
+							html += "<li>"
+							//html+="<p class='commodityname'><a href='inventoryList.html?result="+result.commodities[i].commodityName+"&fromRecommend=recommend&barCode="+result.commodities[i].barCode+"'><font>"+result.commodities[i].commodityName+"</font></a></p>"
+							html += "<p class='commodityname'><a style=\"cursor:pointer;\" onclick='getCommodity(\"" + result.commodities[i].commodityName + "\",\"" + result.commodities[i].barCode + "\",\"" + result.commodities[i].inventorySum + "\",\"" + result.commodities[i].rackName + "\",\"" + result.commodities[i].salePrice + "\")'><font>" + result.commodities[i].commodityName + "</font></a></p>"
+							html += "</li>"
+							html += "<li >"
+							html += "<p class='commdotyprice' style='margin-top: 0px'><font> ¥ " + result.commodities[i].salePrice + "</font></p>"
+							html += "</li>"
+							html += "</ul>"
+						}
+						$(".commodity").empty().html(html);
+						$("#recommend").show();
+					}
+				});
+			})
+			var eid;
+
+			function GetRequest() {
+				var url = location.search; //获取url中"?"符后的字串 
+				var theRequest = new Object();
+				if(url.indexOf("?") != -1) {
+					var str = url.substr(1);
+					strs = str.split("&");
+					for(var i = 0; i < strs.length; i++) {
+						theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+					}
+				}
+				return theRequest;
+			}
+
+			function getCommodity(commodityName, barCode, inventorySum, rackName, salePrice) {
+				$('#consumeBackBtn').show();
+
+				var tr = "";
+				tr += '<div class="order-cell bt-cell">';
+				tr += '<div class="order-name"><p class="order-title"><span>商品编号</span></p><p class="order-msg wrap">' + barCode + '</p></div>';
+
+				tr += '<div class="order-name"><p class="order-title"><span>商品名称</span></p><p class="order-msg wrap">' + commodityName + '</p></div>';
+
+				tr += '<div class="order-name"><p class="order-title"><span>售价</span></p><p class="order-price wrap">' + salePrice + '</p></div>';
+
+				tr += '<div class="order-name"><p class="order-title"><span>库存</span></p><p class="order-msg wrap">' + inventorySum + '</p></div>';
+
+				tr += '<div class="order-name"><p class="order-title"><span>货架信息</span></p><p class="order-msg wrap">' + rackName + '</p></div>';
+
+				tr += '</div>';
+
+				$("#consumerContent").empty().html(tr);
+
+				$('#consumerModalLabel').html("商品信息");
+				$('#consumeInfoModal').modal('show');
+
+			}
+
+			//退货
+			function refund(idpay) {
+				$("#refundmodal").modal("show");
+				$("#refundidpay").val(idpay);
+			}
+
+			var refundFlag = true;
+			//退货商品
+			function refundsubmit() {
+				var idpay = $("#refundidpay").val();
+				var refund = {};
+				refund.idpay = idpay;
+				refund.eid = eid;
+				refund.refundReason = $("#refundreason").val();
+				if(refundFlag) {
+					refundFlag = false;
+					$.ajax({
+						type: "POST",
+						url: "searchInfo/refundsubmit",
+						async: true,
+						dataType: 'json',
+						contentType: 'application/json;charset=UTF-8',
+						data: JSON.stringify(refund),
+						success: function(r) {
+							$("#refundmodal").modal("hide");
+							$("#resultmodal").modal("show");
+							window.location.reload();
+						}
+					});
+				}
+
+			}
+		</script>
+
+		<style type="text/css">
+            /*statics/css/searchTest.css*/
+			.nav-tabs {
+				border-bottom: 1px solid #F4F4F4;
+				margin-bottom: 30px;
+			}
+
+			.nav>li>a {
+				font-size: 16px;
+				color: #9B9B9B;
+			}
+
+			.nav-tabs>li.active>a,
+			.nav-tabs>li.active>a:focus,
+			.nav-tabs>li.active>a:hover {
+				background-color: transparent;
+				border: none;
+				border-bottom: 2px solid #FF965E;
+				font-size: 16px;
+				color: #FF965E;
+			}
+
+			button:focus {
+				outline: none;
+			}
+
+
+			/* 查询终端样式开始 */
+
+
+			/* 主页面样式 */
+
+			body {
+				background-color: #f5f6f7;
+				font-family: "microsoft yahei";
+				position: relative;
+			}
+
+			.search-logo {
+				margin: 45px 0 0 30px;
+				width: 140px;
+				height: 42px;
+			}
+
+			.mainTitle {
+				margin-top: 120px;
+				text-align: center;
+				font-size: 35px;
+				color: #FFF;
+				margin-bottom: 0;
+			}
+
+			.sub-title {
+				text-align: center;
+				opacity: 0.8;
+				font-size: 16px;
+				color: #FFF;
+			}
+
+			.mainBox {
+				padding: 50px;
+			}
+
+			.queryInventoryBtn {
+				height: 440px;
+				width: 32%;
+				background: #FFFFFF;
+				box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.15);
+				border-radius: 10px;
+				float: left;
+				margin-right: 2%;
+				cursor: pointer;
+			}
+
+			.queryBalanceBtn {
+				height: 440px;
+				width: 32%;
+				background: #FFFFFF;
+				box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.15);
+				border-radius: 10px;
+				float: left;
+				margin-right: 2%;
+				cursor: pointer;
+			}
+
+			.moreBtn {
+				height: 440px;
+				width: 32%;
+				background: #FFFFFF;
+				box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.15);
+				border-radius: 10px;
+				float: left;
+				cursor: pointer;
+			}
+
+			.queryImg {
+				width: 280px;
+				height: 180px;
+				margin: 0 auto;
+				margin-top: 30px;
+			}
+
+			.p1 {
+				margin-top: 20px;
+				text-align: center;
+				font-size: 22px;
+				color: #FF965E;
+			}
+
+			.p2 {
+				margin-top: 20px;
+				text-align: center;
+				font-size: 17px;
+				color: #959595;
+				line-height: 28px;
+			}
+
+			.p3 {
+				text-align: center;
+				font-family: PingFangSC-Regular;
+				font-size: 10px;
+				color: #959595;
+				letter-spacing: 0;
+				line-height: 28px;
+			}
+
+
+			/*查询库存样式*/
+
+			.voiceHeader {
+				background-color: #fff;
+				width: 100%;
+				height: 80px;
+				-webkit-box-shadow: 0 2px 4px 0 #EFF1F3;
+				box-shadow: 0 2px 4px 0 #EFF1F3;
+				position: relative;
+				top: 0;
+				left: 0;
+				z-index: 10;
+			}
+
+			.page-logo {
+				float: left;
+				margin: 23px 0 0 40px;
+			}
+
+			.page-logo img {
+				width: 140px;
+				height: 42px;
+			}
+
+			.back-btn {
+				float: right;
+				background-color: #fff;
+				-webkit-box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.08);
+				box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.08);
+				border-radius: 80px;
+				font-size: 24px;
+				color: #828A9F;
+				padding: 10px 40px;
+				margin-top: 7px;
+				margin-right: 40px;
+			}
+
+			.back-btn img {
+				vertical-align: top;
+				padding-right: 5px;
+			}
+
+			.back-btn:hover,
+			.back-btn:active,
+			.back-btn:focus {
+				color: #727A90;
+			}
+
+			.seatch-center {
+				width: 600px;
+				margin: 0 auto;
+				text-align: center;
+				padding-top: 120px;
+			}
+
+			.seatch-center img {
+				width: 100%;
+			}
+
+			.s-describe {
+				margin-top: 20px;
+			}
+
+			.des-title {
+				font-size: 22px;
+				color: #202020;
+			}
+
+			.explain {
+				font-size: 16px;
+				color: #666666;
+				line-height: 28px;
+				margin-top: 10px;
+			}
+
+			.recording-btn {
+				background-image: -webkit-linear-gradient(-270deg, #FFA857 0%, #FE5F74 100%);
+				background-image: linear-gradient(-270deg, #FFA857 0%, #FE5F74 100%);
+				-webkit-box-shadow: 0 4px 8px 0 rgba(245, 135, 35, 0.28);
+				box-shadow: 0 4px 8px 0 rgba(245, 135, 35, 0.28);
+				-webkit-border-radius: 100px;
+				border-radius: 100px;
+				color: #fff;
+				font-size: 24px;
+				padding: 18px 36px;
+				margin-top: 20px;
+			}
+
+			.recording-btn:hover,
+			.recording-btn:active,
+			.recording-btn:focus {
+				color: #fff;
+			}
+
+			.recording-btn img {
+				display: inline-block;
+				width: 40px;
+				vertical-align: top;
+				padding-right: 5px;
+			}
+
+			.receive-title {
+				background-color: #fff;
+				box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.20);
+				border-radius: 6px;
+				padding: 15px;
+				/*height: 400px;*/
+				width: 600px;
+				padding-bottom: 40px;
+			}
+
+			.receive-list {
+				background-color: #FFFFFF;
+				-webkit-box-shadow: 0 2px 5px 0 rgba(155, 155, 155, 0.15);
+				box-shadow: 0 2px 5px 0 rgba(155, 155, 155, 0.15);
+				border-radius: 4px;
+				padding: 30px;
+				/* 	min-height: 400px; */
+				overflow: auto;
+				margin: 0 auto;
+				display: none;
+			}
+
+			.modal-dialog {
+				margin: 20% auto;
+			}
+
+			.speackTitle {
+				text-align: center;
+				font-size: 30px;
+				color: #3E3E3E;
+				margin-top: 25px;
+			}
+
+			.speackImg {
+				margin-top: 10px;
+			}
+
+			.mes-error {
+				font-size: 35px;
+				color: #4A4A4A;
+				text-align: center;
+			}
+
+			.recording-content {
+				font-size: 45px;
+				color: #333;
+				text-align: center;
+			}
+
+			.btncan {
+				float: left;
+				background-color: #FFFFFF;
+				border: 1px solid #FF965E;
+				border-radius: 100px;
+				text-align: center;
+				font-size: 30px;
+				color: #FF965E;
+				padding: 10px 30px;
+				cursor: pointer;
+				margin-left: 15%;
+			}
+
+			.btncan:hover,
+			.btncan:active,
+			.btncan:focus {
+				color: #FF965E;
+			}
+
+			.btnOkno {
+				background-color: #EEEEEE;
+				border: 1px solid #DDDDDD;
+				border-radius: 100px;
+				text-align: center;
+				display: block;
+				/* float: left; */
+				cursor: pointer;
+				padding: 10px 70px;
+				font-size: 30px;
+				color: #9B9B9B;
+				/* margin-left: 15%; */
+				margin: 0 auto;
+			}
+
+			.btnOk {
+				float: left;
+				text-align: center;
+				border-radius: 100px;
+				background: #FF965E;
+				padding: 10px 70px;
+				font-size: 30px;
+				color: #fff;
+				margin-left: 50px;
+				cursor: pointer;
+				display: none;
+			}
+
+			.btnOk:hover,
+			.btnOk:active,
+			.btnOk:focus {
+				color: #fff;
+			}
+
+			.closeIcon {
+				height: 40px;
+				width: 40px;
+				position: absolute;
+				right: 20px;
+				top: 20px;
+				background: url(img/search-images/close-icon.png) no-repeat;
+				cursor: pointer;
+				background-size: 100% 100%;
+			}
+
+			.receiveInfo {
+				width: 1000px;
+				margin: 0 auto;
+				margin-top: 24px;
+			}
+
+			.receive-words {
+				margin-bottom: 24px;
+				font-size: 20px;
+				color: #4A4A4A;
+			}
+
+			.receive-words>span {
+				font-size: 30px;
+				font-weight: 600;
+			}
+
+			.list-title {
+				font-size: 16px;
+				color: #FF965E;
+				font-weight: 600;
+				border-bottom: 1px solid #F4F4F4;
+				height: 32px;
+				margin-bottom: 30px;
+			}
+
+			.list-title>span {
+				padding-bottom: 10px;
+				border-bottom: 2px solid #FF965E;
+			}
+
+
+			/*账户明细*/
+
+			.userVipInfo {
+				width: 1000px;
+				margin: 50px auto 20px;
+			}
+
+			.userNameInfo {
+				height: 178px;
+				width: 485px;
+				float: left;
+				background: #df8c08 url(img/search-images/vip-bg.png) no-repeat;
+				background-size: 100% 100%;
+				-webkit-border-radius: 4px;
+				border-radius: 4px;
+				-webkit-box-shadow: 0 2px 5px rgba(245, 135, 35, 0.3);
+				box-shadow: 0 2px 5px rgba(245, 135, 35, 0.3);
+			}
+
+			.userVip,
+			.userOther,
+			.usernoVip {
+				height: 178px;
+				width: 485px;
+				float: left;
+				background: #df8c08 url(img/search-images/balance-bg@1x.png) no-repeat;
+				background-size: 100% 100%;
+				margin-left: 30px;
+				-webkit-border-radius: 4px;
+				border-radius: 4px;
+				-webkit-box-shadow: 0 2px 5px rgba(255, 248, 223, 0.8);
+				box-shadow: 0 2px 5px rgba(255, 248, 223, 0.8);
+			}
+
+			.usernoVip {
+				display: none;
+			}
+
+			.account {
+				font-family: PingFang-SC-Bold;
+				font-size: 20px;
+				color: #FFFFFF;
+				letter-spacing: 0;
+				text-align: center;
+			}
+
+			.userImg,
+			.money-pic {
+				margin: 0 auto;
+				margin-top: 43px;
+				width: 43px;
+			}
+
+			.accountBalance {
+				opacity: 0.9;
+				font-size: 12px;
+				color: #FFFFFF;
+				text-align: center;
+				margin-bottom: -2px;
+			}
+
+			.userName {
+				text-align: center;
+				font-family: PingFang-SC-Bold;
+				font-size: 20px;
+				color: #FFFFFF;
+				letter-spacing: 0;
+				line-height: 15px;
+			}
+
+			.umId {
+				text-align: center;
+				font-family: PingFang-SC-Medium;
+				font-size: 12px;
+				color: #000000;
+				letter-spacing: 0;
+				line-height: 15px;
+			}
+
+			.consumerDiv {
+				height: 650px;
+				width: 1000px;
+				margin: 30px auto;
+				padding: 20px 30px;
+				background-color: #fff;
+				box-shadow: 0 2px 5px 0 rgba(155, 155, 155, 0.15);
+				border-radius: 4px;
+			}
+
+			.detialHead {
+				height: 80px;
+				width: 100%;
+				background: #FFFFFF;
+				box-shadow: 0 2px 4px 0 #EFF1F3;
+			}
+
+			.noVipTitle {
+				opacity: 0.9;
+				font-family: PingFang-SC-Medium;
+				font-size: 12px;
+				color: #FFFFFF;
+				letter-spacing: 0;
+				text-align: center;
+			}
+
+			.rechargeBtn {
+				background-image: l-webkit-inear-gradient(0deg, #F6CA62 3%, #FFFFC1 100%);
+				background-image: linear-gradient(0deg, #F6CA62 3%, #FFFFC1 100%);
+				box-shadow: 0 2px 5px 0 rgba(139, 87, 42, 0.30);
+				border-radius: 60px;
+				padding: 10px 40px;
+				display: block;
+				text-align: center;
+				margin: 0 auto;
+				margin-top: 6px;
+				font-size: 16px;
+				color: #865626;
+			}
+
+			.userVipInfo {
+				height: 180px;
+				width: 1000px;
+				margin: 50px auto 20px;
+			}
+
+			.account {
+				font-size: 30px;
+				color: #fff;
+				font-weight: 600;
+				text-align: center;
+			}
+
+			.account .fuhao {
+				font-size: 20px;
+			}
+
+			.userName {
+				text-align: center;
+				font-size: 20px;
+				color: #fff;
+				font-weight: 600;
+			}
+
+			.umId {
+				text-align: center;
+				font-size: 12px;
+				color: #fff;
+			}
+
+			.detialHead {
+				height: 80px;
+				width: 100%;
+				background: #FFFFFF;
+				box-shadow: 0 2px 4px 0 #EFF1F3;
+			}
+
+			.noVipTitle {
+				opacity: 0.9;
+				font-family: PingFang-SC-Medium;
+				font-size: 12px;
+				color: #FFFFFF;
+				letter-spacing: 0;
+				text-align: center;
+			}
+
+			.view-detail {
+				color: #4A90E2;
+				cursor: pointer;
+			}
+
+			.pay-title {
+				font-size: 30px;
+				color: #3E3E3E;
+				margin-top: 42px;
+			}
+
+
+			/* 订单列表开始 */
+
+			.order-cell {
+				width: 100%;
+				padding: 15px 35px;
+				margin-bottom: 20px;
+				text-align: center;
+				display: flex;
+				justify-content: space-between;
+				background-color: #FFFFFF;
+			}
+
+			.wrap {
+				height: 35px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				margin-top: 25px;
+			}
+
+			.warp-border {
+				border: 1px solid #F5CB85;
+				padding: 5px;
+				background-color: #fff;
+			}
+
+			.order-title {
+				font-size: 18px;
+				color: #999999;
+			}
+
+			.order-img {
+				width: 110px;
+				display: inline-block;
+			}
+
+			.order-img img {
+				width: 100%;
+				vertical-align: middle;
+			}
+
+			.order-name {
+				width: 300px;
+			}
+
+			.order-msg {
+				padding: 15px;
+				font-size: 20px;
+				color: #333;
+				line-height: 25px;
+			}
+
+			.order-info {
+				width: 460px;
+			}
+
+			.order-company {
+				font-size: 22px;
+				color: #666666;
+				padding: 10px;
+			}
+
+			.order-unitprice {
+				width: 150px;
+			}
+
+			.order-price {
+				font-size: 25px;
+				color: #F84A46;
+				text-align: center;
+				/* font-weight:600; */
+			}
+
+			.order-num {
+				width: 200px;
+			}
+
+			.order-num div>span {
+				font-size: 25px;
+				color: #5a5a5a;
+				font-weight: 600;
+			}
+
+			.order-num img {
+				width: 80px;
+				padding: 0 20px;
+			}
+
+			.order-close {
+				width: 100px;
+			}
+
+			.order-close img {
+				width: 35px;
+				margin-top: 50px;
+				cursor: pointer;
+			}
+
+			.bt-cell {
+				width: 95%;
+				border-bottom: 1px solid #f1f1f1;
+				margin: 0 auto;
+			}
+
+			.bt-cell:last-child {
+				border-bottom: 0px solid #ddd;
+			}
+
+
+			/* 订单列表结束 */
+
+			.recharge-pic {
+				padding: 5px;
+				border: 1px solid #DDDDDD;
+				width: 220px;
+				text-align: center;
+				margin: 30px auto 20px auto;
+			}
+
+			.recharge-pic img {
+				width: 100%;
+			}
+
+			.recharge-description {
+				text-align: center;
+				font-size: 14px;
+				color: #666666;
+				line-height: 22px;
+			}
+
+			.recharge-description span {
+				font-size: 16px;
+				color: #000000;
+				font-weight: 600;
+			}
+
+
+			/*微表情推荐商品*/
+
+			.recommend {
+				width: 120px;
+				height: 860px;
+				margin: 50px auto;
+				margin-left: 30px;
+				float: left;
+				background: #FFFFFF;
+				box-shadow: 0 2px 5px 0 rgba(155, 155, 155, 0.20);
+				border-radius: 6px;
+			}
+
+			.topbg {
+				border-radius: 6px;
+			}
+
+			.emotionpg {
+				margin-top: 50px;
+			}
+
+			.emotiontext {
+				padding-top: 17px;
+			}
+
+			.emotiontext>p>font {
+				font-family: PingFang-SC-Bold;
+				font-size: 14px;
+				color: rgba(74, 74, 74, 1);
+				letter-spacing: 0;
+				line-height: 22px;
+				font-weight: bold;
+			}
+
+			.commodity>ul {
+				padding: 0px;
+				margin-top: 20px;
+				margin-bottom: 20px;
+			}
+
+			.commodity>ul>li {
+				width: 100px;
+				list-style: none;
+			}
+
+			.commodity>ul>li img {
+				width: 80px;
+				height: 80px;
+				margin: 10px;
+				margin-bottom: 20px;
+			}
+
+			.commodity>ul>li>p {
+				text-align: center;
+				margin: auto;
+			}
+
+			.commodityname>font {
+				font-family: PingFang-SC-Medium;
+				font-size: 12px;
+				color: #787878;
+				letter-spacing: 0;
+			}
+
+			.commdotyprice>font {
+				font-family: PingFang-SC-Medium;
+				font-size: 12px;
+				color: rgba(255, 157, 104, 1);
+				letter-spacing: 0;
+			}
+
+			.mianinfo {
+				margin: auto;
+				width: 1150px;
+				height: 860px;
+			}
+
+
+
+
+
+
+
+
+			.event-activity {
+				font-family: PingFang-SC-Medium;
+				font-size: 12px;
+				color: #54646C;
+				letter-spacing: 0;
+			}
+		</style>
+	</head>
+
+	<body class="page-content">
+		<div class="voiceHeader clearfix">
+			<div class="page-logo">
+				<img src="https://iem-vmms-dmzstg.pingan.com:10798/iem-vmms/img/search-images/page-logo.png">
+			</div>
+			<button type="button" onclick="backBtn()" class="btn back-btn">
+				<img src="https://iem-vmms-dmzstg.pingan.com:10798/iem-vmms/img/search-images/exit-icon.png">退出
+			</button>
+		</div>
+		<div class="maininfo" style="width: 1150px;height:860px;margin: auto;">
+			<div style="float: left">
+				<div class="userVipInfo">
+					<div class="userNameInfo">
+						<div style="text-align: center;margin-bottom:10px;">
+							<img class="userImg" src="https://iem-vmms-dmzstg.pingan.com:10798/iem-vmms/img/search-images/people-icon.png">
+						</div>
+						<p class="userName" id="userName"></p>
+						<p class="umId" id="umNum"></p>
+					</div>
+					<div class="userVip" style="display: block;">
+						<div style="text-align: center;margin-bottom:10px;">
+							<img class="money-pic" src="https://iem-vmms-dmzstg.pingan.com:10798/iem-vmms/img/search-images/money-icon.png">
+						</div>
+						<p class="accountBalance">账户余额</p>
+						<p class="account" id="account">
+							<span class="fuhao">￥</span>139.90
+						</p>
+					</div>
+					<div class="usernoVip" style="display: none;">
+						<div style="text-align: center;margin-bottom:10px;">
+							<img class="money-pic" src="https://iem-vmms-dmzstg.pingan.com:10798/iem-vmms/img/search-images/money-icon.png">
+						</div>
+						<p class="accountBalance">敬请期待</p>
+						<!-- <button class="btn rechargeBtn" onclick="rechargeMember() ">立即充值</button> -->
+					</div>
+				</div>
+
+				<div class="consumerDiv">
+					<ul id="myTab" class="nav nav-tabs">
+						<li class="active">
+							<a href="https://iem-vmms-dmzstg.pingan.com:10798/iem-vmms/detial.html#home" data-toggle="tab">
+								消费明细
+							</a>
+						</li>
+						<li id="recharge" style="display: block;">
+							<a href="https://iem-vmms-dmzstg.pingan.com:10798/iem-vmms/detial.html#rechargeDetial" data-toggle="tab">充值明细</a>
+						</li>
+
+					</ul>
+					<div id="myTabContent" class="tab-content">
+						<div class="tab-pane fade in active" id="home">
+							<table id="consumeRecordList" style="background:#fff;"></table>
+						</div>
+						<div class="tab-pane fade" id="rechargeDetial" style="display: block;">
+							<table id="memberRechargeList" style="background:#fff;"></table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="recommend" style="float:left;display: none" id="recommend">
+				<div class="topbg" style="text-align: center;background-image: url(img/emotion/topbg.png);Background-repeat:no-repeat;">
+					<img id="emotionpg" class="emotionpg" src="https://iem-vmms-dmzstg.pingan.com:10798/iem-vmms/detial.html">
+				</div>
+				<div class="emotiontext" style="text-align: center">
+					<!-- <p>
+						<font>开心时刻</br>
+						要不要来点</br>
+						喜欢的零食</font>
+					</p>
+				 -->
+				</div>
+				<div class="commodity" style="padding-left: 10px">
+					<!-- 
+					<ul>
+						<li>
+							<img  src="img/emotion/commdity1.jpg">
+						</li>
+						<li>
+							<p class="commodityname"><font>乐事无限薯片三连罐104g*3罐</font></p>
+						</li>
+						<li >
+							<p class="commdotyprice" style="margin-top: 0px"><font> ¥ 18.90</font></p>
+						</li>
+					</ul>
+					<ul>
+						<li>
+							<img  src="img/emotion/commdity2.jpg">
+						</li>
+						<li>
+							<p class="commodityname"><font>张君雅小妹妹日式串烧丸子80g*2</font></p>
+						</li>
+						<li >
+							<p class="commdotyprice" style="margin-top: 0px"><font> ¥ 18.00</font></p>
+						</li>
+					</ul>
+					<ul>
+						<li>
+							<img  src="img/emotion/commdity3.jpg">
+						</li>
+						<li>
+							<p class="commodityname"><font>旺仔牛奶糖 500g原味糖果零食软糖 </font></p>
+						</li>
+						<li >
+							<p class="commdotyprice" style="margin-top: 0px"><font> ¥ 24.10</font></p>
+						</li>
+					</ul>
+					 -->
+				</div>
+			</div>
+		</div>
+		<div class="modal fade wait-receive" id="consumeInfoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="backdrop">
+			<div class="modal-dialog consume-modal" role="document" style="width:1020px;max-height:600px;">
+				<span class="closeIcon" onclick="$(&#39;#consumeInfoModal&#39;).modal(&#39;hide&#39;);" style="z-index:100;"></span>
+				<div class="modal-content text-size--medium text-color--weakgren text--bolder" style="width:1020px;max-height:600px;text-align: center;padding-bottom: 50px; overflow-x: hidden;overflow-y: auto;">
+					<h4 class="pay-title" id="consumerModalLabel"></h4>
+					<div id="memberInfoDiv" style="display: none;"></div>
+					<div id="consumerContent">
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade wait-receive" id="rechargeMember" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="backdrop">
+			<div class="modal-dialog receive-title" role="document" style="width:350px;">
+				<span class="closeIcon" onclick="closeBtn()"></span>
+				<div class="speackTitle">支付宝二维码</div>
+				<div class="recharge-pic">
+					<img src="https://iem-vmms-dmzstg.pingan.com:10798/iem-vmms/img/search-images/QR@2x.png" alt="">
+				</div>
+				<p class="recharge-description">
+					以上支付宝二维码为李占川老师的<br> 扫一扫，立即充值立马享受会员价
+					<br>
+					<span>记得一定要备注自己的UM号~</span>
+				</p>
+			</div>
+		</div>
+
+		<div class="modal fade wait-receive" id="refundmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="backdrop">
+			<div class="modal-dialog receive-title" role="document" style="width:350px;padding:15px">
+				<span class="closeIcon" onclick="refundcloseBtn()" style="height:25px;width: 25px"></span>
+				<div class="speackTitle" style="font-size: 25px;margin: 20px;">退货申请</div>
+				<div class="row col-md-12" style="padding-top: 20px">
+					<div class="col-md-4 col-sm-4" style="font-size: 15px">
+						<p>退货原因</p>
+					</div>
+					<div class="col-md-5 col-sm-5" style="font-size: 15px">
+						<select id="refundreason">
+							<option>包装破损</option>
+							<option>过期</option>
+							<option>其他原因</option>
+						</select>
+					</div>
+					<input id="refundidpay" style="display: none">
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-default" style="padding-right: 20px;" onclick="refundsubmit()">提交</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade wait-receive" id="resultmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="backdrop">
+			<div class="modal-dialog receive-title" role="document" style="width:350px;padding:15px">
+				<span class="closeIcon" onclick="resultcloseBtn()" style="height:25px;width: 25px"></span>
+				<div class="speackTitle" style="font-size: 25px;margin: 20px;">退货结果</div>
+				<div class="row col-md-12" style="padding-top: 20px">
+					<p>退款请求提交成功，请联系超市管理员进行退款验证</p>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-default" style="padding-right: 20px;" onclick="resultcloseBtn()">确定</button>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			/* protocol + localhost + port */
+			var rootPath = location.protocol + "//" + location.hostname + ":" + location.port + "/";
+
+			function rechargeMember() {
+				$('#rechargeMember').modal('show');
+			};
+
+			function closeBtn() {
+				$('#rechargeMember').modal('hide');
+			}
+
+			function refundcloseBtn() {
+				$('#refundmodal').modal('hide');
+			}
+
+			function resultcloseBtn() {
+				$('#resultmodal').modal('hide');
+
+			}
+
+			function backBtn() {
+				window.history.go(-1);
+			}
+
+			// 没有鼠标操作,10分钟后自动回到欢迎页
+			var timer;
+
+			function startTimer() {
+				clearTimeout(timer);
+				timer = setTimeout(function() {
+					location = rootPath + 'iem-core/iem_main.html';
+				}, 300000);
+			}
+
+			document.onmousemove = document.onmousedown = startTimer
+		</script>
+	
+
+</body></html>

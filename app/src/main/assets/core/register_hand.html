@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<!-- saved from url=(0068)https://iem-vmms-dmzstg.pingan.com:10798/iem-vmms/register_hand.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		
+		<title>新用户注册页面</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<!-- <link rel="stylesheet" href="statics/css/bootstrap.min.css"> -->
+		<link rel="stylesheet" href="./register_hand_files/bootstrap.min.css">
+
+		<!-- <link rel="stylesheet" href="statics/css/font-awesome.min.css"> -->
+		<link rel="stylesheet" href="./register_hand_files/font-awesome.min.css">
+
+		<!-- <link rel="stylesheet" href="statics/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css"> -->
+		<link rel="stylesheet" href="./register_hand_files/bootstrap-datetimepicker.min.css">
+		
+
+		<!-- <script src="statics/libs/jquery.min.js"></script> -->
+		<script src="./register_hand_files/jquery.min.js"></script>
+
+		<!-- <script src="statics/plugins/layer/layer.js"></script> -->
+		<script src="./register_hand_files/layer.js"></script><link rel="stylesheet" href="./register_hand_files/layer.css" id="layui_layer_skinlayercss" style="">
+
+		<!-- <script src="statics/libs/bootstrap.min.js"></script> -->
+		<script src="./register_hand_files/bootstrap.min.js"></script>
+
+	    <!-- <script src="statics/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.js"></script> -->
+		<script src="./register_hand_files/bootstrap-datetimepicker.min.js"></script>
+
+		<!-- <script src="statics/plugins/bootstrap-datetimepicker/locales/bootstrap-datetimepicker.zh-CN.js"></script> -->
+		<style type="text/css" lang="less">
+			html {
+				background-image: url(img/bg.png);
+				background-size: 100% 100%;
+				background-repeat: no-repeat;
+				width: 100%;
+				height: 100%;
+			}
+			
+			body {
+				background: transparent;
+			}
+			
+			#show-bg {
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background: #2d2f3c url(img/register/register-bg.png) no-repeat center;
+				background-size: cover;
+				z-index: 1002;
+			}
+			
+			.content-main {
+				width: 100rem;
+				margin: 0 auto;
+			}
+			
+			.content-header {
+				width: 61.8rem;
+				margin-top: 6%;
+				margin-bottom: 3rem;
+			}
+			
+			.content-body {
+				width: 100rem;
+				height: 55.1rem;
+				background-color: #fff;
+				-webkit-box-shadow: 0 .2rem 2rem 0 rgba(0, 0, 0, 0.10);
+				box-shadow: 0 .2rem 2rem 0 rgba(0, 0, 0, 0.10);
+				-webkit-border-radius: 3rem;
+				border-radius: 3rem;
+				clear: both;
+			}
+			
+			.left-photo {
+				float: left;
+				width: 36%;
+				height: 55.1rem;
+				background: #FCD20E url(img/left-bg@2x.png) no-repeat;
+				background-size: cover;
+				-webkit-border-top-left-radius: 3rem;
+				border-top-left-radius: 3rem;
+				-webkit-border-bottom-left-radius: 3rem;
+				border-bottom-left-radius: 3rem;
+			}
+			
+			.user-photo {
+				width: 17.4rem;
+				height: 17.4rem;
+				border-radius: 100%;
+				background-color: #FFF;
+				margin: 0 auto;
+				margin-top: 12rem;
+				position: relative;
+				z-index: 1;
+			}
+			
+			.user-photo .default-avatar {
+				position: absolute;
+				border-radius: 50%;
+				bottom: 0;
+				width: 17.4rem;
+				height: 17.4rem;
+				text-align: center;
+			}
+			
+			.add-icon {
+				position: absolute;
+				right: 0;
+				top: 0;
+				background-color: #FCD20E;
+				border-radius: 100%;
+				width: 4rem;
+				height: 4rem;
+				text-align: center;
+				vertical-align: middle;
+				z-index: 10;
+			}
+			
+			.add-icon img {
+				width: 3rem;
+				height: 3rem;
+				margin-top: .5rem;
+			}
+			
+			.photo-prompt {
+				text-align: center;
+				margin: 0 auto;
+				margin-top: 2.5rem;
+			}
+			
+			.photo-prompt p.title {
+				font-size: 2.5rem;
+				color: #110300;
+			}
+			
+			.photo-prompt p.des {
+				font-size: 1.8rem;
+				color: #8B572A;
+			}
+			
+			.form-primary {
+				float: left;
+				width: 64%;
+				padding: 5.5% 6%;
+			}
+			
+			.form-primary .form-group {
+				margin-bottom: 1.5rem;
+			}
+			
+			.form-primary .control-label {
+				display: block;
+				margin: 0;
+				text-align: left;
+				font-weight: normal;
+				font-size: 2.2rem;
+				color: #2A2A2A;
+				margin-bottom: .3rem;
+			}
+			
+			.form-primary .form-control {
+				height: 4rem;
+				line-height: 4rem;
+				font-size: 1.8rem;
+				padding: 0 !important;
+				box-shadow: none;
+				-webkit-box-shadow: none;
+				border: none;
+				border-bottom: 1px solid #f1f1f1;
+				-webkit-border-radius: 0;
+				border-radius: 0;
+				position: relative;
+			}
+			
+			.form-primary .form-control:focus {
+				border-bottom: 1px solid #F5A623;
+			}
+			
+			.star:before {
+				content: '*';
+				color: #FF0033;
+				font-weight: 900;
+				padding-right: .3rem;
+			}
+			
+			.form-primary .control-detail {
+				width: 100%;
+				position: relative;
+			}
+			
+			.form-control[readonly] {
+				background-color: #fff;
+			}
+			
+			.form-control[disabled] {
+				background-color: #eee;
+			}
+			
+			.btn-orange-border,
+			.btn-orange-border:hover,
+			.btn-orange-border:focus,
+			.btn-orange-border:active {
+				background: #FFFFFF;
+				border: 1px solid #F8B342;
+				border-radius: 30px;
+				font-size: 2.4rem;
+				padding: 1rem 5rem;
+			}
+			
+			.btn-orange,
+			.btn-orange:hover,
+			.btn-orange:focus,
+			.btn-orange:active {
+				background: #F8B342;
+				box-shadow: 0 2px 8px 0 rgba(245, 166, 35, 0.50);
+				border-radius: 30px;
+				font-size: 2.4rem;
+				color: #FFFFFF;
+				padding: 1rem 5rem;
+			}
+			
+			.btn-disabled,
+			.btn-disabled:hover,
+			.btn-disabled:focus,
+			.btn-disabled:active {
+				color: #999;
+				font-size: 2.4rem;
+				background-color: #EFEDED;
+				box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.10);
+				border-radius: 30px;
+				padding: 1rem 5rem;
+				margin-right: 3.5rem;
+			}
+			
+			.r-date-btn {
+				position: absolute;
+				right: 0;
+				top: .5rem;
+				display: inline-block;
+				background: url(img/date-icon@2x.png) no-repeat;
+				width: 3rem;
+				height: 2.7rem;
+				background-size: cover;
+			}
+			
+			.modal-footer .btn+.btn {
+				margin-left: 40px;
+			}
+			
+			.modal-header .close {
+				position: absolute;
+				right: 1rem;
+				top: 1rem;
+				font-size: 5rem;
+				font-weight: normal;
+			}
+			/*拍摄弹出框*/
+			
+			.photoModal .modal-dialog {
+				width: 800px;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%) !important;
+			}
+			
+			.photoModal .modal-dialog .modal-header {
+				height: 100px;
+				line-height: 100px;
+				background: #fff;
+				border: none;
+			}
+			
+			.photoModal .modal-dialog .modal-header .modal-title img {
+				width: 60px;
+				height: 60px;
+			}
+			
+			.photoModal .modal-dialog .modal-header .modal-title span {
+				font-size: 20px;
+				font-weight: bold;
+				color: #333333;
+				letter-spacing: 1.33px;
+				line-height: 20px;
+				margin-left: 20px;
+			}
+			
+			.photoModal .modal-dialog .modal-body {
+				padding: 0;
+				margin: 0;
+				width: 800px;
+				height: 600px;
+			}
+			
+			.photoModal .modal-dialog .modal-body img {
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				width: 100%;
+				height: 100%;
+				z-index: 1001;
+			}
+			
+			.photoModal .modal-dialog .modal-body .countdown {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				z-index: 1002;
+				background: rgba(0, 0, 0, 0.30);
+				border-radius: 20px;
+				font-size: 90px;
+				color: #FFFFFF;
+				line-height: 120px;
+				width: 120px;
+				height: 120px;
+				text-align: center;
+			}
+			/*成功弹出框*/
+			
+			.confirmModal .modal-dialog {
+				width: 800px;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%) !important;
+			}
+			
+			.confirmModal .modal-dialog .modal-header {
+				border: none;
+			}
+			
+			.confirmModal .modal-dialog .modal-body {
+				text-align: center;
+				padding-top: 70px;
+			}
+			
+			.confirmModal .modal-dialog .modal-body .success,
+			.confirmModal .modal-dialog .modal-body .error {
+				margin-top: 40px;
+				font-size: 35px;
+				color: #3E3E3E;
+				line-height: 40px;
+			}
+			
+			.confirmModal .modal-dialog .modal-body .tip {
+				font-size: 25px;
+				color: #000000;
+				line-height: 40px;
+			}
+			
+			.confirmModal .modal-dialog .modal-footer {
+				border: none;
+				padding: 40px;
+				text-align: center;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="show-bg" onclick="hidediv();"></div>
+		<input type="hidden" id="returncode" value="">
+		<img class="register-success" src="./register_hand_files/bg_img.png" width="100%" height="100%" style="display: none;">
+		<div class="content-main">
+			<div class="content-header">
+				<img src="./register_hand_files/login-logo-title.png" width="100%">
+			</div>
+			<div class="content-body">
+				<div class="left-photo">
+					<div class="user-photo" onclick="showModal()">
+						<div class="add-icon">
+							<img src="./register_hand_files/pic-add@2x.png">
+						</div>
+						<img id="preview" src="./register_hand_files/hand.png" class="default-avatar">
+					</div>
+					<div class="photo-prompt">
+						<p class="title">掌纹采集</p>
+						<p class="des">点击手掌图标拍照，上传照片</p>
+					</div>
+				</div>
+				<form class="form-primary">
+					<div class="form-group">
+						<label class="control-label star">用户编号</label>
+						<div class="control-detail">
+							<input type="text" class="form-control" id="userUm" placeholder="请输入您的UM账号" onblur="UMblur()" maxlength="32">
+							<span class="r-close-btn"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label star">用户ID</label>
+						<div class="control-detail">
+							<input type="text" class="form-control" id="userId" placeholder="例：E603240231" onblur="Echeck()" maxlength="15">
+							<span class="r-close-btn"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label star">姓名</label>
+						<div class="control-detail">
+							<input type="text" class="form-control" id="userName" placeholder="请输入您的姓名" onblur="nameCheck()">
+							<span class="r-close-btn"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label star">手机号码</label>
+						<div class="control-detail">
+							<input type="tel" class="form-control" id="phoneNumber" placeholder="请正确填写您的手机号码" onblur="phoneCheck()">
+							<span class="r-close-btn"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label">出生日期</label>
+						<div class="control-detail">
+							<input type="text" class="form-control" id="birthDate" placeholder="请选择您的出生日期" readonly="readonly">
+							<span class="r-date-btn"></span>
+						</div>
+					</div>
+					<div>
+						<button type="button" class="submit btn btn-orange btn-disabled">提交</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<!-- 拍照模块 -->
+		<div class="modal fade photoModal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<div class="modal-title">
+							<img src="./register_hand_files/ic_tishi.png">
+							<span>请将您的手掌完全放入识别框内，并靠前拍摄清晰的图片</span>
+						</div>
+					</div>
+					<div class="modal-body">
+						<div class="countdown">5</div>
+						<img src="./register_hand_files/mengban.png">
+						<video id="video" width="800" height="600" autoplay=""></video>
+						<canvas id="canvas" width="800" height="600" style="display: none;">你的浏览器不支持，请升级最新版本</canvas>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 左手注册成功，右手未注册   001 -->
+		<div class="modal fade confirmModal successModal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="successConfirm();">×</button>
+					</div>
+					<div class="modal-body">
+						<img src="./register_hand_files/ic_successful.png">
+						<div class="success">左手 掌纹采集已成功！</div>
+						<div class="tip">为了方便后续购物，再录入右手吧！</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-orange" onclick="successConfirm()">不用了，完成注册</button>
+						<button type="button" class="btn btn-orange" onclick="errorConfirm()">录入右手</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 右手注册成功，左手未注册 002 -->
+		<div class="modal fade confirmModal successModal1">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="window.location.reload();">×</button>
+					</div>
+					<div class="modal-body">
+						<img src="./register_hand_files/ic_successful.png">
+						<div class="success">右手 掌纹采集已成功！</div>
+						<div class="tip">为了方便后续购物，再录入左手吧！</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-orange" onclick="successConfirm()">不用了，完成注册</button>
+						<button type="button" class="btn btn-orange" onclick="errorConfirm()">录入左手</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--双手都已注册 003 -->
+		<div class="modal fade confirmModal successModal2">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="successConfirm();">×</button>
+					</div>
+					<div class="modal-body">
+						<img src="./register_hand_files/ic_successful.png">
+						<div class="success">掌纹采集成功！</div>
+						<div class="tip">您已完成全部注册，可以进店购物了！</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-orange" onclick="successConfirm();">好的</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--  区分左右手识别失败--004 -->
+		<div class="modal fade confirmModal errorModal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="errorCancel()">×</button>
+					</div>
+					<div class="modal-body">
+						<img src="./register_hand_files/ic_failure.png">
+						<div class="error">掌纹采集失败！</div>
+						<div class="tip">区分左右手识别失败</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-orange-border" onclick="errorCancel()">取消</button>
+						<button type="button" class="btn btn-orange" onclick="errorConfirm()">重新拍摄</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--左（右）手已注册--005 -->
+		<div class="modal fade confirmModal errorModal1">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="window.location.reload();">×</button>
+					</div>
+					<div class="modal-body">
+						<img src="./register_hand_files/ic_failure.png">
+						<div class="error">掌纹采集失败！</div>
+						<div class="tip">左（右）手已注册</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-orange-border" onclick="errorCancel()">取消</button>
+						<button type="button" class="btn btn-orange" onclick="errorConfirm()">重新拍摄</button>
+					</div>
+				</div>
+			</div>
+		</div>		
+		<!-- 系统异常--006 -->
+		<div class="modal fade confirmModal errorModal2">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="window.location.reload();">×</button>
+					</div>
+					<div class="modal-body">
+						<img src="./register_hand_files/ic_failure.png">
+						<div class="error">掌纹采集失败！</div>
+						<div class="tip">系统异常</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-orange-border" onclick="errorCancel()">取消</button>
+						<button type="button" class="btn btn-orange" onclick="errorConfirm()">重新拍摄</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade confirmModal success">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="successConfirm();">×</button>
+					</div>
+					<div class="modal-body">
+						<img src="./register_hand_files/ic_successful.png">
+						<div class="success">会员信息注册成功！</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-orange" onclick="successConfirm();">知道了</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+
+	<script>
+		var refershTimeout = null; //隔3分钟，不再点击页面，或者键盘输入，即刷新页面
+		var getBase64Interval = null; //每隔300ms截取一张图片
+		var closeTimeout = null; //注册成功或失败后，5s刷新页面
+		var isSuccessUpload = false;
+		var errorUploadNo = 0; //失败两次后，点击确认，直接刷新页面
+		var canvas = document.querySelector("#canvas");
+		var context = canvas.getContext('2d');
+		var video = document.querySelector("#video");
+		$('#birthDate').datetimepicker({
+			language: 'zh-CN',
+			weekStart: 1,
+			autoclose: 1,
+			todayHighlight: 1,
+			startView: 2,
+			minView: 2,
+			forceParse: 0,
+			format: 'yyyy-mm-dd',
+			pickerPosition: "bottom-left",
+			endDate: new Date()
+		}).on('changeDate', function() {
+			requiredCheck();
+		});
+		$('#birthDate').parent().find("input,span").unbind("click").bind("click", dataChange);
+
+		function dataChange() {
+			$('#birthDate').datetimepicker("show");
+		}
+
+		// 触发页面全屏
+		window.onload = function() {
+			document.body.onclick = function() {
+				var el = document.documentElement;
+				var rfs = el.requestFullScreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullScreen;
+				if(typeof rfs != "undefined" && rfs) {
+					rfs.call(el);
+				} else if(typeof window.ActiveXObject != "undefined") {
+					var wscript = new ActiveXObject("WScript.Shell");
+					if(wscript != null) {
+						wscript.SendKeys("{F11}");
+					}
+				}
+				windowReload();
+			}
+
+			document.onkeydown = function(event) {
+				windowReload();
+			}
+		}
+
+		function hidediv() {
+			document.getElementById("show-bg").style.display = 'none';
+		}
+
+		function windowReload() {
+			//刷新页面
+			if(refershTimeout) {
+				clearTimeout(refershTimeout);
+				refershTimeout = null;
+			}
+			refershTimeout = setTimeout(function() {
+				location.reload(true);
+				document.getElementById("show-bg").style.display = 'block';
+			}, 60000);
+		}
+
+		function openVideo() {
+			// 获取媒体方法（旧方法）
+			navigator.getMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMeddia || navigator.msGetUserMedia;
+			// 获取媒体方法（新方法）
+			// 使用新方法打开摄像头
+			if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+				navigator.mediaDevices.getUserMedia({
+					video: true,
+					audio: true
+				}).then(function(stream) {
+					video.src = (window.URL || window.webkitURL).createObjectURL(stream);
+					video.play();
+				}).catch(function(err) {
+					console.log(err);
+				})
+			} else if(navigator.getMedia) {
+				// 使用旧方法打开摄像头
+				navigator.getMedia({
+					video: true
+				}, function(stream) {
+					video.src = (window.URL || window.webkitURL).createObjectURL(stream);
+					video.play();
+				}, function(err) {
+					console.log(err);
+				});
+			}
+		}
+
+		function showModal() {
+			var userUm = $.trim($("#userUm").val());
+			var userId = $.trim($("#userId").val());
+			var userName = $.trim($("#userName").val());
+			var phoneNumber = $.trim($("#phoneNumber").val());
+			if(!(userUm && userName && phoneNumber && userId)) {
+				layer.msg('拍照前请填写完整数据！');
+				return;
+			}
+			if(isSuccessUpload) {
+				layer.msg('请勿重复注册掌纹！');
+				return;
+			}
+			$(".photoModal").modal("show");
+			openVideo();
+			setTimeout(function() {
+				//取消刷新页面
+				if(refershTimeout) {
+					clearTimeout(refershTimeout);
+					refershTimeout = null;
+				}
+			}, 200);
+			var count = 5;
+			var interval = setInterval(function() {
+				$(".countdown").show();
+				$(".countdown").text(count);
+				if(count == 0) {
+					clearInterval(interval);
+					count = 5;
+					$(".countdown").hide();
+					getImageList();
+				}
+				count--;
+			}, 1000);
+		}
+
+		function getImageList() {
+			var images = [];
+			//立即获取一张
+			context.drawImage(video, 0, 0, 800, 600);
+			images.push(canvas.toDataURL('image/jpeg').split(",")[1]);
+			//每隔300毫秒获取一张，共截取10张
+			getBase64Interval = setInterval(function() {
+				context.drawImage(video, 0, 0, 800, 600);
+				images.push(canvas.toDataURL('image/jpeg').split(",")[1]);
+				if(images.length == 10) {
+					clearInterval(getBase64Interval);
+					getBase64Interval = null;
+					postImage(images);
+				}
+			}, 300);
+		}
+
+		function postImage(images) {
+			var userUm = $.trim($("#userUm").val());
+			var userId = $.trim($("#userId").val());
+			var userName = $.trim($("#userName").val());
+			var phoneNumber = $.trim($("#phoneNumber").val());
+			var index1 = layer.load(0, {
+				content: '掌纹上传中',
+				shade: [0.3, '#000'],
+				success: function(layero) {
+					layero.find('.layui-layer-content').css({
+						"padding-top": '30px',
+						"text-align": 'center',
+						"color": '#fff',
+						"width": "100px",
+						"background-position": "center"
+					});
+				}
+			});
+			$.ajax({
+				type: "POST",
+				url: "register/webcam",
+				data: {
+					userUm: userUm,
+					userName: userName,
+					images: images
+				},
+				success: function(result) {
+					layer.close(index1);
+					windowReload();
+					result = typeof result == 'string' ? JSON.parse(result) : result;
+					$("#returncode").val(result.code);
+					if(result.code == 1){
+						$(".successModal").modal("show");
+					}else if(result.code == 2){
+						$(".successModal1").modal("show");
+					}else if(result.code == 3){
+						$(".successModal2").modal("show");
+					}else if(result.code == 4){
+						$(".errorModal").modal("show");
+					}else if(result.code == 5){
+						$(".errorModal1").modal("show");
+					}else{
+						$(".errorModal2").modal("show");
+					}
+				},
+				error: function() {
+					errorUploadNo++;
+					windowReload();
+					layer.msg("网络出错，请联系管理员！");
+					layer.close(index1);
+					$(".photoModal").modal("hide");
+				}
+			});
+		}
+
+		function successConfirm() {
+			var returncode=$("#returncode").val();
+			$(".photoModal").modal("hide");
+			$(".successModal").modal("hide");
+			$(".successModal2").modal("hide");
+			$(".add-icon").hide();
+			if(returncode==1||returncode==2||returncode==3){
+				isSuccessUpload = true;
+			}	
+			requiredCheck();
+			$("#userUm").attr("disabled", "disabled");
+			$("#userName").attr("disabled", "disabled");
+		}
+
+		function errorCancel() {
+			var returncode=$("#returncode").val();
+			$(".photoModal").modal("hide");
+			$(".errorModal").modal("hide");
+			$(".errorModal1").modal("hide");
+			$(".errorModal2").modal("hide");
+			if(returncode==1||returncode==2||returncode==3||returncode==5){
+				$(".submit").removeClass("btn-disabled");
+			}
+		}
+
+		function errorConfirm() {
+			$(".errorModal").modal("hide");
+			$(".errorModal1").modal("hide");
+			$(".errorModal2").modal("hide");
+			$(".successModal").modal("hide");
+			$(".successModal1").modal("hide");
+			showModal();
+		}
+
+		function submitData() {
+			var userUm = $.trim($("#userUm").val());
+			var userId = $.trim($("#userId").val());
+			var userName = $.trim($("#userName").val());
+			var phoneNumber = $.trim($("#phoneNumber").val());
+			var birthDate = $("#birthDate").val();
+			$(".submit").addClass("btn-disabled")
+			$(".submit").unbind("click");
+			var index = layer.load(0, {
+				content: '信息保存中',
+				shade: [0.3, '#000'],
+				success: function(layero) {
+					layero.find('.layui-layer-content').css({
+						"padding-top": '30px',
+						"text-align": 'center',
+						"color": '#fff',
+						"width": "100px",
+						"background-position": "center"
+					});
+				}
+			});
+			$.ajax({
+				type: "POST",
+				url: "register/save",
+				data: JSON.stringify({
+					userUm: userUm,
+					userId: userId,
+					userName: userName,
+					phoneNumber: phoneNumber,
+					birthDate: birthDate
+				}),
+				success: function(result) {
+					result = typeof result == 'string' ? JSON.parse(result) : result;
+					layer.close(index);
+					if(result && result.code == 0) {
+						$(".success").modal("show");
+						setTimeout(function() {
+							location.reload(true);
+						}, 5000);
+					} else {
+						layer.msg(result.message);
+						$(".submit").removeClass("btn-disabled");
+						$(".submit").unbind("click").bind("click", submitData);
+						if(closeTimeout) {
+							clearTimeout(closeTimeout);
+							closeTimeout = null;
+						}
+						closeTimeout = setTimeout(function() {
+							location.reload(true);
+						}, 5000);
+					}
+				},
+				error: function() {
+					layer.msg("网络出错，请联系管理员");
+					layer.close(index);
+					$(".submit").removeClass("btn-disabled");
+					$(".submit").unbind("click").bind("click", submitData);
+				}
+			});
+		}
+
+		/**
+		 *输入UM号结束同时查询库中是否有此用户：若有则带出信息，带出信息部分只有UM号可以修改，其余字段置灰不可修改；若无则继续下面信息录入
+		 */
+		function UMblur() {
+			requiredCheck();
+			var userUm = $.trim($("#userUm").val());
+			var list = [{
+				type1: "userId",
+				type2: "eid"
+			}, {
+				type1: "userName",
+				type2: "name"
+			}, {
+				type1: "phoneNumber",
+				type2: "telephone"
+			}, {
+				type1: "birthDate",
+				type2: "birthDate"
+			}];
+			if(!userUm) {
+				$("#userUm").val("");
+				$.each(list, function(i, item) {
+					if($("#" + item.type1).attr("disabled") == 'disabled') {
+						$("#" + item.type1).val("").removeAttr("disabled");
+					}
+					$('#birthDate').parent().find("input,span").unbind("click").bind("click", dataChange);
+				});
+				return;
+			};
+			if(userUm && !(/^[\-A-Za-z0-9]+$/.test(userUm))) {
+				layer.msg('请输入正确的UM账号!');
+				$("#userUm").val("");
+				requiredCheck();
+				return;
+			}
+			$.ajax({
+				type: "POST",
+				url: "register/userInfo",
+				data: JSON.stringify({
+					userUm: userUm
+				}),
+				success: function(result) {
+					result = typeof result == 'string' ? JSON.parse(result) : result;
+					if(result && result.code == 0) {
+						if(result.userBaseInfoEntity && JSON.stringify(result.userBaseInfoEntity) != '{}') {
+							$.each(list, function(i, item) {
+								result.userBaseInfoEntity[item.type2] = result.userBaseInfoEntity[item.type2] || "";
+								$("#" + item.type1).val("");
+								$("#" + item.type1).val(result.userBaseInfoEntity[item.type2] || "").attr("disabled", "disabled");
+								$('#birthDate').parent().find("input,span").unbind("click");
+								$('#birthDate').val(result.userBaseInfoEntity[item.type2].substr(0, 10));
+							});
+						} else {
+							$.each(list, function(i, item) {
+								if($("#" + item.type1).attr("disabled") == 'disabled') {
+									$("#" + item.type1).val("").removeAttr("disabled");
+								}
+								$('#birthDate').parent().find("input,span").unbind("click").bind("click", dataChange);
+							});
+						}
+					} else {
+						$.each(list, function(i, item) {
+							if($("#" + item.type1).attr("disabled") == 'disabled') {
+								$("#" + item.type1).val("").removeAttr("disabled");
+							}
+							$('#birthDate').parent().find("input,span").unbind("click").bind("click", dataChange);
+						});
+					}
+					requiredCheck();
+				}
+			});
+		}
+
+		function Echeck() {
+			requiredCheck();
+			if($("#userId").attr("disabled") == "disabled") return;
+			var userId = $.trim($("#userId").val());
+			if(!userId) {
+				$("#userId").val("");
+				return;
+			};
+			$.ajax({
+				type: "POST",
+				url: "register/uniqueEid",
+				data: JSON.stringify({
+					userId: userId
+				}),
+				success: function(result) {
+					result = typeof result == 'string' ? JSON.parse(result) : result;
+					if(result && result.code != 0) {
+						layer.msg(result.message);
+						$("#userId").val("");
+					}
+					requiredCheck();
+				}
+			});
+		}
+
+		function requiredCheck() {
+			var userUm = $.trim($("#userUm").val());
+			var userId = $.trim($("#userId").val());
+			var userName = $.trim($("#userName").val());
+			var phoneNumber = $.trim($("#phoneNumber").val());
+			if(userUm && userName && phoneNumber && userId && isSuccessUpload) {
+				$(".submit").removeClass("btn-disabled");
+				$(".submit").unbind("click").bind("click", submitData);
+			} else {
+				$(".submit").addClass("btn-disabled");
+				$(".submit").unbind("click");
+			}
+		}
+
+		function nameCheck() {
+			requiredCheck();
+			var userName = $.trim($("#userName").val());
+			if(!userName) {
+				$("#userName").val("");
+				return;
+			}
+			if(userName && !(/^([\u4e00-\u9fa5]){2,16}$/.test(userName))) {
+				layer.msg('姓名只能是中文，长度为2-16位!');
+				$("#userName").val("");
+				requiredCheck();
+				return;
+			}
+		}
+
+		function phoneCheck() {
+			requiredCheck();
+			if($("#phoneNumber").attr("disabled") == "disabled") return;
+			var phoneNumber = $.trim($("#phoneNumber").val());
+			if(!phoneNumber) {
+				$("#phoneNumber").val("");
+				return;
+			}
+			if(phoneNumber && !(/^1[3|4|5|7|8|9][0-9]\d{8}$/.test(phoneNumber))) {
+				layer.msg('请填写正确的手机号码！');
+				$("#phoneNumber").val("");
+				requiredCheck();
+				return;
+			}
+			$.ajax({
+				type: "POST",
+				url: "register/uniquePhoneNumber",
+				data: JSON.stringify({
+					phoneNumber: phoneNumber
+				}),
+				success: function(result) {
+					result = typeof result == 'string' ? JSON.parse(result) : result;
+					if(result && result.code != 0) {
+						layer.msg('该手机号码已注册，请更换手机号！');
+						$("#phoneNumber").val("");
+					}
+					requiredCheck();
+				}
+			});
+		}
+	</script>
+
+</body></html>
